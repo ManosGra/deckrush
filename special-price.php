@@ -2,7 +2,7 @@
 
 // Παράδειγμα χρήσης για ενεργά προϊόντα
 $activeProducts = [];
-$result = getAllActive('products'); // Ανάκτηση όλων των προϊόντων με status 0 (ενεργά προϊόντα)
+$result = getAllActive('categories'); // Ανάκτηση όλων των προϊόντων με status 0 (ενεργά προϊόντα)
 
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
