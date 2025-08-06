@@ -3,7 +3,7 @@
     <div class="row align-items-center justify-content-between">
 
       <div class="col-2 col-md-auto">
-        <a class="navbar-brand text-white font-rubik" href="http://deckhub.local/"><img class="img-fluid"
+        <a class="navbar-brand text-white font-rubik" href="http://deckrush.local/"><img class="img-fluid"
             src="assets/logo5.png" style="width:150px; height:133px;"></a>
       </div>
 
@@ -131,7 +131,7 @@
     </div>
 
     <div class="col-3">
-      <a class="navbar-brand text-white font-rubik" href="http://deckhub.local/"><img class="img-fluid"
+      <a class="navbar-brand text-white font-rubik" href="http://deckrush.local/"><img class="img-fluid"
           src="assets/logo5.png" style="width:100px; height:90px;"></a>
     </div>
 

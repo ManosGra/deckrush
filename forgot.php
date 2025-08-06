@@ -63,7 +63,7 @@ include "includes/navigation.php";
                                 $stmt->execute();
 
                                 // Βήμα 3: Αποστολή email με το link επαναφοράς
-                                $resetLink = "http://deckhub.local/reset-password.php?token=" . $token;
+                                $resetLink = "http://deckrush.local/reset-password.php?token=" . $token;
                                 $subject = "Password Reset Request";
                                 $message = "Hello, \n\nTo reset your password, click the following link: \n$resetLink\n\nIf you did not request this change, please ignore this email.";
                                 $headers = "From: no-reply@yourdomain.com";

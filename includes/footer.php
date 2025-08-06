@@ -21,7 +21,7 @@
 
       <div class="col-lg-3 col-12 mb-2">
         <div class="h-100 ">
-          <a href="http://deckhub.local/" class="d-block h-100"><img class="img-fluid" src="assets/logo5.png"
+          <a href="http://deckrush.local/" class="d-block h-100"><img class="img-fluid" src="assets/logo5.png"
               style="width:200px; height:250px;"></a>
         </div>
 
