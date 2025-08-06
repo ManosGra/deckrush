@@ -1,0 +1,16 @@
+.form-control{
+    border: 1px solid #b3a1a1 !important;
+    padding: 8px 10px;
+}
+
+.form-select{
+    border: 1px solid #b3a1a1 !important;
+    padding: 8px 10px;
+}
+
+.bg-primary{
+    background-color: #283c6a!important;
+}
+.bg-gradient-primary{
+    background-color: #283c6a!important;
+}

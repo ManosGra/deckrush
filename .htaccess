@@ -1,0 +1,20 @@
+# Ενεργοποιούμε την αναδιάρθρωση URLs
+RewriteEngine On
+
+# Ανακατεύθυνση όλων των αιτημάτων σε HTTPS για το test.deckhub.gr
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^test\.deckhub\.gr$ [NC]
+RewriteRule ^ https://test.deckhub.gr%{REQUEST_URI} [L,R=301]
+
+# Ορίστε τη βάση του site για την αναδιάρθρωση
+RewriteBase /test.deckhub.gr/
+
+# Αν το URL δεν είναι ήδη ένα αρχείο ή φάκελος, τότε επαναπροσανατολίζουμε
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Αφαίρεση της επέκτασης .php από τα URLs
+RewriteRule ^(index|cart|login-register|categories|checkout|contact|edit-profile|filters|forgot|login|logout|my-account|orders|payments|product-view|products|registration|reset-password|search|special-price|top-sale|view-order)$ $1.php [NC,L]
+
+# Σελίδα 404 αν δεν βρεθεί η σελίδα
+ErrorDocument 404 /404.php

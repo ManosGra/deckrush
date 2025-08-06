@@ -1,0 +1,66 @@
+#products {
+    padding: 100px 0;
+}
+
+.product-box {
+    border: 3px solid #4482BC;
+    min-height: 400px;
+    order: 1;
+    /* Default order */
+}
+
+.product-btns {
+    background-color: #283c6a;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.product-btn {
+    border: none;
+    background-color: #283c6a;
+    border-radius: 3px;
+}
+
+.product-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#product-view {
+    padding-top: 100px;
+}
+
+.products-qty {
+    margin: 0 122px;
+}
+
+.product-col.visible {
+    order: 1;
+    /* Τα ορατά προϊόντα */
+    opacity: 1;
+    /* Ορατά */
+}
+
+.visible {
+    display: block;
+    /* Εμφάνιση προϊόντος */
+    transition: all 0.3s ease;
+    /* Προσθέστε ομαλές μεταβάσεις */
+}
+
+@media only screen and (max-width: 991px) {
+    #products {
+        padding: 100px 0;
+    }
+
+    .products-qty {
+        margin: 0;
+    }
+
+    .information {
+        margin-top: 15px;
+    }
+
+    #products h6 {
+        text-align: center;
+    }
+}

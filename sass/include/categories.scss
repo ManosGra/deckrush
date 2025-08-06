@@ -1,0 +1,19 @@
+#categories {
+    padding: 50px 0;
+
+    .box-shadow {
+        box-shadow: 2px 2px 4px #000000;
+    }
+
+    .meta-title-description {
+        position: relative;
+
+    }
+
+    .meta-title-hashtag {
+        position: absolute;
+        bottom: 0;
+        padding: 10px 20px;
+        color: white;
+    }
+}

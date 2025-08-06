@@ -1,0 +1,985 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f3f5f6;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 400;
+  position: relative;
+}
+
+button,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.scroll-up {
+  position: fixed;
+  z-index: 999;
+  bottom: 10px;
+  right: 10px;
+  background: #cc0000;
+  border-radius: 50%;
+  display: none;
+  cursor: pointer;
+}
+
+.scroll-up:hover {
+  background-color: black;
+}
+
+.btn-primary {
+  color: white;
+  background-color: #283c6a !important;
+  border: none !important;
+  font-weight: bold !important;
+  border-radius: none !important;
+  width: 100%;
+}
+
+.cart-btn {
+  background-color: #283c6a;
+  padding: 10px 20px;
+  width: 300px;
+  border: none;
+  border-radius: 3px;
+}
+
+.cart-btn:hover {
+  background-color: #1c2742;
+}
+
+#cart {
+  padding: 380px 0;
+}
+
+#checkout {
+  padding-top: 200px;
+  padding-bottom: 100px;
+}
+
+#product .product-title {
+  font-size: 24px;
+}
+
+#product .product-price {
+  font-size: 35px;
+}
+
+.product-image img {
+  transition: transform 0.5s ease;
+}
+
+.product-image img:hover {
+  transform: scale(1.1);
+}
+
+.information {
+  background-color: #6abc44;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+#top-sale {
+  position: relative;
+  padding: 50px 0;
+}
+
+#top-sale .top-sale-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  rotate: 25deg;
+}
+
+#top-sale .special-sale-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  rotate: -25deg;
+}
+
+@media only screen and (min-width: 1490px) {
+  #top-sale .special-sale-img {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    z-index: 1;
+    rotate: -25deg;
+  }
+
+  #top-sale .top-sale-img {
+    position: absolute;
+    top: 0;
+    right: 20%;
+    z-index: 1;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  #top-sale .top-sale-img {
+    width: 130px;
+    rotate: none;
+  }
+
+  #top-sale .special-sale-img {
+    width: 130px;
+    rotate: none;
+  }
+}
+
+#top-sale .owl-carousel {
+  padding: 0 10px;
+}
+
+.owl-prev span {
+  width: 50px;
+  height: 55px;
+  display: block;
+  background: #222;
+  margin: 0 -25px;
+  color: white;
+}
+
+.owl-next span {
+  width: 50px;
+  height: 55px;
+  display: block;
+  background: #222;
+  margin: 0 -25px;
+  color: white;
+}
+
+.owl-prev span:hover {
+  background-color: #ccc;
+  color: black;
+  transition: 0.2s ease;
+}
+
+.owl-next span:hover {
+  background-color: #ccc;
+  color: black;
+  transition: 0.2s ease;
+}
+
+#top-sale .owl-carousel .item .product a {
+  overflow: hidden;
+}
+
+#top-sale .owl-carousel .item .product img {
+  transition: transform 0.5s ease;
+}
+
+#top-sale .owl-carousel .item .product img:hover {
+  transform: scale(1.1);
+}
+
+#top-sale .owl-carousel .owl-stage-outer {
+  position: relative;
+}
+
+#top-sale .owl-carousel .owl-item .item {
+  background-color: white;
+  margin: 0 10px;
+}
+
+#top-sale .owl-carousel .owl-nav {
+  position: absolute;
+  top: 30%;
+  right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 35px;
+  z-index: 9999;
+}
+
+#top-sale .owl-carousel .owl-nav button:hover {
+  color: #003859;
+  background-color: transparent;
+}
+
+#top-sale .item .product {
+  position: relative;
+}
+
+#top-sale .item .product .item-discount {
+  background: linear-gradient(90deg, #9F7929 0%, #D4AA48 23.23%, #FDF29D 50.83%, #D4AA48 76.87%, #B1942D 100%);
+  padding: 0 5px;
+  min-height: 58px;
+  border-radius: 50px;
+  position: absolute;
+  left: 70%;
+  z-index: 10;
+}
+
+.quantity-box {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-box input[type=number] {
+  width: 50px;
+  padding: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.quantity-box button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.quantity-box button:hover {
+  background-color: #ddd;
+}
+
+#login-register {
+  padding: 150px 0;
+}
+
+#login-register .login-header {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 420px) {
+  #login-register {
+    padding-top: 50px;
+  }
+
+  #login-register .col-md-6 {
+    margin-bottom: 20px;
+  }
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-item {
+  width: 30%;
+  margin: 1%;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+}
+
+.coming-soon-logo {
+  padding-bottom: 60px;
+}
+
+.coming-soon-logo img {
+  width: 100%;
+  height: 400px;
+  box-shadow: 2px 2px 4px #000000;
+}
+
+/* Αρχικά κρύβουμε την εικόνα και προσθέτουμε εφέ για ομαλή εμφάνιση */
+img.lazy {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+/* Όταν η εικόνα φορτωθεί, γίνεται πλήρως ορατή */
+img.fade-in {
+  opacity: 1;
+}
+
+#search {
+  padding: 50px 0;
+}
+
+#footer {
+  border-top: 2px solid #ebb06c;
+  background: #0b1e3d;
+}
+
+@media only screen and (max-width: 420px) {
+  .footer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .footer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .footer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .footer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .footer {
+    display: flex;
+  }
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.product-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+}
+
+.product-item img {
+  max-width: 100px;
+}
+
+.alertify .ajs-dialog {
+  margin: 200px auto !important;
+}
+
+.alertify .ajs-header {
+  display: none !important;
+}
+
+.alertify .ajs-content {
+  text-align: center;
+  font-size: 20px !important;
+}
+
+.alertify .ajs-close {
+  display: none !important;
+}
+
+.alertify .ajs-primary {
+  max-width: 600px;
+  text-align: center;
+}
+
+.alertify .ajs-primary button {
+  display: block;
+  margin: 0 auto !important;
+  border-radius: 5px;
+  background-color: #283c6a;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+}
+
+.alertify-notifier {
+  display: none !important;
+}
+
+.category-bg {
+  background-color: #000000 !important;
+}
+
+.box {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.box.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.main-site {
+  padding: 90px 0;
+}
+
+.edit-account {
+  padding-bottom: 300px;
+}
+
+.orders-table {
+  padding-bottom: 300px;
+}
+
+.my-account {
+  padding: 90px 0;
+}
+
+@media only screen and (max-width: 991px) {
+  .main-site {
+    padding: 0;
+  }
+
+  .orders-table {
+    font-size: 12px;
+  }
+
+  .orders-table a {
+    font-size: 12px;
+    padding: 4px;
+    margin: 2px;
+  }
+
+  .card,
+  h2 {
+    font-size: 12px;
+  }
+
+  #cart {
+    padding: 90px 0 25px 0;
+  }
+
+  #cart table {
+    font-size: 12px;
+  }
+
+  #cart table button {
+    font-size: 12px;
+    display: flex;
+  }
+
+  #cart table .increment-btn .decrement-btn .input-qty {
+    width: 50px !important;
+    font-size: 16px;
+  }
+
+  #cart table .input-group {
+    width: 32px !important;
+  }
+
+  #cart .red {
+    color: red !important;
+    /* Αλλάζει το χρώμα σε κόκκινο */
+  }
+
+  #checkout {
+    padding: 90px 0;
+    font-size: 12px;
+  }
+
+  #checkout input {
+    font-size: 12px;
+  }
+
+  #checkout h5 {
+    margin: 20px 0 !important;
+    text-align: center;
+  }
+
+  #checkout a {
+    margin: 0 !important;
+  }
+}
+
+#contact {
+  padding-top: 120px;
+  padding-bottom: 250px;
+}
+
+#payments {
+
+    padding-top: 20px;
+    padding-bottom: 450px;
+
+}
+
+#forgot {
+  padding: 250px 0;
+}
+
+#reset {
+  padding: 150px;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.font-roboto {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.font-size-12 {
+  font-size: 12px;
+}
+
+.font-size-13 {
+  font-size: 13px;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.font-size-16 {
+  font-size: 16px;
+}
+
+.font-size-20 {
+  font-size: 20px;
+}
+
+.font-size-25 {
+  font-size: 25px;
+}
+
+.font-size-30 {
+  font-size: 30px;
+}
+
+.font-size-70 {
+  font-size: 70px;
+  font-family: 'Roboto Condensed', sans-serif;
+  letter-spacing: 1.5px;
+}
+
+/*Color Template */
+.color-primary {
+  color: #003859;
+}
+
+.color-primary-bg {
+  background: #003859;
+}
+
+.color-second {
+  color: #00A5C4;
+}
+
+.color-second-bg {
+  background: #00A5C4;
+}
+
+.collor-yellow {
+  color: #FFD289;
+}
+
+.color-yellow-bg {
+  background: #FFD289;
+}
+
+.navigation {
+
+  background-color: #0b1e3d;
+  border-bottom: 2px solid #ebb06c;
+  letter-spacing: 1.2px;
+}
+
+.navigation-inner {
+  margin: 0 20px;
+}
+
+.nav-item .nav-link {
+  color: #fff;
+}
+
+.nav-item .nav-link:hover {
+  color: #ebb06c;
+}
+
+.nav-item .nav-link .svg-icon svg {
+  width: 40px;
+  /* παράδειγμα */
+  height: 40px;
+}
+
+.svg-icon svg path {
+  fill: currentColor;
+  /* Κάνει το trick */
+}
+
+.cart-object {
+  position: relative;
+}
+
+.pill {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 15px;
+  /* Σταθερό πλάτος */
+  height: 15px;
+  /* Σταθερό ύψος */
+  display: flex;
+  /* Για κεντράρισμα περιεχομένου */
+  align-items: center;
+  /* Κάθετο κεντράρισμα */
+  justify-content: center;
+  /* Οριζόντιο κεντράρισμα */
+  font-size: 14px;
+  /* Μείωσε το μέγεθος γραμματοσειράς αν χρειάζεται */
+  border-radius: 50%;
+  /* Στρογγυλό σχήμα */
+  background-color: #dc3545;
+  /* Κόκκινο χρώμα φόντου */
+  color: #fff;
+  /* Λευκό κείμενο */
+  padding: 10px;
+  margin: 0 -6px;
+  /* Αφαίρεση padding για να κρατήσει το σταθερό μέγεθος */
+  font-weight: bold;
+}
+
+.transfer {
+  background-color: lightgrey;
+}
+
+/* Στυλ για το κουμπί αναζήτησης */
+#openSearch {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Στυλ για το popup */
+.popup {
+  display: none;
+  /* Το αρχικό display είναι "none" για να μην φαίνεται */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Σκούρο φόντο για να ξεχωρίζει το popup */
+}
+
+.popup-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Στυλ για το κουμπί κλεισίματος */
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Στυλ για το search container */
+.search-container {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-button {
+  background-color: transparent !important;
+  border: 2px solid transparent;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: white;
+}
+
+.profile:hover {
+  color: #ebb06c;
+}
+
+.search-icon:hover {
+  color: #ebb06c;
+}
+
+.cart-icon:hover {
+  color: #ebb06c;
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+
+@media only screen and (max-width: 1440px) {
+  nav img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .navigation-inner {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .navigation {
+    display: none;
+    /* Κρύβει το κανονικό μενού */
+  }
+
+  .responsive-nav {
+    display: block !important;
+    /* Εμφανίζει το responsive nav */
+    background-color: #0b1e3d;
+    border-bottom: 2px solid #ebb06c;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 997;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #000000;
+    opacity: 0;
+    /* Αρχικά κρυφό */
+    visibility: hidden;
+    /* Κρύβει το menu */
+    transform: translateY(-10px);
+    /* Ελαφριά μετατόπιση προς τα πάνω */
+    transition: opacity 0.3s ease, visibility 0s 0.3s, transform 0.3s ease;
+    /* Ομαλή μετάβαση */
+    z-index: 998;
+  }
+
+  .nav-menu li {
+    margin: 20px 10px;
+  }
+
+  .nav-menu.active {
+    opacity: 1;
+    /* Εμφάνιση του μενού */
+    visibility: visible;
+    /* Ορατό */
+    transform: translateY(0);
+    /* Επαναφορά στη θέση του */
+    transition: opacity 0.3s ease, visibility 0s 0s, transform 0.3s ease;
+    /* Άμεση μετάβαση */
+    height: 100vh;
+    color: white;
+    border-top: 2px solid #ebb06c;
+  }
+
+  .hamburger {
+    display: block;
+    /* Εμφανίζει το hamburger */
+  }
+
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+    /* Εξαφανίζει τη μεσαία γραμμή */
+    transform: translateX(-20px);
+  }
+
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .pill {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .nav-item {
+    margin: 0 7px !important;
+  }
+}
+
+#banner-area {
+  margin-top: 20px;
+}
+
+#banner-area .product-img {
+  position: relative;
+}
+
+#banner-area .buy-now {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, #d00 0%, #900 100%);
+  padding: 5px 30px;
+  letter-spacing: 1.5px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 40px;
+  box-shadow:
+    0 0 0 5px #000,
+    /* εξωτερικό μαύρο περίγραμμα */
+    0 0 20px 10px rgba(0, 0, 0, 0.7);
+  /* δυνατό εξωτερικό shadow */
+}
+
+@media only screen and (max-width: 1440px) {
+
+
+  #banner-area .buy-now {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media only screen and (max-width: 1200px) {}
+
+@media only screen and (max-width: 991px) {
+  #banner-area {
+    margin-top: 150px;
+  }
+
+  #banner-area .product-img {
+    height: 490px !important;
+    object-fit: cover;
+  }
+
+  #banner-area .buy-now {
+    font-size: 20px;
+    padding: 10px;
+  }
+}
+
+#categories {
+  margin-top: 10px;
+}
+
+#categories .box-shadow {
+  box-shadow: 2px 2px 4px #000000;
+}
+
+#categories .meta-title-description {
+  position: relative;
+}
+
+#categories .meta-title-hashtag {
+  position: absolute;
+  bottom: 0;
+  padding: 10px 20px;
+  color: white;
+}
+
+#products {
+    padding-top: 20px;
+    padding-bottom: 250px;
+}
+
+.product-box {
+  border: 3px solid #4482BC;
+  min-height: 400px;
+  order: 1;
+  /* Default order */
+}
+
+.product-btns {
+  background-color: #283c6a;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.product-btn {
+  border: none;
+  background-color: #283c6a;
+  border-radius: 3px;
+}
+
+.product-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#product-view {
+  padding-top: 20px;
+}
+
+.products-qty {
+  margin: 0 122px;
+}
+
+.product-col.visible {
+  order: 1;
+  /* Τα ορατά προϊόντα */
+  opacity: 1;
+  /* Ορατά */
+}
+
+.visible {
+  display: block;
+  /* Εμφάνιση προϊόντος */
+  transition: all 0.3s ease;
+  /* Προσθέστε ομαλές μεταβάσεις */
+}
+
+@media only screen and (max-width: 991px) {
+  #products {
+    padding: 100px 0;
+  }
+
+  .products-qty {
+    margin: 0;
+  }
+
+  .information {
+    margin-top: 15px;
+  }
+
+  #products h6 {
+    text-align: center;
+  }
+}
+
+.svg-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: #fff;
+  /* ή #fff */
+  stroke: white;
+  /* αν έχει strokes */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/*# sourceMappingURL=style.css.map */
