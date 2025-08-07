@@ -1,4 +1,5 @@
 <nav class="text-white navigation <?php echo isset($is_main_page); ?>">
+  <p class="mb-0 text-center f-bold font-size-20" style="background-color: #44d62b; color:black;">Παρέλαβε με <img class="img-fluid" src="assets/boxnowlogo.png" style="width:68px; height:45px;"> </p>
   <div class="mx-5">
     <div class="row align-items-center justify-content-between">
 
