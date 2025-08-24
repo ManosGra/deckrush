@@ -20,9 +20,9 @@ $(document).ready(function () {
         e.preventDefault();
         var $productData = $(this).closest('.product_data');
         var qty = $productData.find('.input-qty');
-        var value = parseInt(qty.val(), 10) || 0;
+        var value = parseInt(qty.val(), 5) || 0;
 
-        if ($(this).hasClass('increment-btn') && value < 10) {
+        if ($(this).hasClass('increment-btn') && value < 5) {
             value++;
         } else if ($(this).hasClass('decrement-btn') && value > 1) {
             value--;

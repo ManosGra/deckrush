@@ -65,7 +65,7 @@ include 'includes/navigation.php';
                     <div class="products-qty my-3 d-flex align-items-center justify-content-center">
                         <div class="input-group me-5" style="width:130px">
                             <button class="input-group-text decrement-btn">-</button>
-                            <input type="text" class="form-control text-center input-qty bg-white" value="1" disabled>
+                            <input type="text" class="form-control text-center input-qty bg-white" value="1" max="5">
                             <button class="input-group-text increment-btn">+</button>
                         </div>
                         <p class="mb-0">Διαθέσιμα: <?php echo htmlspecialchars($product['qty']); ?>+</p>
