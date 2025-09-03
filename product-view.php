@@ -39,7 +39,8 @@ include 'includes/navigation.php';
             <div class="row">
                 <div class="col-md-4">
                     <div class="card shadow-lg rounded-4 p-4">
-                        <img src="uploads/<?php echo htmlspecialchars($product['item_image']); ?>" alt="Product Image" class="w-100">
+                        <img src="uploads/<?php echo htmlspecialchars($product['item_image']); ?>" alt="Product Image"
+                            class="w-100">
                     </div>
                 </div>
 
@@ -48,8 +49,8 @@ include 'includes/navigation.php';
                     $qty = (int) $product['qty'];
                     $btnDisabled = $qty === 0 ? 'disabled' : '';
                     $qtyValue = $qty === 0 ? 0 : 1;
-                   $availabilityClass = $qty === 0 ? 'bg-danger text-white' : 'text-white';
-$availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; // φωτεινό πράσινο
+                    $availabilityClass = $qty === 0 ? 'bg-danger text-white' : 'text-white';
+                    $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; // φωτεινό πράσινο
                     $availabilityText = $qty === 0 ? 'Προϊόν εξαντλήθηκε' : 'Το προϊόν είναι άμεσα διαθέσιμο';
                     ?>
 
@@ -62,17 +63,19 @@ $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; // φωτε
                         <p><?php echo htmlspecialchars($product['small_description']); ?></p>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h1><span class="fw-bold"><?php echo htmlspecialchars($product['selling_price']); ?>€</span></h1>
+                                <h1><span class="fw-bold"><?php echo htmlspecialchars($product['selling_price']); ?>€</span>
+                                </h1>
                                 <p class="mb-0">Η τιμή του προϊόντος περιλαμβάνει ΦΠΑ</p>
                             </div>
                         </div>
 
                         <!-- Επιλογή ποσότητας -->
-                        <div class="products-qty my-3 d-flex align-items-center justify-content-center product_data" data-id="<?php echo htmlspecialchars($product['id']); ?>">
+                        <div class="products-qty my-3 d-flex align-items-center justify-content-center product_data"
+                            data-id="<?php echo htmlspecialchars($product['id']); ?>">
                             <div class="input-group me-5" style="width:130px">
                                 <button class="input-group-text decrement-btn" <?php echo $btnDisabled; ?>>-</button>
                                 <input type="text" class="form-control text-center input-qty bg-white"
-                                       value="<?php echo $qtyValue; ?>" min="1" max="<?php echo $qty; ?>" <?php echo $btnDisabled; ?>>
+                                    value="<?php echo $qtyValue; ?>" min="1" max="<?php echo $qty; ?>" <?php echo $btnDisabled; ?>>
                                 <button class="input-group-text increment-btn" <?php echo $btnDisabled; ?>>+</button>
                             </div>
                         </div>
@@ -80,7 +83,7 @@ $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; // φωτε
                         <!-- Κουμπί Προσθήκης στο Καλάθι -->
                         <div class="product-buttons d-flex flex-row align-items-center justify-content-center mb-4">
                             <button class="cart-btn text-white font-size-16 fw-bold px-4 me-2 addToCartBtn"
-                                    value="<?php echo htmlspecialchars($product['id']); ?>" <?php echo $btnDisabled; ?>>
+                                value="<?php echo htmlspecialchars($product['id']); ?>" <?php echo $btnDisabled; ?>>
                                 <?php if ($qty > 0): ?>
                                     <i class="bi bi-cart me-2 font-size-20 fw-bold"></i>ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
                                 <?php else: ?>
