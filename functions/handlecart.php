@@ -12,43 +12,84 @@ if (isset($_SESSION['auth'])) {
                     echo "Quantity not set";
                     exit;
                 }
-                $prod_id = $_POST['prod_id'];
-                $prod_qty = $_POST['prod_qty'];
+
+                $prod_id = (int) $_POST['prod_id'];
+                $prod_qty = (int) $_POST['prod_qty'];
                 $user_id = $_SESSION['auth_user']['user_id'];
+
+                // Έλεγχος διαθέσιμου stock
+                $stock_query = "SELECT qty FROM products WHERE id='$prod_id' LIMIT 1";
+                $stock_query_run = mysqli_query($conn, $stock_query);
+                $stock = mysqli_fetch_assoc($stock_query_run);
+
+                if (!$stock) {
+                    echo "Product not found";
+                    exit;
+                }
+
+                if ($prod_qty > $stock['qty']) {
+                    $prod_qty = $stock['qty']; // Περιορισμός στο διαθέσιμο
+                }
 
                 $check_existing_cart = "SELECT * FROM carts WHERE prod_id='$prod_id' AND user_id='$user_id'";
                 $check_existing_cart_run = mysqli_query($conn, $check_existing_cart);
 
                 if (mysqli_num_rows($check_existing_cart_run) > 0) {
-                    echo "existing"; 
+                    echo "existing";
                 } else {
-                    $insert_query = "INSERT INTO carts (user_id, prod_id, prod_qty) VALUES ('$user_id', '$prod_id', '$prod_qty')";
+                    $insert_query = "INSERT INTO carts (user_id, prod_id, prod_qty) 
+                         VALUES ('$user_id', '$prod_id', '$prod_qty')";
                     $insert_query_run = mysqli_query($conn, $insert_query);
 
                     echo $insert_query_run ? 200 : 500;
                 }
                 break;
+case "update":
+    if (!isset($_POST['prod_qty'])) {
+        echo "Quantity not set";
+        exit;
+    }
 
-            case "update":
-                if (!isset($_POST['prod_qty'])) {
-                    echo "Quantity not set";
-                    exit;
-                }
-                $prod_id = $_POST['prod_id'];
-                $prod_qty = $_POST['prod_qty'];
-                $user_id = $_SESSION['auth_user']['user_id'];
+    $prod_id = (int) $_POST['prod_id'];
+    $prod_qty = (int) $_POST['prod_qty'];
+    $user_id = $_SESSION['auth_user']['user_id'];
 
-                $check_existing_cart = "SELECT * FROM carts WHERE prod_id='$prod_id' AND user_id='$user_id'";
-                $check_existing_cart_run = mysqli_query($conn, $check_existing_cart);
+    // Έλεγχος διαθέσιμου stock
+    $stock_query = "SELECT qty FROM products WHERE id='$prod_id' LIMIT 1";
+    $stock_query_run = mysqli_query($conn, $stock_query);
+    $stock = mysqli_fetch_assoc($stock_query_run);
 
-                if (mysqli_num_rows($check_existing_cart_run) > 0) {
-                    $update_query = "UPDATE carts SET prod_qty='$prod_qty' WHERE prod_id='$prod_id' AND user_id='$user_id'";
-                    $update_query_run = mysqli_query($conn, $update_query);
-                    echo $update_query_run ? 200 : 500;
-                } else {
-                    echo "Product not found in cart";
-                }
-                break;
+    if (!$stock) {
+        echo "Product not found";
+        exit;
+    }
+
+    if ($prod_qty > $stock['qty']) {
+        $prod_qty = $stock['qty']; // Περιορισμός στο διαθέσιμο
+    }
+
+    $check_existing_cart = "SELECT * FROM carts WHERE prod_id='$prod_id' AND user_id='$user_id'";
+    $check_existing_cart_run = mysqli_query($conn, $check_existing_cart);
+
+    if (mysqli_num_rows($check_existing_cart_run) > 0) {
+        if ($prod_qty > 0) {
+            // Αν qty > 0, απλώς κάνουμε update στο καλάθι
+            $update_query = "UPDATE carts SET prod_qty='$prod_qty' 
+                 WHERE prod_id='$prod_id' AND user_id='$user_id'";
+            $update_query_run = mysqli_query($conn, $update_query);
+            echo $update_query_run ? 200 : 500;
+        } else {
+            // Αν qty = 0, διαγραφή μόνο από το καλάθι
+            $delete_cart_query = "DELETE FROM carts WHERE prod_id='$prod_id' AND user_id='$user_id'";
+            $delete_cart_query_run = mysqli_query($conn, $delete_cart_query);
+            echo $delete_cart_query_run ? 200 : 500;
+        }
+    } else {
+        echo "Product not found in cart";
+    }
+    break;
+
+
 
             case "delete":
                 if (!isset($_POST['cart_id'])) {
@@ -70,17 +111,17 @@ if (isset($_SESSION['auth'])) {
                 }
                 break;
 
-                case "getCount":
-                    $user_id = $_SESSION['auth_user']['user_id'];
-                    $count_query = "SELECT SUM(prod_qty) AS total FROM carts WHERE user_id='$user_id'";
-                    $count_query_run = mysqli_query($conn, $count_query);
-                    
-                    if ($row = mysqli_fetch_assoc($count_query_run)) {
-                        echo $row['total'] ?: 0; // Επιστρέφει 0 αν δεν υπάρχουν προϊόντα
-                    } else {
-                        echo 401;
-                    }
-                    break;
+            case "getCount":
+                $user_id = $_SESSION['auth_user']['user_id'];
+                $count_query = "SELECT SUM(prod_qty) AS total FROM carts WHERE user_id='$user_id'";
+                $count_query_run = mysqli_query($conn, $count_query);
+
+                if ($row = mysqli_fetch_assoc($count_query_run)) {
+                    echo $row['total'] ?: 0; // Επιστρέφει 0 αν δεν υπάρχουν προϊόντα
+                } else {
+                    echo 401;
+                }
+                break;
 
             default:
                 echo 500;

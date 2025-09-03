@@ -80,7 +80,7 @@ include 'includes/navigation.php';
                                     </a>
 
                                     <p class="text-center">
-                                        <small>Διαθέσιμα: <?php echo htmlspecialchars($item['qty']); ?>+</small>
+                                        <small>Διαθέσιμα: <?php echo htmlspecialchars($item['qty']); ?></small>
                                     </p>
                                 </div>
 
@@ -90,12 +90,15 @@ include 'includes/navigation.php';
                                         <i class="bi bi-search text-white font-size-20"></i>
                                     </a>
 
-                                    <button class="product-btn addToCartBtn w-100 text-center p-2"
-                                        value="<?php echo htmlspecialchars($item['id']); ?>">
-                                        <input type="hidden"
-                                            class="form-control text-center input-qty bg-white" value="1" disabled>
-                                        <i class="bi bi-cart text-white font-size-20"></i>
-                                    </button>
+                                        <?php
+    // Κρύβουμε το κουμπί αν qty = 0
+    $btnStyle = ((int)$item['qty'] === 0) ? 'display:none;' : '';
+    ?>
+    <button class="product-btn addToCartBtn w-100 text-center p-2" 
+        value="<?php echo htmlspecialchars($item['id']); ?>" style="<?php echo $btnStyle; ?>">
+        <input type="hidden" class="form-control text-center input-qty bg-white" value="1" disabled>
+        <i class="bi bi-cart text-white font-size-20"></i>
+    </button>
                                 </div>
                             </div>
                         </div>
