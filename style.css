@@ -254,7 +254,7 @@ button:focus {
 
 @media only screen and (max-width: 420px) {
   #login-register {
-    padding-top: 50px;
+    padding-top: 95px;
   }
 
   #login-register .col-md-6 {
@@ -307,6 +307,10 @@ img.fade-in {
 }
 
 @media only screen and (max-width: 420px) {
+  #footer{
+    padding: 20px 0;
+  }
+
   .footer {
     display: flex;
     flex-direction: column;
@@ -474,7 +478,7 @@ img.fade-in {
   }
 
   #checkout {
-    padding: 90px 0;
+    padding: 130px 0;
     font-size: 12px;
   }
 
