@@ -54,13 +54,13 @@
 
           <div class="col-auto">
             <button type="submit" id="openSearch" name="submit" class="search-button p-0 me-2">
-              <i class="bi bi-search font-size-25 search-icon"></i>
+              <i class="bi bi-search font-size-30 search-icon"></i>
             </button>
           </div>
 
           <div class="col-auto">
             <a href="my-account" class="text-white text-decoration-none me-2">
-              <i class="font-size-25 profile bi bi-person-circle"></i>
+              <i class="font-size-30 profile bi bi-person-circle"></i>
             </a>
           </div>
 
@@ -68,7 +68,7 @@
             <form action="" class="font-size-14 font-rale">
               <a href="cart" class="text-decoration-none" id="cart-link">
                 <div class="cart-object">
-                  <span class="font-size-25 text-white"><i class="bi bi-cart cart-icon"></i></span>
+                  <span class="font-size-30 text-white"><i class="bi bi-cart cart-icon"></i></span>
                   <span class="pill text-white bg-danger" id="cart-empty">0</span>
                 </div>
               </a>
