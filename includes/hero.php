@@ -13,7 +13,7 @@
                                 Το browser σου δεν υποστηρίζει βίντεο.
                             </video>
 
-                            <div class="f-bold font-size-20 buy-now text-center text-white rounded-3">ΑΓΟΡΑ ΤΩΡΑ</div>
+                            <div class="f-bold font-size-20 buy-now text-center text-white rounded-3">ΔΙΑΘΕΣΙΜΟ</div>
                         </a>
                     </div>
 
