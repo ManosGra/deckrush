@@ -30,11 +30,11 @@
       <div class="col-lg-2 col-12 mb-2">
         <h4 class="fw-bold font-size-20">Λογαριασμός</h4>
         <div class="d-flex flex-column flex-wrap">
-          <a href="my-account" class="text-decoration-none  font-size-14 text-white-50 pb-1">Ο λογαριασμός μου</a>
-          <a href="my-account?source=orders"
-            class="text-decoration-none  font-size-14 text-white-50 pb-1">Παραγγελίες</a>
           <a href="my-account?source=edit-profile"
             class="text-decoration-none  font-size-14 text-white-50 pb-1">Διευθύνσεις</a>
+          <a href="my-account?source=orders"
+            class="text-decoration-none  font-size-14 text-white-50 pb-1">Παραγγελίες</a>
+          <a href="my-account" class="text-decoration-none  font-size-14 text-white-50 pb-1">Ο λογαριασμός μου</a>
         </div>
       </div>
 
