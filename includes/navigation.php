@@ -34,7 +34,7 @@
                   if (!empty($item['category_svg']) && file_exists($svg_path)) {
                     $svg_content = file_get_contents($svg_path);
 
-                    echo '<span class="svg-icon">' . $svg_content . '</span>';
+                    echo '<span class="svg-icon me-2">' . $svg_content . '</span>';
                   }
                   ?>
                   <?php echo htmlspecialchars($item['category_name']); ?>
