@@ -5,7 +5,7 @@
                 data-bs-ride="carousel" data-bs-interval="8000">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <a href="product-view?product=black-bolt-elite-trainer-box"
+                        <a href="product-view?product=pokemon-tcg-ascended-heroes-elite-trainer-box"
                             class="text-decoration-none text-white">
                             <video autoplay muted loop playsinline
                                 class="product-img d-block mx-auto  shadow-sm rounded-5 img-fluid">
