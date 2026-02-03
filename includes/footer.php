@@ -13,9 +13,9 @@
       <div class="col-lg-3 col-12 mb-2">
         <h4 class="fw-bold font-size-20">Χρήσιμα</h4>
         <div class="d-flex flex-column flex-wrap">
+          <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">'Οροι χρήσης</a>
           <a href="payments" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι πληρωμής</a>
           <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι αποστολής</a>
-          <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">'Οροι χρήσης</a>
         </div>
       </div>
 
