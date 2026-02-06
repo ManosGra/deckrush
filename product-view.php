@@ -80,6 +80,7 @@ include 'includes/navigation.php';
                             </div>
                         </div>
 
+
                         <!-- Κουμπί Προσθήκης στο Καλάθι -->
                         <div class="product-buttons d-flex flex-row align-items-center justify-content-center mb-4">
                             <button class="cart-btn text-white font-size-16 fw-bold px-4 me-2 addToCartBtn"
