@@ -5,7 +5,7 @@
                 data-bs-ride="carousel" data-bs-interval="8000">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <a href="product-view?product=pokemon-tcg-ascended-heroes-elite-trainer-box"
+                        <a href="product-view?product=pokemon-tcg-perfect-order-elite-trainer-box"
                             class="text-decoration-none text-white">
                             <video autoplay muted loop playsinline
                                 class="product-img d-block shadow-sm rounded-5 img-fluid">
@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="carousel-item">
-                        <a href="product-view?product=ascended-heroes-elite-trainer-box"
+                        <a href="product-view?product=pokemon-tcg-ascended-heroes-elite-trainer-box"
                             class="text-decoration-none text-white">
                             <img src="assets/ascended_heroes.jpg" class="w-100 rounded-5 d-block mx-auto product-img img-fluid"
                                 alt="Ascended Heroes Boosters and Booster Box" style="height:729px;">
