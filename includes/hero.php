@@ -8,8 +8,8 @@
                         <a href="product-view?product=pokemon-tcg-ascended-heroes-elite-trainer-box"
                             class="text-decoration-none text-white">
                             <video autoplay muted loop playsinline
-                                class="product-img d-block mx-auto  shadow-sm rounded-5 img-fluid">
-                                <source src="assets/pokemon_tcg_260130.mp4" type="video/mp4" />
+                                class="product-img d-block shadow-sm rounded-5 img-fluid">
+                                <source src="assets/Perfect_Order.mp4" type="video/mp4" />
                                 Το browser σου δεν υποστηρίζει βίντεο.
                             </video>
 
@@ -17,15 +17,15 @@
                         </a>
                     </div>
 
-                    <!-----<div class="carousel-item">
-                        <a href="product-view?product=destined-rivals-elite-trainer-box"
+                    <div class="carousel-item">
+                        <a href="product-view?product=ascended-heroes-elite-trainer-box"
                             class="text-decoration-none text-white">
-                            <img src="assets/rivals.jpg" class="d-block rounded-5 d-block mx-auto product-img img-fluid"
-                                alt="Destined Rivals Boosters and Booster Box">
+                            <img src="assets/ascended_heroes.jpg" class="w-100 rounded-5 d-block mx-auto product-img img-fluid"
+                                alt="Ascended Heroes Boosters and Booster Box" style="height:729px;">
 
                             <div class="f-bold font-size-20 buy-now text-center text-white rounded-3">ΔΙΑΘΕΣΙΜΟ</div>
                         </a>
-                    </div>--->
+                    </div>
                 </div>
             </div>
         </div>

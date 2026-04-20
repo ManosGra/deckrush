@@ -137,7 +137,7 @@
     </div>
 
     <div class="col-3">
-      <div class="row align-items-center justify-content-end g-0 font-size-25">
+      <div class="row align-items-center justify-content-end g-0 font-size-22">
         <div class="col-auto">
           <a href="my-account" class="text-white text-decoration-none ">
             <i class="profile bi bi-person-circle"></i>

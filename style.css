@@ -544,6 +544,10 @@ img.fade-in {
   font-size: 20px;
 }
 
+.font-size-22 {
+  font-size: 22px;
+}
+
 .font-size-25 {
   font-size: 25px;
 }
@@ -862,15 +866,18 @@ img.fade-in {
 }
 
 @media only screen and (max-width: 1440px) {
-
-
-  #banner-area .buy-now {
+    #banner-area .buy-now {
     left: 50%;
     transform: translateX(-50%);
   }
 }
 
-@media only screen and (max-width: 1200px) {}
+@media only screen and (max-width: 1200px) {
+    #banner-area .product-img {
+    height: 400px !important;
+    object-fit: fill;
+  }
+}
 
 @media only screen and (max-width: 991px) {
   #banner-area {
@@ -878,14 +885,15 @@ img.fade-in {
   }
 
   #banner-area .product-img {
-    height: 490px !important;
-    object-fit: cover;
+    height: 400px !important;
+    width: 100%;
   }
 
   #banner-area .buy-now {
     font-size: 20px;
     padding: 10px;
   }
+  
 }
 
 #categories {
