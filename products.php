@@ -54,13 +54,13 @@ include 'includes/navigation.php';
                             foreach ($products as $item) {
                                 ?>
                                 <div class="col-md-4 mb-3 product-col">
-                                    <div class="card shadow-lg product-box product_data pt-3">
+                                    <div class="card shadow-lg product-box product_data pt-3 box show">
                                         <div class="card-body p-0">
                                             <div class="product-image text-center">
                                                 <a class="text-decoration-none"
                                                     href="product-view?product=<?php echo htmlspecialchars($item['slug']); ?>">
                                                     <img src="uploads/<?php echo htmlspecialchars($item['item_image']); ?>"
-                                                        alt="Product Image" class="img-fluid p-4" style="height:300px">
+                                                        alt="Product Image" class="img-fluid p-4" loading="lazy" style="height:300px">
                                                 </a>
                                             </div>
 
