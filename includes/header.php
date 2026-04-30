@@ -48,7 +48,9 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/android-chrome-512x512.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
   <!-- Google Tag Manager - ΜΠΛΟΚΑΡΙΣΜΕΝΟ -->
   <script type="text/plain" data-cookieconsent="marketing">
@@ -62,20 +64,20 @@
 
   <?php if (isset($product) && $product): ?>
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "<?php echo addslashes($product_name); ?>",
-      "image": "https://www.deckrush.gr/uploads/<?php echo htmlspecialchars($product['item_image']); ?>",
-      "description": "<?php echo addslashes(strip_tags($product['description'])); ?>",
-      "offers": {
-        "@type": "Offer",
-        "priceCurrency": "EUR",
-        "price": "<?php echo htmlspecialchars($product['selling_price']); ?>",
-        "availability": "https://schema.org/InStock"
+      {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "<?php echo addslashes($product_name); ?>",
+        "image": "https://www.deckrush.gr/uploads/<?php echo htmlspecialchars($product['item_image']); ?>",
+        "description": "<?php echo addslashes(strip_tags($product['description'])); ?>",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "EUR",
+          "price": "<?php echo htmlspecialchars($product['selling_price']); ?>",
+          "availability": "https://schema.org/InStock"
+        }
       }
-    }
-    </script>
+      </script>
   <?php endif; ?>
 </head>
 
@@ -88,4 +90,7 @@
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <a href="#" class="text-decoration-none scroll-up text-center" aria-label="Scroll to top" style="width:60px; height:60px;"><p class="mb-0 h-100 w-100"><?php include 'assets/arrow.svg'; ?></p></a>
+  <a href="#" class="text-decoration-none scroll-up text-center" aria-label="Scroll to top"
+    style="width:60px; height:60px;">
+    <p class="mb-0 h-100 w-100"><?php include 'assets/arrow.svg'; ?></p>
+  </a>
