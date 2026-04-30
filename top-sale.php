@@ -26,7 +26,7 @@ if (mysqli_num_rows($result) > 0) {
                     <div class="item py-3 product_data rounded-3">
                         <div class="product font-rale d-flex flex-column align-items-center">
                             <a href="product-view?product=<?php echo $product['slug'] ?>"><img
-                                    data-src="uploads/<?php echo $product['item_image']; ?>"
+                                    src="uploads/<?php echo $product['item_image']; ?>" loading="lazy"
                                     alt="<?php echo $product['name']; ?>" style="width:220px; height:220px;"></a>
                             <div class="text-center my-3">
                                 <h6><?php echo $product['name']; ?></h6>
@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
         </div>
 
         <div class="top-sale-img">
-            <img class="img-fluid" src="assets/topsales.png" style="width:200px; height:150px;">
+            <img class="img-fluid" loading="lazy" src="assets/topsales.png" style="width:200px; height:150px;">
         </div>
     </div>
 </section>

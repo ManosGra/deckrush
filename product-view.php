@@ -51,7 +51,7 @@ include 'includes/navigation.php';
                     $qtyValue = $qty === 0 ? 0 : 1;
                     $availabilityClass = $qty === 0 ? 'bg-danger text-white' : 'text-white';
                     $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; // φωτεινό πράσινο
-                    $availabilityText = $qty === 0 ? 'Προϊόν εξαντλήθηκε' : 'Το προϊόν είναι άμεσα διαθέσιμο';
+                    $availabilityText = $qty === 0 ? 'Το προϊόν δεν είναι διαθέσιμο' : 'Το προϊόν είναι άμεσα διαθέσιμο';
                     ?>
 
                     <!-- Μήνυμα διαθεσιμότητας -->
@@ -60,7 +60,10 @@ include 'includes/navigation.php';
                     </div>
 
                     <div class="card shadow rounded-4 p-4 mt-3">
-                        <p><?php echo htmlspecialchars($product['small_description']); ?></p>
+                        <p
+                            class="mx-auto d-block f-bold text-white py-2 px-4 rounded-3 <?php echo !empty($product['small_description']) ? 'has-bg' : ''; ?>">
+                            <?php echo htmlspecialchars($product['small_description']); ?>
+                        </p>
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <h1><span class="fw-bold"><?php echo htmlspecialchars($product['selling_price']); ?>€</span>
