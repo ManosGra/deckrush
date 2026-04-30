@@ -81,4 +81,6 @@ include 'includes/navigation.php';
     </div>
 </section>
 
+<?php include 'top-sale.php'; ?>
+
 <?php include 'includes/footer.php'; ?>
