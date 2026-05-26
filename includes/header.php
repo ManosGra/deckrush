@@ -16,7 +16,9 @@ $canonical_url = "https://www.deckrush.gr" . $clean_uri;
 
   <!-- SEO Βασικά Tags -->
   <title><?php echo isset($page_title) ? htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8') : 'DeckRush | TCG Cards'; ?></title>
-  <meta name="description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8') : 'Pokemon, One Piece, Funko Pop!, Funko, Yu-Gi-Oh!, Magic: The Gathering κάρτες στην Ελλάδα. Σπάνιες συλλεκτικές κάρτες & αξεσουάρ TCG. Κάρτες Pokemon, Κάρτες One Piece'; ?>" />
+  
+  <!-- ΔΙΟΡΘΩΣΗ SEO: Φυσικό Meta Description χωρίς Keyword Stuffing -->
+  <meta name="description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8') : 'Βρείτε σπάνιες συλλεκτικές κάρτες TCG και αξεσουάρ στην Ελλάδα! Μεγάλη ποικιλία σε Pokémon, One Piece, Yu-Gi-Oh!, Magic: The Gathering και φιγούρες Funko Pop στο DeckRush.'; ?>" />
   <link rel="canonical" href="<?php echo $canonical_url; ?>" />
 
   <!-- Cookiebot script (Πρώτο στο head για GDPR) -->
@@ -24,7 +26,9 @@ $canonical_url = "https://www.deckrush.gr" . $clean_uri;
 
   <!-- Open Graph Tags (Social Media SEO) -->
   <meta property="og:title" content="<?php echo isset($page_title) ? htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8') : 'DeckRush | TCG Cards Ελλάδα'; ?>" />
-  <meta property="og:description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8') : 'Pokemon, One Piece, Funko Pop!, Funko, Yu-Gi-Oh!, Magic: The Gathering κάρτες στην Ελλάδα. Σπάνιες συλλεκτικές κάρτες & αξεσουάρ TCG.'; ?>" />
+  
+  <!-- ΔΙΟΡΘΩΣΗ SEO: Ευθυγράμμιση του Open Graph Description με το νέο Meta Description -->
+  <meta property="og:description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8') : 'Βρείτε σπάνιες συλλεκτικές κάρτες TCG και αξεσουάρ στην Ελλάδα! Μεγάλη ποικιλία σε Pokémon, One Piece, Yu-Gi-Oh!, Magic: The Gathering και φιγούρες Funko Pop στο DeckRush.'; ?>" />
   <meta property="og:image" content="https://www.deckrush.gr/assets/logo3.png" />
   <meta property="og:url" content="<?php echo $canonical_url; ?>" />
   <meta property="og:type" content="website" />
@@ -55,7 +59,7 @@ $canonical_url = "https://www.deckrush.gr" . $clean_uri;
   </script>
   <!-- End Google Tag Manager -->
 
-  <!-- ΔΙΟΡΘΩΣΗ: Ασφαλές Product Schema.org με json_encode -->
+  <!-- Ασφαλές Product Schema.org με json_encode -->
   <?php if (isset($product) && $product): ?>
     <script type="application/ld+json">
       {
