@@ -46,25 +46,45 @@ if (isset($_POST['register_btn'])) {
             $stmt->bind_param("sssss", $name, $email, $hashed_password, $default_role, $activation_token);
 
             if ($stmt->execute()) {
-                // Δημιουργία του σύνδεσμου ενεργοποίησης
-                $activation_link = "http://deckhub.local/activate.php?token=$activation_token";
-                //$activation_link = "http://deckhub.gr/activate.php?token=$activation_token";
+                
+                // ΔΙΟΡΘΩΘΗΚΕ: Δυναμική παραγωγή του link που καταλαβαίνει αυτόματα αν είμαστε τοπικά ή live
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+                $base_url = $protocol . "://" . $_SERVER['HTTP_HOST'];
+                
+                // Επίσης αφαιρέθηκε το .php από το activate.php για να ταιριάζει με το .htaccess
+                $activation_link = $base_url . "/activate?token=$activation_token";
 
                 // Εδώ ξεκινά ο κώδικας για την αποστολή του email ενεργοποίησης
                 $mail = new PHPMailer(true);
                 try {
-                    // Ρυθμίσεις του SMTP
+                    // --- Ρυθμίσεις του SMTP ---
                     $mail->isSMTP();
-                    $mail->Host = 'localhost';  // Ή 127.0.0.1 αν είναι έτσι τοποθετημένο το Papercut
-                    $mail->SMTPAuth = false;  // Χωρίς αυθεντικοποίηση
-                    $mail->Port = 25;  // Θύρα του Papercut (ή 587 αν χρησιμοποιείς TLS)
+                    
+                    // Δυναμικές ρυθμίσεις mail server (Τοπικά Papercut, Live πραγματικό SMTP)
+                    if ($_SERVER['HTTP_HOST'] == 'deckhub.local' || $_SERVER['HTTP_HOST'] == 'deckrush.local') {
+                        // Τοπικό περιβάλλον (Papercut)
+                        $mail->Host = 'localhost';  
+                        $mail->SMTPAuth = false;  
+                        $mail->Port = 25;  
+                        $mail->setFrom('noreply@deckrush.local', 'DeckRush Local');
+                    } else {
+                        // LIVE ΠΕΡΙΒΑΛΛΟΝ (deckrush.gr)
+                        // ΣΗΜΕΙΩΣΗ: Αντικαταστήστε τα παρακάτω με τα πραγματικά στοιχεία του live hosting σας
+                        $mail->Host = 'mail.deckrush.gr';            // Ο SMTP server του hosting σας
+                        $mail->SMTPAuth = true;                       // Ενεργοποίηση αυθεντικοποίησης
+                        $mail->Username = 'noreply@deckrush.gr';      // Το live εταιρικό σας email
+                        $mail->Password = 'ΤΟ_PASSWORD_ΣΑΣ';         // Το password του email
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Ασφάλεια TLS
+                        $mail->Port = 587;                            // Θύρα για TLS
+                        $mail->setFrom('noreply@deckrush.gr', 'DeckRush Store');
+                    }
 
                     // Ρυθμίσεις email
-                    $mail->setFrom('infodeckhub@example.com'); // Το email μπορεί να είναι οποιοδήποτε για δοκιμές
                     $mail->addAddress($email, $name); // Αποδέκτης
                     $mail->isHTML(true);
+                    $mail->CharSet = 'UTF-8'; // Διασφαλίζει ότι τα ελληνικά θα φαίνονται σωστά
                     $mail->Subject = 'Ενεργοποίηση Λογαριασμού';
-                    $mail->Body = "Παρακαλώ κάντε κλικ στο παρακάτω σύνδεσμο για να ενεργοποιήσετε το λογαριασμό σας:<a href='$activation_link'>$activation_link</a>";
+                    $mail->Body = "Παρακαλώ κάντε κλικ στο παρακάτω σύνδεσμο για να ενεργοποιήσετε το λογαριασμό σας:<br><br><a href='$activation_link'>$activation_link</a>";
 
                     // Στείλτε το email
                     $mail->send();
