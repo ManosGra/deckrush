@@ -34,8 +34,8 @@ $(document).ready(function () {
     // Initial load of item count in cart
     updateCartCount();
 
-    // Add product to cart
-    $('.addToCartBtn').click(function (e) {
+    // Add product to cart (ΔΙΟΡΘΩΘΗΚΕ: Έγινε dynamic delegation με .on για να πιάνει και το καρουζέλ)
+    $(document).on('click', '.addToCartBtn', function (e) {
         e.preventDefault();
         var $productData = $(this).closest('.product_data');
         var qty = $productData.find('.input-qty').val();
@@ -43,7 +43,8 @@ $(document).ready(function () {
 
         $.ajax({
             method: "POST",
-            url: "functions/handlecart.php",
+            // ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή
+            url: "/functions/handlecart.php",
             data: {
                 "prod_id": prod_id,
                 "prod_qty": qty,
@@ -72,7 +73,8 @@ $(document).ready(function () {
         var cart_id = $(this).val();
         $.ajax({
             method: "POST",
-            url: "functions/handlecart.php",
+            // ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή
+            url: "/functions/handlecart.php",
             data: {
                 "cart_id": cart_id,
                 "scope": "delete"
@@ -99,7 +101,8 @@ $(document).ready(function () {
 
         $.ajax({
             method: "POST",
-            url: "functions/handlecart.php",
+            // ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή
+            url: "/functions/handlecart.php",
             data: {
                 "prod_id": prod_id,
                 "prod_qty": qty,
@@ -122,7 +125,8 @@ $(document).ready(function () {
     function updateCartCount() {
         $.ajax({
             method: "POST",
-            url: "functions/handlecart.php",
+            // ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή
+            url: "/functions/handlecart.php",
             data: { "scope": "getCount" },
             success: function (response) {
                 $('#cart-empty').text(response);
@@ -161,7 +165,7 @@ $(document).ready(function () {
         const selectedTitles = [];
 
         $('input[type="checkbox"]:checked').each(function () {
-            const title = $(this).data('title'); // <-- ΠΙΟ ΣΙΓΟΥΡΟ!
+            const title = $(this).data('title'); 
             if (this.id !== 'exampleCheck1') {
                 selectedTitles.push(title);
             }
@@ -215,10 +219,9 @@ $(document).ready(function () {
 
     // Συνάρτηση για την αλλαγή της πηγής της εικόνας και την προσθήκη εφέ fade-in
     const lazyLoad = (image) => {
-        // Προσθέτουμε προσωρινά μία διαφανή εικόνα μέχρι να φορτώσει η πραγματική
         image.src = image.dataset.src;
         image.onload = () => {
-            image.classList.add('fade-in'); // Προσθέτουμε την κλάση για εφέ fade-in
+            image.classList.add('fade-in'); 
         };
         image.classList.remove('lazy');
     };
@@ -228,87 +231,12 @@ $(document).ready(function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 lazyLoad(entry.target);
-                observer.unobserve(entry.target); // Σταματάμε την παρατήρηση μόλις φορτωθεί η εικόνα
+                observer.unobserve(entry.target); 
             }
         });
     }, options);
 
-    // Παρατηρούμε κάθε εικόνα
     lazyLoadImages.forEach(image => {
         observer.observe(image);
     });
-
-    const contents = document.querySelectorAll('.box');
-
-    window.addEventListener('scroll', checkBoxes);
-
-    function checkBoxes() {
-        const triggerBottom = window.innerHeight / 5 * 4;
-
-        contents.forEach((content) => {
-            const contentTop = content.getBoundingClientRect().top;
-
-            if (contentTop < triggerBottom) {
-                content.classList.add('show');
-            } else {
-                content.classList.remove('show');
-            }
-        });
-    }
-
-    const hamburger = document.querySelector(".hamburger");
-    const navMenu = document.querySelector(".nav-menu");
-
-    hamburger.addEventListener("click", () => {
-        hamburger.classList.toggle("active");
-        navMenu.classList.toggle("active");
-    });
-
-    document.querySelectorAll(".nav-link").forEach(n =>
-        n.addEventListener("click", () => {
-            hamburger.classList.remove("active");
-            navMenu.classList.remove("active");
-        })
-    );
-
 });
-
-// Βρίσκουμε τα στοιχεία από το DOM
-const searchPopup = document.getElementById('searchPopup');
-const openSearch = document.getElementById('openSearch');
-const closePopup = document.getElementById('closePopup');
-
-// Άνοιγμα του popup όταν γίνει κλικ στο κουμπί
-openSearch.addEventListener('click', function () {
-    searchPopup.style.display = 'block';
-});
-
-// Κλείσιμο του popup όταν γίνει κλικ στο κουμπί "κλείσιμο"
-closePopup.addEventListener('click', function () {
-    searchPopup.style.display = 'none';
-});
-
-// Κλείσιμο του popup όταν γίνει κλικ έξω από το popup
-window.addEventListener('click', function (event) {
-    if (event.target === searchPopup) {
-        searchPopup.style.display = 'none';
-    }
-});
-
-  const scrollLink = document.querySelector('.scroll-up');
-
-  window.addEventListener('scroll', function () {
-    if (window.scrollY > 100) {
-      scrollLink.style.display = 'flex';
-    } else {
-      scrollLink.style.display = 'none';
-    }
-  });
-
-  scrollLink.addEventListener('click', function (e) {
-    e.preventDefault(); // Αποτρέπει το # στο URL
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });

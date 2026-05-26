@@ -25,15 +25,19 @@ if (mysqli_num_rows($result) > 0) {
                 <?php foreach ($activeProducts as $product): ?>
                     <div class="item py-3 product_data rounded-3">
                         <div class="product font-rale d-flex flex-column align-items-center">
-                            <a href="product-view?product=<?php echo $product['slug'] ?>"><img
-                                    src="uploads/<?php echo $product['item_image']; ?>" loading="lazy"
-                                    alt="<?php echo $product['name']; ?>" style="width:220px; height:220px;"></a>
+                            
+                            <!-- Προστέθηκε htmlspecialchars για ομοιομορφία και ασφάλεια στο href -->
+                            <a href="/product/<?php echo htmlspecialchars($product['slug']); ?>">
+                                <img src="/uploads/<?php echo htmlspecialchars($product['item_image']); ?>" loading="lazy"
+                                     alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:220px; height:220px;">
+                            </a>
+                            
                             <div class="text-center my-3">
-                                <h6><?php echo $product['name']; ?></h6>
-                                <p class="m-0 font-size-20  fw-bold"><?php echo $product['selling_price']; ?>€</p>
+                                <h6><?php echo htmlspecialchars($product['name']); ?></h6>
+                                <p class="m-0 font-size-20  fw-bold"><?php echo htmlspecialchars($product['selling_price']); ?>€</p>
                             </div>
                             <button class="btn btn-danger fw-bold font-size-14 p-3 rounded-3 addToCartBtn"
-                                value="<?php echo $product['id']; ?>">
+                                value="<?php echo htmlspecialchars($product['id']); ?>">
                                 <input type="hidden" class="form-control text-center input-qty bg-white" value="1" disabled>
                                 Προσθήκη στο καλάθι</button>
                         </div>
@@ -43,7 +47,7 @@ if (mysqli_num_rows($result) > 0) {
         </div>
 
         <div class="top-sale-img">
-            <img class="img-fluid" loading="lazy" src="assets/topsales.png" style="width:200px; height:150px;">
+            <img class="img-fluid" loading="lazy" src="/assets/topsales.png" style="width:200px; height:150px;">
         </div>
     </div>
 </section>

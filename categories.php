@@ -13,10 +13,12 @@
                             $colClass = "col-md-6"; // 2 στήλες
                             ?>
                             <div class="<?php echo $colClass; ?> mb-3">
+                                <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href τώρα δείχνει απευθείας στο /slug της κατηγορίας -->
                                 <a class="text-decoration-none"
-                                    href="products?category=<?php echo htmlspecialchars($item['slug']); ?>">
+                                    href="/<?php echo htmlspecialchars($item['slug']); ?>">
                                     <div class="meta-title-description">
-                                        <img src="uploads/<?php echo htmlspecialchars($item['category_image']); ?>"
+                                        <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο uploads/ για να μην σπάει η εικόνα -->
+                                        <img src="/uploads/<?php echo htmlspecialchars($item['category_image']); ?>"
                                             alt="Category Image" class="rounded-4 w-100 box-shadow img-fluid category-bg"
                                             style="height:400px">
                                         <h4 class="meta-title-hashtag font-size-25 fw-bold">

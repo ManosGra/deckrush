@@ -29,7 +29,8 @@ include 'includes/navigation.php';
 
         <?php if (isset($category) && $category) { ?>
             <h6>
-                <a class="text-decoration-none" href="index">Αρχική / </a>
+                <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / για σωστή επιστροφή στην αρχική -->
+                <a class="text-decoration-none" href="/index">Αρχική / </a>
                 <?php echo htmlspecialchars($category['category_name']); ?>
             </h6>
 
@@ -57,10 +58,13 @@ include 'includes/navigation.php';
                                     <div class="card shadow-lg product-box product_data pt-3 box show">
                                         <div class="card-body p-0">
                                             <div class="product-image text-center">
+                                                <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href άλλαξε σε /product/slug -->
                                                 <a class="text-decoration-none"
-                                                    href="product-view?product=<?php echo htmlspecialchars($item['slug']); ?>">
-                                                    <img src="uploads/<?php echo htmlspecialchars($item['item_image']); ?>"
-                                                        alt="Product Image" class="img-fluid p-4" loading="lazy" style="height:300px">
+                                                    href="/product/<?php echo htmlspecialchars($item['slug']); ?>">
+                                                    <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο uploads/ -->
+                                                    <img src="/uploads/<?php echo htmlspecialchars($item['item_image']); ?>"
+                                                        alt="Product Image" class="img-fluid p-4" loading="lazy"
+                                                        style="height:300px">
                                                 </a>
                                             </div>
 
@@ -71,8 +75,9 @@ include 'includes/navigation.php';
                                             </div>
 
                                             <div class="product-info">
+                                                <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href άλλαξε σε /product/slug -->
                                                 <a class="text-decoration-none"
-                                                    href="product-view?product=<?php echo htmlspecialchars($item['slug']); ?>">
+                                                    href="/product/<?php echo htmlspecialchars($item['slug']); ?>">
                                                     <p class="text-center font-size-20 text-dark px-3 mb-1">
                                                         <?php echo htmlspecialchars($item['name']); ?>
                                                     </p>
@@ -84,7 +89,7 @@ include 'includes/navigation.php';
                                             </div>
 
                                             <div class="product-btns d-flex flex-row align-items-center justify-content-around">
-                                                <a href="product-view?product=<?php echo htmlspecialchars($item['slug']); ?>"
+                                                <a href="/product/<?php echo htmlspecialchars($item['slug']); ?>"
                                                     class="text-decoration-none product-btn w-100 text-center p-2">
                                                     <i class="bi bi-search text-white font-size-20"></i>
                                                 </a>

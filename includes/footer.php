@@ -6,7 +6,8 @@
         <h4 class="fw-bold  font-size-20">Πληροφορίες</h4>
         <div class="d-flex flex-column flex-wrap">
           <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">Σχετικά με εμάς</a>
-          <a href="contact" class="text-decoration-none  font-size-14 text-white-50 mb-4 pb-1">Φόρμα Επικοινωνίας</a>
+          <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο href -->
+          <a href="/contact" class="text-decoration-none  font-size-14 text-white-50 mb-4 pb-1">Φόρμα Επικοινωνίας</a>
         </div>
       </div>
 
@@ -14,14 +15,16 @@
         <h4 class="fw-bold font-size-20">Χρήσιμα</h4>
         <div class="d-flex flex-column flex-wrap">
           <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">'Οροι χρήσης</a>
-          <a href="payments" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι πληρωμής</a>
+          <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο href -->
+          <a href="/payments" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι πληρωμής</a>
           <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι αποστολής</a>
         </div>
       </div>
 
       <div class="col-lg-3 col-12 mb-2">
         <div class="h-100 ">
-          <a href="http://deckrush.local/" class="d-block h-100"><img class="img-fluid" src="assets/logo5.png"
+          <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο src της εικόνας -->
+          <a href="http://deckrush.local/" class="d-block h-100"><img class="img-fluid" src="/assets/logo5.png"
               style="width:200px; height:250px;"></a>
         </div>
 
@@ -30,11 +33,12 @@
       <div class="col-lg-2 col-12 mb-2">
         <h4 class="fw-bold font-size-20">Λογαριασμός</h4>
         <div class="d-flex flex-column flex-wrap">
-          <a href="my-account?source=edit-profile"
+          <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στα href -->
+          <a href="/my-account?source=edit-profile"
             class="text-decoration-none  font-size-14 text-white-50 pb-1">Διευθύνσεις</a>
-          <a href="my-account?source=orders"
+          <a href="/my-account?source=orders"
             class="text-decoration-none  font-size-14 text-white-50 pb-1">Παραγγελίες</a>
-          <a href="my-account" class="text-decoration-none  font-size-14 text-white-50 pb-1">Ο λογαριασμός μου</a>
+          <a href="/my-account" class="text-decoration-none  font-size-14 text-white-50 pb-1">Ο λογαριασμός μου</a>
         </div>
       </div>
 
@@ -64,20 +68,16 @@
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
 
 <script>
-
     <?php
-
     if (isset($_SESSION['message'])) { ?>
-
     alertify.alert('<?php echo $_SESSION['message']; ?>');
     alertify.success('<?php echo $_SESSION['message']; ?>');
-
     <?php unset($_SESSION['message']);
     } ?>
 </script>
 
-<!-- Your Custom JS -->
-<script src="index.js"></script>
+<!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή του index.js -->
+<script src="/index.js"></script>
 
 <script>
     $(document).ready(function () {

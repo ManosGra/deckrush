@@ -39,7 +39,8 @@ include 'includes/navigation.php';
             <div class="row">
                 <div class="col-md-4">
                     <div class="card shadow-lg rounded-4 p-4">
-                        <img src="uploads/<?php echo htmlspecialchars($product['item_image']); ?>" alt="Product Image"
+                        <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / πριν το uploads για να μην χάνεται η εικόνα -->
+                        <img src="/uploads/<?php echo htmlspecialchars($product['item_image']); ?>" alt="Product Image"
                             class="w-100">
                     </div>
                 </div>
