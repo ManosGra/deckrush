@@ -9,7 +9,7 @@
                             class="text-decoration-none text-white">
                             <video autoplay muted loop playsinline
                                 class="product-img d-block shadow-sm rounded-5 img-fluid">
-                                <source src="assets/Perfect_Order.mp4" type="video/mp4" />
+                                <source src="assets/chaos_rising.mp4" type="video/mp4" />
                                 Το browser σου δεν υποστηρίζει βίντεο.
                             </video>
 
