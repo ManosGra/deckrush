@@ -16,7 +16,7 @@
             <input type="submit" name="login_btn" class="btn btn-primary my-3 py-3" value="Σύνδεση">
 
             <div class="form-group text-center">
-                <a href="forgot.php">Ξέχασα το συνθηματικό μου</a>
+                <a href="forgot">Ξέχασα το συνθηματικό μου</a>
             </div>
 
 

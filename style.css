@@ -24,7 +24,6 @@ button:focus {
   right: 10px;
   background: #cc0000;
   border-radius: 50%;
-  display: none;
   cursor: pointer;
 }
 
@@ -506,7 +505,7 @@ img.fade-in {
 }
 
 #forgot {
-  padding: 250px 0;
+  padding: 350px 0;
 }
 
 #reset {
