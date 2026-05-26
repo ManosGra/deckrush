@@ -1,5 +1,13 @@
-<?php include 'includes/header.php' ?>
-<?php include 'includes/navigation.php' ?>
+<?php 
+include 'functions/userfunctions.php'; 
+
+// Ορισμός SEO Meta Tags για τη σελίδα Επικοινωνίας
+$page_title = "Επικοινωνία με το DeckRush | Εξυπηρέτηση Πελατών TCG";
+$meta_description = "Έχετε ερωτήσεις για κάρτες Pokémon, One Piece ή την παραγγελία σας; Επικοινωνήστε μαζί με την ομάδα του DeckRush.";
+
+include 'includes/header.php'; 
+include 'includes/navigation.php'; 
+?>
 
 <section id="contact" class="mt-4">
     <div class="container-lg">
@@ -11,13 +19,25 @@
             $to = "manosgrammos9@gmail.com";
             $subject = $_POST['subject'];
             $body = $_POST['body'];
-            $header ="From: " .$_POST['email'];
+            
+            // 1. Καθαρισμός του email του πελάτη
+            $user_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+
+            // 2. ΔΙΟΡΘΩΣΗ: Το From είσαι ΕΣΥ (το site σου) για να μην θεωρηθεί Spam (Spoofing)
+            // Μόλις βγεις live, άλλαξε το 'deckrush.local' σε 'deckrush.gr'
+            $headers = "From: DeckRush Contact <no-reply@deckrush.local>\r\n";
+            
+            // 3. ΔΙΟΡΘΩΣΗ: Προσθήκη Reply-To για να απαντάς απευθείας στον πελάτη
+            $headers .= "Reply-To: " . $user_email . "\r\n";
+            
+            // 4. ΔΙΟΡΘΩΣΗ: Προσθήκη UTF-8 για να μην έρχονται σπασμένα τα ελληνικά γράμματα
+            $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
             // Χρήση wordwrap αν οι γραμμές είναι πιο μακρές από 70 χαρακτήρες
             $body = wordwrap($body, 70);
 
             // Αποστολή email
-            if (mail($to, $subject, $body)) {
+            if (mail($to, $subject, $body, $headers)) {
                 echo "<p class='text-center bg-success bg-gradient rounded-2 text-white p-1'>Email sent successfully!</p>";
             } else {
                 echo "<p>Failed to send email.</p>";
