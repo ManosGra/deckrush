@@ -5,7 +5,7 @@
 
       <div class="col-2 col-md-auto">
         <a class="navbar-brand text-white font-rubik" href="http://deckrush.local">
-          <img class="img-fluid" src="/assets/logo5.png" style="width:150px; height:133px;" alt="Logo">
+          <img class="img-fluid" src="/assets/logo2.png" style="width:180px; height:140px;" alt="Logo">
         </a>
       </div>
 
@@ -143,7 +143,7 @@
     <div class="col-3">
       <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο src του logo στα κινητά -->
       <a class="navbar-brand text-white font-rubik" href="http://deckrush.local">
-        <img class="img-fluid" src="/assets/logo5.png" style="width:100px; height:90px;" alt="Logo Mobile">
+        <img class="img-fluid" src="/assets/logo2.png" style="width:100px; height:90px;" alt="Logo Mobile">
       </a>
     </div>
 
