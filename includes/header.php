@@ -8,9 +8,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'DeckRush - TCG Cards'; ?></title>
+  <title><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'DeckRush | TCG Cards'; ?></title>
   <meta name="description"
-    content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description) : 'Pokemon, One Piece, Funko Pop!, Funko, Yu-Gi-Oh!, Magic: The Gathering κάρτες στην Ελλάδα. Σπάνιες συλλεκτικές κάρτες & αξεσουάρ TCG.'; ?>" />
+    content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description) : 'Pokemon, One Piece, Funko Pop!, Funko, Yu-Gi-Oh!, Magic: The Gathering κάρτες στην Ελλάδα. Σπάνιες συλλεκτικές κάρτες & αξεσουάρ TCG. Κάρτες Pokemon, Κάρτες One Piece'; ?>" />
 
   <link rel="canonical" href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" />
 
