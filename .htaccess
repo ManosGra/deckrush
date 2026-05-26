@@ -31,3 +31,7 @@ RewriteRule ^(index|cart|login-register|categories|checkout|contact|edit-profile
 
 # Σελίδα 404 αν δεν βρεθεί η σελίδα
 ErrorDocument 404 /404.php
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
+</IfModule>

@@ -74,7 +74,7 @@ $canonical_url = "https://www.deckrush.gr" . $clean_uri;
           "priceCurrency": "EUR",
           "price": "<?php echo htmlspecialchars($product['selling_price'], ENT_QUOTES, 'UTF-8'); ?>",
           "priceValidUntil": "<?php echo date('Y-12-31'); ?>",
-          "availability": "https://schema.org/InStock",
+          "availability": "<?php echo $schema_availability ?? 'https://schema.org/InStock'; ?>",
           "url": "<?php echo $canonical_url; ?>"
         }
       }

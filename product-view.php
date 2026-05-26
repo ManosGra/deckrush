@@ -10,14 +10,21 @@ if (isset($_GET['product'])) {
     if ($product) {
         $product_name = $product['name'];
         $page_title = $product_name . " | DeckRush";
-        $meta_description = substr(strip_tags($product['description']), 0, 150) . "...";
+        
+        // ΔΙΟΡΘΩΣΗ SEO 1: Χρήση mb_substr για να μην σπάνε τα ελληνικά γράμματα
+        $meta_description = mb_substr(strip_tags($product['description']), 0, 150, 'UTF-8') . "... Αγοράστε το στο DeckRush.";
+        
+        // ΔΙΟΡΘΩΣΗ SEO 2: Δυναμική διαθεσιμότητα για το Schema.org του header
+        $schema_availability = ((int)$product['qty'] > 0) ? "https://schema.org" : "https://schema.org";
     } else {
         $page_title = "Άγνωστο Προϊόν | DeckRush";
         $meta_description = "Το προϊόν δεν βρέθηκε.";
+        $schema_availability = "https://schema.org";
     }
 } else {
     $page_title = "Σφάλμα | DeckRush";
     $meta_description = "Κάτι πήγε στραβά.";
+    $schema_availability = "https://schema.org";
 }
 
 include 'includes/header.php';
@@ -29,19 +36,20 @@ include 'includes/navigation.php';
 
         <?php if (isset($product) && $product) { ?>
             <div class="d-flex flex-row align-items-center">
-                <a href="javascript:history.back()">
+                <a href="javascript:history.back()" aria-label="Επιστροφή στην προηγούμενη σελίδα">
                     <i class="bi bi-arrow-left-circle-fill font-size-30 me-3"></i>
                 </a>
-                <h1 class="m-0 w-100"><?php echo htmlspecialchars($product['name']); ?></h1>
+                <h1 class="m-0 w-100"><?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
             </div>
             <hr>
 
             <div class="row">
                 <div class="col-md-4">
                     <div class="card shadow-lg rounded-4 p-4">
-                        <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / πριν το uploads για να μην χάνεται η εικόνα -->
-                        <img src="/uploads/<?php echo htmlspecialchars($product['item_image']); ?>" alt="Product Image"
-                            class="w-100">
+                        <!-- ΔΙΟΡΘΩΣΗ SEO 3: Δυναμικό ALT Tag με το όνομα του προϊόντος για τη Google -->
+                        <img src="/uploads/<?php echo htmlspecialchars($product['item_image'], ENT_QUOTES, 'UTF-8'); ?>" 
+                             alt="Κάρτα <?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?> - DeckRush"
+                             class="w-100">
                     </div>
                 </div>
 
@@ -51,44 +59,44 @@ include 'includes/navigation.php';
                     $btnDisabled = $qty === 0 ? 'disabled' : '';
                     $qtyValue = $qty === 0 ? 0 : 1;
                     $availabilityClass = $qty === 0 ? 'bg-danger text-white' : 'text-white';
-                    $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; // φωτεινό πράσινο
+                    $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; 
                     $availabilityText = $qty === 0 ? 'Το προϊόν δεν είναι διαθέσιμο' : 'Το προϊόν είναι άμεσα διαθέσιμο';
                     ?>
 
                     <!-- Μήνυμα διαθεσιμότητας -->
-                    <div class="card shadow rounded-4 information text-center <?php echo $availabilityClass; ?>">
+                    <div class="card shadow rounded-4 information text-center <?php echo $availabilityClass; ?>" style="<?php echo $availabilityStyle; ?>">
                         <p class="mb-0"><?php echo $availabilityText; ?></p>
                     </div>
 
                     <div class="card shadow rounded-4 p-4 mt-3">
-                        <p
-                            class="mx-auto d-block f-bold text-white py-2 px-4 rounded-3 <?php echo !empty($product['small_description']) ? 'has-bg' : ''; ?>">
-                            <?php echo htmlspecialchars($product['small_description']); ?>
-                        </p>
+                        <?php if (!empty($product['small_description'])): ?>
+                            <p class="mx-auto d-block f-bold text-white py-2 px-4 rounded-3 has-bg">
+                                <?php echo htmlspecialchars($product['small_description'], ENT_QUOTES, 'UTF-8'); ?>
+                            </p>
+                        <?php endif; ?>
+                        
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h1><span class="fw-bold"><?php echo htmlspecialchars($product['selling_price']); ?>€</span>
-                                </h1>
+                                <h1><span class="fw-bold"><?php echo htmlspecialchars($product['selling_price'], ENT_QUOTES, 'UTF-8'); ?>€</span></h1>
                                 <p class="mb-0">Η τιμή του προϊόντος περιλαμβάνει ΦΠΑ</p>
                             </div>
                         </div>
 
                         <!-- Επιλογή ποσότητας -->
                         <div class="products-qty my-3 d-flex align-items-center justify-content-center product_data"
-                            data-id="<?php echo htmlspecialchars($product['id']); ?>">
+                            data-id="<?php echo htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>">
                             <div class="input-group me-5" style="width:130px">
-                                <button class="input-group-text decrement-btn" <?php echo $btnDisabled; ?>>-</button>
+                                <button class="input-group-text decrement-btn" <?php echo $btnDisabled; ?> aria-label="Μείωση ποσότητας">-</button>
                                 <input type="text" class="form-control text-center input-qty bg-white"
-                                    value="<?php echo $qtyValue; ?>" min="1" max="<?php echo $qty; ?>" <?php echo $btnDisabled; ?>>
-                                <button class="input-group-text increment-btn" <?php echo $btnDisabled; ?>>+</button>
+                                    value="<?php echo $qtyValue; ?>" min="1" max="<?php echo $qty; ?>" <?php echo $btnDisabled; ?> readonly>
+                                <button class="input-group-text increment-btn" <?php echo $btnDisabled; ?> aria-label="Αύξηση ποσότητας">+</button>
                             </div>
                         </div>
-
 
                         <!-- Κουμπί Προσθήκης στο Καλάθι -->
                         <div class="product-buttons d-flex flex-row align-items-center justify-content-center mb-4">
                             <button class="cart-btn text-white font-size-16 fw-bold px-4 me-2 addToCartBtn"
-                                value="<?php echo htmlspecialchars($product['id']); ?>" <?php echo $btnDisabled; ?>>
+                                value="<?php echo htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $btnDisabled; ?>>
                                 <?php if ($qty > 0): ?>
                                     <i class="bi bi-cart me-2 font-size-20 fw-bold"></i>ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
                                 <?php else: ?>
@@ -102,8 +110,8 @@ include 'includes/navigation.php';
                     <div class="col-md-12 mt-3">
                         <div class="card shadow-lg rounded-4">
                             <div class="card-body">
-                                <h4>Περιγραφή:</h4>
-                                <p><?php echo nl2br(htmlspecialchars($product['description'])); ?></p>
+                                <h2>Περιγραφή:</h2> <!-- ΔΙΟΡΘΩΣΗ: h4 σε h2 για σωστή ιεραρχία επικεφαλίδων SEO -->
+                                <p><?php echo nl2br(htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8')); ?></p>
                             </div>
                         </div>
                     </div>

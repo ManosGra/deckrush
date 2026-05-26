@@ -1,15 +1,17 @@
-<?php ob_start(); ?>
+<?php 
+ob_start(); 
 
-<?php include 'includes/header.php' ?>
+// ΟΡΙΣΜΟΣ SEO TAGS ΓΙΑ ΤΗΝ ΑΡΧΙΚΗ ΣΕΛΙΔΑ (Πριν το Header)
+$page_title = "DeckRush | Αυθεντικές Κάρτες TCG & Συλλεκτικά είδη στην Ελλάδα";
+$meta_description = "Το απόλυτο e-shop για συλλέκτες! Βρείτε σπάνιες κάρτες Pokémon, One Piece, Yu-Gi-Oh!, Magic: The Gathering, αξεσουάρ TCG και φιγούρες Funko Pop.";
 
-<?php $is_main_page = true; ?>
+include 'includes/header.php'; 
 
-<?php include 'includes/navigation.php' ?>
+$is_main_page = true; 
 
-<?php include 'includes/hero.php' ?>
-
-<?php include 'categories.php' ?>
-
-<?php include 'top-sale.php' ?>
-
-<?php include 'includes/footer.php' ?>
+include 'includes/navigation.php'; 
+include 'includes/hero.php'; 
+include 'categories.php'; 
+include 'top-sale.php'; 
+include 'includes/footer.php'; 
+?>

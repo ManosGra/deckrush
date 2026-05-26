@@ -5,7 +5,7 @@
       <div class="col-lg-2 col-12 mb-2 ">
         <h4 class="fw-bold  font-size-20">Πληροφορίες</h4>
         <div class="d-flex flex-column flex-wrap">
-          <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">Σχετικά με εμάς</a>
+          <a href="about" class="text-decoration-none  font-size-14 text-white-50 pb-1">Σχετικά με εμάς</a>
           <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο href -->
           <a href="/contact" class="text-decoration-none  font-size-14 text-white-50 mb-4 pb-1">Φόρμα Επικοινωνίας</a>
         </div>
@@ -14,10 +14,11 @@
       <div class="col-lg-3 col-12 mb-2">
         <h4 class="fw-bold font-size-20">Χρήσιμα</h4>
         <div class="d-flex flex-column flex-wrap">
-          <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">'Οροι χρήσης</a>
+          <a href="terms" class="text-decoration-none  font-size-14 text-white-50 pb-1">'Οροι χρήσης</a>
           <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο href -->
           <a href="/payments" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι πληρωμής</a>
-          <a href="#" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι αποστολής</a>
+          <a href="shipping" class="text-decoration-none  font-size-14 text-white-50 pb-1">Τρόποι αποστολής</a>
+          <a href="privacy" class="text-decoration-none  font-size-14 text-white-50 pb-1">Πολιτική Απορρήτου</a>
         </div>
       </div>
 

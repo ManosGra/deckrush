@@ -9,8 +9,29 @@ if (isset($_GET['category'])) {
 
     if ($category) {
         // Ορισμός SEO Title και Description πριν το header
-        $page_title = $category['category_name'] . " | DeckRush";
-        $meta_description = "Δείτε όλα τα προϊόντα στην κατηγορία " . $category['category_name'] . " στο DeckRush.";
+        $page_title = $category['category_name'] . " | Αυθεντικά Προϊόντα TCG | DeckRush";
+        $meta_description = "Ανακαλύψτε σπάνιες κάρτες, booster boxes και αξεσουάρ στην κατηγορία " . $category['category_name'] . " στις καλύτερες τιμές στο DeckRush.";
+        
+        // ΔΙΟΡΘΩΣΗ SEO 1: Δημιουργία Breadcrumb Schema για τη Google
+        $current_category_url = "https://deckrush.gr" . htmlspecialchars($category_slug, ENT_QUOTES, 'UTF-8');
+        $breadcrumb_schema = '
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Αρχική",
+            "item": "https://deckrush.gr"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "' . addslashes($category['category_name']) . '",
+            "item": "' . $current_category_url . '"
+          }]
+        }
+        </script>';
     } else {
         $page_title = "Άγνωστη Κατηγορία | DeckRush";
         $meta_description = "Η κατηγορία δεν βρέθηκε.";
@@ -21,6 +42,10 @@ if (isset($_GET['category'])) {
 }
 
 include 'includes/header.php';
+
+// ΔΙΟΡΘΩΣΗ SEO 1 (Συνέχεια): Εκτύπωση του Breadcrumb Schema μέσα στο head μέσω του header ή απευθείας εδώ
+if (isset($breadcrumb_schema)) { echo $breadcrumb_schema; }
+
 include 'includes/navigation.php';
 ?>
 
@@ -28,11 +53,13 @@ include 'includes/navigation.php';
     <div class="container-lg">
 
         <?php if (isset($category) && $category) { ?>
-            <h6>
-                <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / για σωστή επιστροφή στην αρχική -->
-                <a class="text-decoration-none" href="/index">Αρχική / </a>
-                <?php echo htmlspecialchars($category['category_name']); ?>
-            </h6>
+            <!-- ΔΙΟΡΘΩΣΗ SEO 2: Μετατροπή του generic Breadcrumb σε έγκυρη HTML5 δομή με nav -->
+            <nav aria-label="breadcrumb" class="my-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="/">Αρχική</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($category['category_name'], ENT_QUOTES, 'UTF-8'); ?></li>
+                </ol>
+            </nav>
 
             <div class="row g-0">
                 <div class="col-lg-3 col-12">
@@ -41,8 +68,8 @@ include 'includes/navigation.php';
                 </div>
 
                 <div class="col-md-9">
-                    <h1 class="font-rubik text-center">
-                        <?php echo htmlspecialchars($category['category_name']); ?>
+                    <h1 class="font-rubik text-center fw-bold">
+                        <?php echo htmlspecialchars($category['category_name'], ENT_QUOTES, 'UTF-8'); ?>
                     </h1>
                     <hr>
 
@@ -58,51 +85,46 @@ include 'includes/navigation.php';
                                     <div class="card shadow-lg product-box product_data pt-3 box show">
                                         <div class="card-body p-0">
                                             <div class="product-image text-center">
-                                                <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href άλλαξε σε /product/slug -->
-                                                <a class="text-decoration-none"
-                                                    href="/product/<?php echo htmlspecialchars($item['slug']); ?>">
-                                                    <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο uploads/ -->
-                                                    <img src="/uploads/<?php echo htmlspecialchars($item['item_image']); ?>"
-                                                        alt="Product Image" class="img-fluid p-4" loading="lazy"
-                                                        style="height:300px">
+                                                <a class="text-decoration-none" href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                    
+                                                    <!-- ΔΙΟΡΘΩΣΗ SEO 3: Δυναμικό ALT Tag με το όνομα του προϊόντος αντί για το generic "Product Image" -->
+                                                    <img src="/uploads/<?php echo htmlspecialchars($item['item_image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                        alt="Κάρτα <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?> - DeckRush" 
+                                                        class="img-fluid p-4" loading="lazy" style="height:300px; object-fit: contain;">
                                                 </a>
                                             </div>
 
                                             <div class="product-price">
                                                 <p class="font-size-25 fw-bold text-center mb-1">
-                                                    <?php echo htmlspecialchars($item['selling_price']); ?>€
+                                                    <?php echo htmlspecialchars($item['selling_price'], ENT_QUOTES, 'UTF-8'); ?>€
                                                 </p>
                                             </div>
 
                                             <div class="product-info">
-                                                <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href άλλαξε σε /product/slug -->
-                                                <a class="text-decoration-none"
-                                                    href="/product/<?php echo htmlspecialchars($item['slug']); ?>">
-                                                    <p class="text-center font-size-20 text-dark px-3 mb-1">
-                                                        <?php echo htmlspecialchars($item['name']); ?>
+                                                <a class="text-decoration-none" href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                    <p class="text-center font-size-20 text-dark px-3 mb-1 fw-semibold">
+                                                        <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
                                                     </p>
                                                 </a>
 
                                                 <p class="text-center">
-                                                    <small>Διαθέσιμα: <?php echo htmlspecialchars($item['qty']); ?></small>
+                                                    <small>Διαθέσιμα: <?php echo htmlspecialchars($item['qty'], ENT_QUOTES, 'UTF-8'); ?></small>
                                                 </p>
                                             </div>
 
                                             <div class="product-btns d-flex flex-row align-items-center justify-content-around">
-                                                <a href="/product/<?php echo htmlspecialchars($item['slug']); ?>"
-                                                    class="text-decoration-none product-btn w-100 text-center p-2">
+                                                <a href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                    class="text-decoration-none product-btn w-100 text-center p-2" aria-label="Προβολή προϊόντος <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>">
                                                     <i class="bi bi-search text-white font-size-20"></i>
                                                 </a>
 
                                                 <?php
-                                                // Κρύβουμε το κουμπί αν qty = 0
                                                 $btnStyle = ((int) $item['qty'] === 0) ? 'display:none;' : '';
                                                 ?>
                                                 <button class="product-btn addToCartBtn w-100 text-center p-2"
-                                                    value="<?php echo htmlspecialchars($item['id']); ?>"
-                                                    style="<?php echo $btnStyle; ?>">
-                                                    <input type="hidden" class="form-control text-center input-qty bg-white"
-                                                        value="1" disabled>
+                                                    value="<?php echo htmlspecialchars($item['id'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                    style="<?php echo $btnStyle; ?>" aria-label="Προσθήκη στο καλάθι">
+                                                    <input type="hidden" class="form-control text-center input-qty bg-white" value="1" disabled>
                                                     <i class="bi bi-cart text-white font-size-20"></i>
                                                 </button>
                                             </div>
@@ -112,7 +134,7 @@ include 'includes/navigation.php';
                                 <?php
                             }
                         } else {
-                            echo "<div class='alert alert-warning'>Δεν υπάρχουν προϊόντα σε αυτή την κατηγορία.</div>";
+                            echo "<div class='col-12'><div class='alert alert-warning'>Δεν υπάρχουν προϊόντα σε αυτή την κατηγορία.</div></div>";
                         }
                         ?>
                     </div>
@@ -129,5 +151,4 @@ include 'includes/navigation.php';
 </section>
 
 <?php include 'top-sale.php' ?>
-
 <?php include 'includes/footer.php'; ?>

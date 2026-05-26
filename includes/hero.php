@@ -18,18 +18,6 @@
                             <div class="f-bold font-size-20 buy-now text-center text-white rounded-3">ΔΙΑΘΕΣΙΜΟ</div>
                         </a>
                     </div>
-
-                    <div class="carousel-item">
-                        <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href άλλαξε σε /product/slug -->
-                        <a href="/product/pokemon-tcg-ascended-heroes-elite-trainer-box"
-                            class="text-decoration-none text-white">
-                            <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή του assets/ -->
-                            <img src="/assets/ascended_heroes.jpg" class="w-100 rounded-5 d-block mx-auto product-img img-fluid"
-                                alt="Ascended Heroes Boosters and Booster Box" style="height:729px;">
-
-                            <div class="f-bold font-size-20 buy-now text-center text-white rounded-3">ΔΙΑΘΕΣΙΜΟ</div>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>

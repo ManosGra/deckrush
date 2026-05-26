@@ -125,7 +125,7 @@ if (mysqli_num_rows($cartItems) == 0) {
                         <input type="hidden" name="final_total" id="final_total" value="<?php echo number_format($totalPrice, 2); ?>">
 
                         <button type="submit" id="cod-btn" name="placeOrderBtn" class="btn btn-primary w-100 py-3">
-                            Αντικαταβολή +3.00€<br>(Δωρεάν για αγορές άνω των 50€)
+                            Αντικαταβολή +3.00€<br>(Δωρεάν για αγορές άνω των 60€)
                         </button>
                         <div id="paypal-button-container" class="mt-3"></div>
                     </div>
