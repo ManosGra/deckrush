@@ -12,7 +12,7 @@
       </div>
 
       <div class="col-lg-3 col-12 mb-2">
-        <h4 class="fw-bold font-size-20">Χρήσιμα</h4>
+        <h4 class="fw-bold font-size-20 mt-4">Χρήσιμα</h4>
         <div class="d-flex flex-column flex-wrap">
           <a href="terms" class="text-decoration-none  font-size-14 text-white-50 pb-1">'Οροι χρήσης</a>
           <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο href -->
