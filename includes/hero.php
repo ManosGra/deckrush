@@ -6,7 +6,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <!-- ΔΙΟΡΘΩΘΗΚΕ: Το href άλλαξε σε /product/slug -->
-                        <a href="/product/pokemon-tcg-chaos-rising-elite-trainer-box"
+                        <a href="/product/pokemon-tcg-mega-evolution-chaos-rising-elite-trainer-box"
                             class="text-decoration-none text-white">
                             <video autoplay muted loop playsinline
                                 class="product-img d-block shadow-sm rounded-5 img-fluid">
