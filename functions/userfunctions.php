@@ -40,7 +40,8 @@ function getSlugActive($table, $slug)
 function getProdByCategory($category_id)
 {
     global $conn;
-    $query = "SELECT * FROM products  WHERE category_id = '$category_id' AND status='0'";
+    // ΔΙΟΡΘΩΣΗ: Προσθήκη ORDER BY id DESC για να εμφανίζονται πρώτα οι νέες προσθήκες
+    $query = "SELECT * FROM products WHERE category_id = '$category_id' AND status='0' ORDER BY id DESC";
     return mysqli_query($conn, $query);
 }
 
