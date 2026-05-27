@@ -9,7 +9,7 @@
                         <a href="/product/pokemon-tcg-mega-evolution-chaos-rising-elite-trainer-box"
                             class="text-decoration-none text-white">
                             <video autoplay muted loop playsinline
-                                class="product-img d-block shadow-sm rounded-5 img-fluid">
+                                class="product-img d-block shadow-sm rounded-5 img-fluid w-100">
                                 <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στην αρχή του assets/ -->
                                 <source src="/assets/chaos_rising.mp4" type="video/mp4" />
                                 Το browser σου δεν υποστηρίζει βίντεο.
