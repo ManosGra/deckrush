@@ -1,7 +1,7 @@
 <?php include 'includes/header.php'; ?>
 <?php include '../functions/myfunctions.php'; ?>
 
-<?php 
+<?php
 
 // Έλεγχος αν η συνεδρία είναι ενεργή και ο χρήστης είναι συνδεδεμένος
 if (!isset($_SESSION['user_role'])) {
@@ -120,6 +120,16 @@ if (!isset($_SESSION['user_role'])) {
                                         <input type="text" id="selling_price" name="selling_price"
                                             value="<?php echo htmlspecialchars($data['selling_price'], ENT_QUOTES); ?>"
                                             placeholder="Enter Selling Price" class="form-control mb-2">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="mb-0" for="is_preorder">Pre-Order (Disable COD)</label>
+                                        <select name="is_preorder" id="is_preorder" class="form-select mb-2">
+                                            <option value="0" <?php echo $data['is_preorder'] == 0 ? 'selected' : ''; ?>>No
+                                            </option>
+                                            <option value="1" <?php echo $data['is_preorder'] == 1 ? 'selected' : ''; ?>>Yes
+                                            </option>
+                                        </select>
                                     </div>
 
                                     <div class="col-md-12 my-4">

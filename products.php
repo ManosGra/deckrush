@@ -82,18 +82,24 @@ include 'includes/navigation.php';
                             foreach ($products as $item) {
                                 ?>
                                 <div class="col-md-4 mb-3 product-col">
-                                    <div class="card shadow-lg product-box product_data pt-3 box show">
+                                    <div class="card shadow-lg product-box product_data pt-3 box show position-relative">
+                                        
+                                        <!-- ΜΩΒ PRE-ORDER BANNER (#A444BC) -->
+                                        <?php if (isset($item['is_preorder']) && $item['is_preorder'] == 1): ?>
+                                            <span class="badge position-absolute fw-bold" 
+                                                  style="top: 15px; left: 15px; z-index: 5; padding: 6px 10px; font-size: 15px; text-transform: uppercase; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); background-color: #A444BC; color: #ffffff;">
+                                                ⏳ Pre-Order
+                                            </span>
+                                        <?php endif; ?>
+
                                         <div class="card-body p-0">
                                             <div class="product-image text-center">
                                                 <a class="text-decoration-none" href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>">
-                                                    
-                                                    <!-- ΔΙΟΡΘΩΣΗ SEO 3: Δυναμικό ALT Tag με το όνομα του προϊόντος αντί για το generic "Product Image" -->
                                                     <img src="/uploads/<?php echo htmlspecialchars($item['item_image'], ENT_QUOTES, 'UTF-8'); ?>"
                                                         alt="Κάρτα <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?> - DeckRush" 
                                                         class="img-fluid p-4" loading="lazy" style="height:300px; object-fit: contain;">
                                                 </a>
                                             </div>
-
                                             <div class="product-price">
                                                 <p class="font-size-25 fw-bold text-center mb-1">
                                                     <?php echo htmlspecialchars($item['selling_price'], ENT_QUOTES, 'UTF-8'); ?>€
@@ -150,5 +156,5 @@ include 'includes/navigation.php';
     </div>
 </section>
 
-<?php include 'top-sale.php' ?>
+<?php include 'top-sale.php'; ?>
 <?php include 'includes/footer.php'; ?>

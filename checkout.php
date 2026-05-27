@@ -18,6 +18,18 @@ $cartItems = getCartItems();
 if (mysqli_num_rows($cartItems) == 0) {
     header('Location: index.php');
 }
+
+// Αρχικοποίηση της μεταβλητής για να μην πετάει Warning
+$hide_cod = false; 
+
+if (mysqli_num_rows($cartItems) > 0) {
+    foreach ($cartItems as $citem) {
+        if (isset($citem['is_preorder']) && $citem['is_preorder'] == 1) {
+            $hide_cod = true;
+            break; 
+        }
+    }
+}
 ?>
 
 <section id="checkout">
@@ -118,15 +130,25 @@ if (mysqli_num_rows($cartItems) == 0) {
                     </table>
                     <hr>
 
-                    <h5 class="my-4 f-bold">Σύνολο : <span class="float-end fw-bold"><?php echo number_format($totalPrice, 2); ?>€</span></h5>
+                    <h5 class="my-4 f-bold">Σύνολο : <span
+                            class="float-end fw-bold"><?php echo number_format($totalPrice, 2); ?>€</span></h5>
 
                     <div class="">
                         <input type="hidden" name="payment_mode" value="COD" id="payment_mode">
-                        <input type="hidden" name="final_total" id="final_total" value="<?php echo number_format($totalPrice, 2); ?>">
+                        <input type="hidden" name="final_total" id="final_total"
+                            value="<?php echo number_format($totalPrice, 2); ?>">
 
-                        <button type="submit" id="cod-btn" name="placeOrderBtn" class="btn btn-primary w-100 py-3">
-                            Αντικαταβολή +3.00€<br>(Δωρεάν για αγορές άνω των 60€)
-                        </button>
+                        <?php if (!$hide_cod): ?>
+                            <button type="submit" id="cod-btn" name="placeOrderBtn" class="btn btn-primary w-100 py-3">
+                                Αντικαταβολή +3.00€<br>(Δωρεάν για αγορές άνω των 60€)
+                            </button>
+                        <?php else: ?>
+                            <div class="alert alert-warning py-3 text-center small fw-bold mb-3"
+                                style="color: #856404; background-color: #fff3cd; border-color: #ffeeba; border-radius: .25rem;">
+                                ⚠️ Η αντικαταβολή δεν είναι διαθέσιμη για προϊόντα προπαραγγελίας (Pre-order). Παρακαλούμε
+                                πληρώστε ηλεκτρονικά.
+                            </div>
+                        <?php endif; ?>
                         <div id="paypal-button-container" class="mt-3"></div>
                     </div>
                 </div>
@@ -137,6 +159,19 @@ if (mysqli_num_rows($cartItems) == 0) {
 
 <?php include 'includes/footer.php'; ?>
 
+<style>
+    /* Δίνουμε στο navigation menu σου την απόλυτη προτεραιότητα στην οθόνη */
+    #paypal-button-container {
+        position: relative;
+        z-index: 1 !important; /* Χαμηλώνουμε το z-index του PayPal container */
+    }
+    
+    /* Αν το navigation menu σου έχει class ή id (π.χ. .navbar ή #main-nav), του δίνουμε υψηλότερο z-index */
+    .navbar, nav, #navigation { 
+        z-index: 9999 !important; 
+    }
+</style>
+
 <script src="https://www.paypal.com/sdk/js?client-id=AfKKVavIPXWqOTrE1le96PxC-lvpYIdWHZMfP9Vz8nZfHacg8uCboZteyXkrNMIZfwjfxKZpvGTDDVhD&currency=EUR"></script>
 
 <script>
@@ -146,16 +181,20 @@ if (mysqli_num_rows($cartItems) == 0) {
         return Math.floor(number * multiplier) / multiplier;
     }
 
-    document.getElementById('cod-btn').addEventListener('click', function(e) {
-        var total = parseFloat(<?php echo json_encode($totalPrice); ?>); // Αρχικό σύνολο
-        var extra = 2.50;
+    // ΔΙΟΡΘΩΣΗ: Εκτελείται ο υπολογισμός ΜΟΝΟ αν το κουμπί υπάρχει στην οθόνη
+    var codBtn = document.getElementById('cod-btn');
+    if (codBtn) {
+        codBtn.addEventListener('click', function (e) {
+            var total = parseFloat(<?php echo json_encode($totalPrice); ?>); // Αρχικό σύνολο
+            var extra = 2.50;
 
-        var finalTotal = total > 50 ? total : total + extra;
+            var finalTotal = total > 50 ? total : total + extra;
 
-        finalTotal = cutDecimals(finalTotal, 2);
+            finalTotal = cutDecimals(finalTotal, 2);
 
-        document.getElementById('final_total').value = finalTotal.toFixed(2);
-    });
+            document.getElementById('final_total').value = finalTotal.toFixed(2);
+        });
+    }
 
     paypal.Buttons({
         onClick() {
@@ -166,36 +205,12 @@ if (mysqli_num_rows($cartItems) == 0) {
             var pincode = $('#pincode').val();
             var address = $('#address').val();
 
-            if (name.length == 0) {
-                $('.name').text("*This field is required");
-            } else {
-                $('.name').text("");
-            }
-            if (lastname.length == 0) {
-                $('.lastname').text("*This field is required");
-            } else {
-                $('.lastname').text("");
-            }
-            if (email.length == 0) {
-                $('.email').text("*This field is required");
-            } else {
-                $('.email').text("");
-            }
-            if (phone.length == 0) {
-                $('.phone').text("*This field is required");
-            } else {
-                $('.phone').text("");
-            }
-            if (pincode.length == 0) {
-                $('.pincode').text("*This field is required");
-            } else {
-                $('.pincode').text("");
-            }
-            if (address.length == 0) {
-                $('.address').text("*This field is required");
-            } else {
-                $('.address').text("");
-            }
+            if (name.length == 0) { $('.name').text("*This field is required"); } else { $('.name').text(""); }
+            if (lastname.length == 0) { $('.lastname').text("*This field is required"); } else { $('.lastname').text(""); }
+            if (email.length == 0) { $('.email').text("*This field is required"); } else { $('.email').text(""); }
+            if (phone.length == 0) { $('.phone').text("*This field is required"); } else { $('.phone').text(""); }
+            if (pincode.length == 0) { $('.pincode').text("*This field is required"); } else { $('.pincode').text(""); }
+            if (address.length == 0) { $('.address').text("*This field is required"); } else { $('.address').text(""); }
 
             if (name.length == 0 || lastname.length == 0 || email.length == 0 || phone.length == 0 || pincode.length == 0 || address.length == 0) {
                 return false;
@@ -205,7 +220,7 @@ if (mysqli_num_rows($cartItems) == 0) {
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: '<?php echo number_format($totalPrice, 2); ?>' // Το ποσό πληρωμής
+                        value: '<?php echo number_format($totalPrice, 2, '.', ''); ?>' // Χρήση τελείας για τα δεκαδικά στην PayPal
                     }
                 }]
             });

@@ -1,4 +1,3 @@
-
 <?php include 'config/db.php';
 
 function getAllActive($table)
@@ -20,7 +19,8 @@ function getCategoriesActive($table)
 function getCartItems(){
     global $conn;
     $userId = $_SESSION['auth_user']['user_id'];
-    $query = "SELECT c.id as cid, c.prod_id, c.prod_qty, p.id as pid, p.name, p.item_image, p.selling_price FROM carts c, products p WHERE c.prod_id=p.id AND c.user_id='$userId' ORDER BY c.id DESC";
+    // Εδώ ζητάμε σωστά και το p.is_preorder από τη βάση
+    $query = "SELECT c.id as cid, c.prod_id, c.prod_qty, p.id as pid, p.name, p.item_image, p.selling_price, p.is_preorder FROM carts c, products p WHERE c.prod_id=p.id AND c.user_id='$userId' ORDER BY c.id DESC";
     return mysqli_query($conn, $query);
 }
 

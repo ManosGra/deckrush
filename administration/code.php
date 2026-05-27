@@ -13,7 +13,7 @@ if (isset($_POST['add_category_btn'])) {
     $popular = isset($_POST['popular']) ? '1' : '0';
 
     $image = $_FILES['image']['name'];
-    $svg    = $_FILES['svg_file']['name'];
+    $svg = $_FILES['svg_file']['name'];
 
     $path = "../uploads";
 
@@ -130,64 +130,17 @@ if (isset($_POST['add_category_btn'])) {
                 unlink($path);
             }
             echo "200";
-            //redirect("category.php", "Category deleted successfully");
         } else {
             echo "500";
-            //redirect("category.php", "Something went wrong");
         }
     }
+
 } elseif (isset($_POST['add_product_btn'])) {
     // Retrieve POST data
     $category_name = $_POST['category_id'];
-    $discount = $_POST['discount']; // Retrieve discount selection
-    $top_sale = $_POST['top_sale']; // Retrieve top_sale selection
-    $name = $_POST['name'];
-    $slug = $_POST['slug'];
-    $small_description = $_POST['small_description'];
-    $description = $_POST['description'];
-    $original_price = floatval($_POST['original_price']); // Sanitize the input
-    $selling_price = floatval($_POST['selling_price']);   // Sanitize the input
-    $qty = isset($_POST['qty']) && $_POST['qty'] !== '' ? intval($_POST['qty']) : 0;
-    $meta_title = $_POST['meta_title'];
-    $meta_description = $_POST['meta_description'];
-    $meta_keywords = $_POST['meta_keywords'];
-    $status = isset($_POST['status']) ? '1' : '0';
-    $trending = isset($_POST['trending']) ? '1' : '0';
-
-
-    // Image upload
-    $image = $_FILES['image']['name'];
-    $path = "../uploads"; // Ensure this directory exists and is writable
-    $image_ext = pathinfo($image, PATHINFO_EXTENSION);
-    $filename = time() . '.' . $image_ext;
-
-    if ($name != "" && $slug != "" && $description != "") {
-
-        $product_query = "INSERT INTO products (category_id, name, slug, small_description, description, original_price, selling_price, qty, meta_title, meta_description, meta_keywords, status, trending, item_image, discount, top_sale) 
-        VALUES ('$category_name', '$name', '$slug','$small_description','$description','$original_price','$selling_price','$qty','$meta_title','$meta_description','$meta_keywords','$status','$trending','$filename', '$discount', '$top_sale')";
-
-        // Run query
-        $product_query_run = mysqli_query($conn, $product_query);
-
-        if ($product_query_run) {
-            // Move the uploaded file to the specified directory
-            move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $filename);
-
-            // Temporary success message
-            redirect("add-product.php", "Product Added Successfully");
-        } else {
-            // Display error for debugging
-            echo "Error: " . mysqli_error($conn);
-        }
-    } else {
-        redirect("add-product.php", "All fields are mandatory");
-    }
-} elseif (isset($_POST['update_product_btn'])) {
-    // Retrieve POST data
-    $product_id = $_POST['product_id'];
-    $category_name = $_POST['category_id'];
-    $discount = $_POST['discount']; // Retrieve discount selection
-    $top_sale = $_POST['top_sale']; // Retrieve top_sale selection
+    $discount = $_POST['discount'];
+    $top_sale = $_POST['top_sale'];
+    $is_preorder = isset($_POST['is_preorder']) ? mysqli_real_escape_string($conn, $_POST['is_preorder']) : '0';
     $name = $_POST['name'];
     $slug = $_POST['slug'];
     $small_description = $_POST['small_description'];
@@ -201,94 +154,123 @@ if (isset($_POST['add_category_btn'])) {
     $status = isset($_POST['status']) ? '1' : '0';
     $trending = isset($_POST['trending']) ? '1' : '0';
 
-    // Handle image upload
-    $new_image = $_FILES['image']['name'];
-    $old_image = isset($_POST['old_image']) ? $_POST['old_image'] : '';
-    $path = "../uploads"; // Ensure this directory exists and is writable
+    // Image upload
+    $image = $_FILES['image']['name'];
+    $path = "../uploads";
+    $image_ext = pathinfo($image, PATHINFO_EXTENSION);
+    $filename = time() . '.' . $image_ext;
 
-    // Determine the filename to use for the image
-    if (!empty($new_image)) {
-        // New image is uploaded
-        $image_ext = pathinfo($new_image, PATHINFO_EXTENSION);
-        $update_filename = time() . '.' . $image_ext;
+    if ($name != "" && $slug != "" && $description != "") {
 
-        // Move the new image to the uploads directory
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $update_filename)) {
-            // Delete the old image if it exists and is not empty
-            if (!empty($old_image) && file_exists($path . '/' . $old_image)) {
-                unlink($path . '/' . $old_image);
-            }
+        $product_query = "INSERT INTO products (category_id, name, slug, small_description, description, original_price, selling_price, qty, meta_title, meta_description, meta_keywords, status, trending, item_image, discount, top_sale, is_preorder) 
+        VALUES ('$category_name', '$name', '$slug','$small_description','$description','$original_price','$selling_price','$qty','$meta_title','$meta_description','$meta_keywords','$status','$trending','$filename', '$discount', '$top_sale', '$is_preorder')";
+
+        $product_query_run = mysqli_query($conn, $product_query);
+
+        if ($product_query_run) {
+            move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $filename);
+            redirect("add-product.php", "Product Added Successfully");
         } else {
-            // Handle upload failure
-            $update_filename = $old_image; // Use old image if new upload fails
+            echo "Error: " . mysqli_error($conn);
         }
     } else {
-        // No new image is uploaded, keep the old image
+        redirect("add-product.php", "All fields are mandatory");
+    }
+} elseif (isset($_POST['update_product_btn'])) {
+    // Retrieve POST data
+    $product_id = $_POST['product_id'];
+    $category_name = $_POST['category_id'];
+    $discount = $_POST['discount'];
+    $top_sale = $_POST['top_sale'];
+    $is_preorder = isset($_POST['is_preorder']) ? mysqli_real_escape_string($conn, $_POST['is_preorder']) : '0';
+    $name = $_POST['name'];
+    $slug = $_POST['slug'];
+    $small_description = $_POST['small_description'];
+    $description = $_POST['description'];
+    $original_price = floatval($_POST['original_price']);
+    $selling_price = floatval($_POST['selling_price']);
+    $qty = isset($_POST['qty']) && $_POST['qty'] !== '' ? intval($_POST['qty']) : 0;
+    $meta_title = $_POST['meta_title'];
+    $meta_description = $_POST['meta_description'];
+    $meta_keywords = $_POST['meta_keywords'];
+    $status = isset($_POST['status']) ? '1' : '0';
+    $trending = isset($_POST['trending']) ? '1' : '0';
+
+    $new_image = $_FILES['image']['name'];
+    $new_image_temp = $_FILES['image']['tmp_name'];
+    $old_image = $_POST['old_image'];
+    $path = "../uploads/";
+
+    if (!empty($new_image)) {
+        $image_ext = pathinfo($new_image, PATHINFO_EXTENSION);
+        $update_filename = time() . '.' . $image_ext;
+        if (move_uploaded_file($new_image_temp, $path . $update_filename)) {
+            if ($old_image && file_exists($path . $old_image)) {
+                unlink($path . $old_image);
+            }
+        }
+    } else {
         $update_filename = $old_image;
     }
 
-    // Update product query
-    $update_product_query = "UPDATE products SET 
-        category_id='$category_name', 
-        name='$name', 
-        slug='$slug', 
-        small_description='$small_description', 
-        description='$description', 
-        original_price='$original_price', 
-        selling_price='$selling_price', 
-        qty='$qty', 
-        meta_title='$meta_title', 
-        meta_description='$meta_description', 
-        meta_keywords='$meta_keywords', 
-        status='$status', 
-        trending='$trending', 
-        item_image='$update_filename', 
-        discount='$discount', 
-        top_sale='$top_sale' 
-        WHERE id='$product_id'";
+    // Update Query
+    $update_query = "UPDATE products SET 
+        category_id = '$category_name',
+        name = '$name', 
+        slug = '$slug', 
+        small_description = '$small_description',
+        description = '$description', 
+        original_price = '$original_price',
+        selling_price = '$selling_price',
+        qty = '$qty',
+        meta_title = '$meta_title', 
+        meta_description = '$meta_description', 
+        meta_keywords = '$meta_keywords', 
+        status = '$status', 
+        trending = '$trending', 
+        item_image = '$update_filename',
+        discount = '$discount',
+        top_sale = '$top_sale',
+        is_preorder = '$is_preorder' 
+        WHERE id = '$product_id'";
 
-    // Execute the query
-    $update_product_query_run = mysqli_query($conn, $update_product_query);
+    $update_query_run = mysqli_query($conn, $update_query);
 
-    if ($update_product_query_run) {
+    if ($update_query_run) {
         redirect("edit-product.php?id=$product_id", "Product Updated Successfully");
     } else {
         echo "Error: " . mysqli_error($conn);
-        redirect("edit-product.php?id=$product_id", "Something Went Wrong");
+        exit();
     }
 
 } elseif (isset($_POST['delete_product_btn'])) {
+    // Sanitize το ID του προϊόντος
     $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
 
-    // Fetch the image filename from the database before deleting
-    $product_query = "SELECT * FROM products WHERE id='$product_id'";
-    $product_query_run = mysqli_query($conn, $product_query);
-    $product_data = mysqli_fetch_array($product_query_run);
-    $image = $product_data['item_image'];
+    // Παίρνουμε το όνομα της εικόνας για να τη σβήσουμε από τα uploads
+    $query = "SELECT item_image FROM products WHERE id='$product_id'";
+    $result = mysqli_query($conn, $query);
 
-    $delete_query = "DELETE FROM products WHERE id='$product_id'";
-    $delete_query_run = mysqli_query($conn, $delete_query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $image_filename = $row['item_image'];
+        $path = "../uploads/" . $image_filename;
 
+        // Οριστική διαγραφή του προϊόντος
+        $delete_query = "DELETE FROM products WHERE id='$product_id'";
+        $delete_query_run = mysqli_query($conn, $delete_query);
 
-    if ($delete_query_run) {
-        if (file_exists("../uploads/" . $image)) {
-            unlink("../uploads/" . $image);
+        if ($delete_query_run) {
+            // Σβήσιμο της εικόνας αν υπάρχει το αρχείο
+            if ($image_filename && file_exists($path)) {
+                unlink($path);
+            }
+            echo "200";
+        } else {
+            echo "500";
         }
-        //redirect("products.php", "Product deleted successfully");
-        echo "200";
     } else {
-        //redirect("products.php", "Something went wrong");
         echo "500";
     }
-} elseif (isset($_POST['update_order_btn'])) {
-
-    $track_no = $_POST['tracking_no'];
-    $order_status = $_POST['order_status'];
-
-    $updateOrder_query = "UPDATE orders SET status='$order_status' WHERE tracking_no='$track_no'";
-    $updateOrder_query_run = mysqli_query($conn, $updateOrder_query);
-
-    redirect("view-order.php?t=$track_no", "Order Updated Successfully");
-} else {
-    header('Location: ../index.php');
 }
+?>
