@@ -82,13 +82,14 @@ include 'includes/navigation.php';
                             foreach ($products as $item) {
                                 ?>
                                 <div class="col-md-4 mb-3 product-col">
-                                    <div class="card shadow-lg product-box product_data pt-3 box show position-relative">
+                                    <!-- ΔΙΟΡΘΩΣΗ: Προστέθηκε overflow-hidden στην κάρτα για να κόβεται σωστά η διαγώνια κορδέλα -->
+                                    <div class="card shadow-lg product-box product_data pt-3 box show position-relative overflow-hidden">
                                         
-                                        <!-- ΜΩΒ PRE-ORDER BANNER (#A444BC) -->
+                                        <!-- ΜΩΒ ΔΙΑΓΩΝΙΑ ΚΟΡΔΕΛΑ PRE-ORDER -->
                                         <?php if (isset($item['is_preorder']) && $item['is_preorder'] == 1): ?>
                                             <span class="badge position-absolute fw-bold" 
-                                                  style="top: 15px; left: 15px; z-index: 5; padding: 6px 10px; font-size: 15px; text-transform: uppercase; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); background-color: #A444BC; color: #ffffff;">
-                                                ⏳ Pre-Order
+                                                  style="top: 16px; left: -24px; z-index: 5; padding: 6px 0; font-size: 11px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.15); background-color: #A444BC; color: #ffffff; transform: rotate(-45deg); width: 100px; text-align: center; border-radius: 0;">
+                                                Pre-Order
                                             </span>
                                         <?php endif; ?>
 

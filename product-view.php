@@ -9,7 +9,13 @@ if (isset($_GET['product'])) {
 
     if ($product) {
         $product_name = $product['name'];
-        $page_title = $product_name . " | DeckRush";
+        
+        // ΔΙΟΡΘΩΣΗ SEO: Αν είναι pre-order, βάζουμε τη λέξη στον τίτλο ΜΟΝΟ για τη Google
+        if (isset($product['is_preorder']) && $product['is_preorder'] == 1) {
+            $page_title = $product_name . " (Pre-Order) | DeckRush";
+        } else {
+            $page_title = $product_name . " | DeckRush";
+        }
         
         // ΔΙΟΡΘΩΣΗ SEO 1: Χρήση mb_substr για να μην σπάνε τα ελληνικά γράμματα
         $meta_description = mb_substr(strip_tags($product['description']), 0, 150, 'UTF-8') . "... Αγοράστε το στο DeckRush.";
@@ -45,8 +51,15 @@ include 'includes/navigation.php';
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card shadow-lg rounded-4 p-4">
-                        <!-- ΔΙΟΡΘΩΣΗ SEO 3: Δυναμικό ALT Tag με το όνομα του προϊόντος για τη Google -->
+                    <div class="card shadow-lg rounded-4 p-4 position-relative overflow-hidden">
+                        <!-- ΜΩΒ ΔΙΑΓΩΝΙΑ ΚΟΡΔΕΛΑ ΚΑΙ ΜΕΣΑ ΣΤΗ ΣΕΛΙΔΑ ΠΡΟΪΟΝΤΟΣ -->
+                        <?php if (isset($product['is_preorder']) && $product['is_preorder'] == 1): ?>
+                            <span class="badge position-absolute fw-bold" 
+                                  style="top: 16px; left: -24px; z-index: 5; padding: 6px 0; font-size: 11px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.15); background-color: #A444BC; color: #ffffff; transform: rotate(-45deg); width: 100px; text-align: center; border-radius: 0;">
+                                Pre-Order
+                            </span>
+                        <?php endif; ?>
+                        
                         <img src="/uploads/<?php echo htmlspecialchars($product['item_image'], ENT_QUOTES, 'UTF-8'); ?>" 
                              alt="Κάρτα <?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?> - DeckRush"
                              class="w-100">
@@ -58,16 +71,27 @@ include 'includes/navigation.php';
                     $qty = (int) $product['qty'];
                     $btnDisabled = $qty === 0 ? 'disabled' : '';
                     $qtyValue = $qty === 0 ? 0 : 1;
-                    $availabilityClass = $qty === 0 ? 'bg-danger text-white' : 'text-white';
-                    $availabilityStyle = $qty === 0 ? '' : 'background-color: #28a745;'; 
-                    $availabilityText = $qty === 0 ? 'Το προϊόν δεν είναι διαθέσιμο' : 'Το προϊόν είναι άμεσα διαθέσιμο';
+                    
+                    // ΔΙΟΡΘΩΣΗ: Αν είναι Pre-order αλλάζει το κείμενο, το χρώμα και το icon
+                    if (isset($product['is_preorder']) && $product['is_preorder'] == 1) {
+                        $availabilityClass = 'text-white';
+                        $availabilityStyle = 'background-color: #A444BC;'; 
+                        $availabilityText = '⏳ Το προϊόν είναι διαθέσιμο για Προπαραγγελία (Pre-order)';
+                    } elseif ($qty === 0) {
+                        $availabilityClass = 'bg-danger text-white';
+                        $availabilityStyle = ''; 
+                        $availabilityText = 'Το προϊόν δεν είναι διαθέσιμο';
+                    } else {
+                        $availabilityClass = 'text-white';
+                        $availabilityStyle = 'background-color: #28a745;'; 
+                        $availabilityText = 'Το προϊόν είναι άμεσα διαθέσιμο';
+                    }
                     ?>
 
                     <!-- Μήνυμα διαθεσιμότητας -->
                     <div class="card shadow rounded-4 information text-center <?php echo $availabilityClass; ?>" style="<?php echo $availabilityStyle; ?>">
-                        <p class="mb-0"><?php echo $availabilityText; ?></p>
+                        <p class="mb-0 py-2 fw-bold"><?php echo $availabilityText; ?></p>
                     </div>
-
                     <div class="card shadow rounded-4 p-4 mt-3">
                         <?php if (!empty($product['small_description'])): ?>
                             <p class="mx-auto d-block f-bold text-white py-2 px-4 rounded-3 has-bg">
@@ -97,10 +121,10 @@ include 'includes/navigation.php';
                         <div class="product-buttons d-flex flex-row align-items-center justify-content-center mb-4">
                             <button class="cart-btn text-white font-size-16 fw-bold px-4 me-2 addToCartBtn"
                                 value="<?php echo htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $btnDisabled; ?>>
-                                <?php if ($qty > 0): ?>
+                                <?php if ($qty > 0 || (isset($product['is_preorder']) && $product['is_preorder'] == 1)): ?>
                                     <i class="bi bi-cart me-2 font-size-20 fw-bold"></i>ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
                                 <?php else: ?>
-                                    ΧΩΡΙΣ ΔΙΑΘΕΣΙΜΟΤΗΤΑ
+                                    XΩΡΙΣ ΔΙΑΘΕΣΙΜΟΤΗΤΑ
                                 <?php endif; ?>
                             </button>
                         </div>
@@ -110,7 +134,7 @@ include 'includes/navigation.php';
                     <div class="col-md-12 mt-3">
                         <div class="card shadow-lg rounded-4">
                             <div class="card-body">
-                                <h2>Περιγραφή:</h2> <!-- ΔΙΟΡΘΩΣΗ: h4 σε h2 για σωστή ιεραρχία επικεφαλίδων SEO -->
+                                <h2>Περιγραφή:</h2>
                                 <p><?php echo nl2br(htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8')); ?></p>
                             </div>
                         </div>
