@@ -34,7 +34,7 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="product font-rale d-flex flex-column align-items-center">
                             
                             <a href="/product/<?php echo htmlspecialchars($product['slug'], ENT_QUOTES, 'UTF-8'); ?>">
-                                <img src="/uploads/<?php echo htmlspecialchars($product['item_image'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                <img class="img-fluid" src="/uploads/<?php echo htmlspecialchars($product['item_image'], ENT_QUOTES, 'UTF-8'); ?>" 
                                      loading="lazy"
                                      alt="Κάρτα <?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?> - DeckRush" 
                                      style="width:220px; height:220px; object-fit: contain;">
