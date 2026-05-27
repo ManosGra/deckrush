@@ -24,7 +24,7 @@
 
       <div class="col-lg-3 col-12 mb-2">
         <div class="h-100 ">
-          <!-- ΔΙΟΡΘΩΘΗΚΕ: Προστέθηκε το / στο src της εικόνας -->
+          <!-- ΔΙΟ加ΘΩΘΗΚΕ: Προστέθηκε το / στο src της εικόνας -->
           <a href="http://deckrush.local/" class="d-block h-100"><img class="img-fluid" src="/assets/logo2.png"
               style="width:200px; height:250px;"></a>
         </div>
@@ -92,6 +92,22 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ΔΙΟΡΘΩΣΗ: Προσθήκη JavaScript για τη λειτουργία του Mobile Hamburger Menu -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var hamburger = document.querySelector(".hamburger");
+        var navMenu = document.querySelector(".nav-menu");
+
+        if(hamburger && navMenu) {
+            hamburger.addEventListener("click", function() {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+            });
+        }
+    });
+</script>
+
 </body>
 
 </html>

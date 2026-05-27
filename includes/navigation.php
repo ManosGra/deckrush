@@ -104,7 +104,7 @@
 
 </nav>
 
-<div class="responsive-nav py-3 px-2 d-md-none">
+<div class="responsive-nav py-2 px-2 d-md-none">
   <div class="row align-items-center justify-content-between">
     <div class="col-3">
       <div class="hamburger">

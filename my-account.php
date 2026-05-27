@@ -16,7 +16,7 @@ include 'includes/navigation.php';
     <div class="container-lg">
 
         <div class="row my-account">
-            <h1 class="mb-5">Ο λογαριασμός μου</h1>
+            <h1 class="mb-5 pt-5">Ο λογαριασμός μου</h1>
             <div class="col-md-3">
                 <ul class="p-0">
                     <li class="list-unstyled"><a href="my-account" class="text-decoration-none">Πίνακας ελέγχου</a>
