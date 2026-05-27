@@ -108,7 +108,7 @@ include 'includes/navigation.php';
 
                                             <div class="product-info">
                                                 <a class="text-decoration-none" href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>">
-                                                    <p class="text-center font-size-20 text-dark px-3 mb-1 fw-semibold">
+                                                    <p class="text-center font-size-20 text-dark px-3 mb-1">
                                                         <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
                                                     </p>
                                                 </a>
