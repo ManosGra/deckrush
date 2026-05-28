@@ -17,16 +17,17 @@ $cartItems = getCartItems();
 
 if (mysqli_num_rows($cartItems) == 0) {
     header('Location: index.php');
+    exit();
 }
 
 // Αρχικοποίηση της μεταβλητής για να μην πετάει Warning
-$hide_cod = false; 
+$hide_cod = false;
 
 if (mysqli_num_rows($cartItems) > 0) {
     foreach ($cartItems as $citem) {
         if (isset($citem['is_preorder']) && $citem['is_preorder'] == 1) {
             $hide_cod = true;
-            break; 
+            break;
         }
     }
 }
@@ -44,7 +45,7 @@ if (mysqli_num_rows($cartItems) > 0) {
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Ονομα</label>
+                                    <label class="form-label fw-bold">Όνομα</label>
                                     <input type="text" name="name" id="name"
                                         class="form-control form-control-lg border-primary" placeholder="Όνομα"
                                         required>
@@ -71,7 +72,7 @@ if (mysqli_num_rows($cartItems) > 0) {
                                     <label class="form-label mt-3 fw-bold">Διεύθυνση</label>
                                     <input type="text" name="address" id="address"
                                         class="form-control form-control-lg border-primary" placeholder="Διεύθυνση"
-                                        required></input>
+                                        required>
                                     <small class="text-danger address"></small>
                                 </div>
 
@@ -120,23 +121,24 @@ if (mysqli_num_rows($cartItems) > 0) {
                                         </td>
                                         <td class="align-middle text-center"><?php echo $citem['name']; ?></td>
                                         <td class="align-middle text-center">x<?php echo $citem['prod_qty']; ?></td>
-                                        <td class="align-middle text-center"><?php echo $citem['selling_price']; ?>€</td>
+                                        <td class="align-middle text-center">
+                                            <?php echo number_format($citem['selling_price'], 2, ',', '.'); ?>€
+                                        </td>
                                     </tr>
                                 <?php }
                             } ?>
-
-
                         </tbody>
                     </table>
                     <hr>
 
                     <h5 class="my-4 f-bold">Σύνολο : <span
-                            class="float-end fw-bold"><?php echo number_format($totalPrice, 2); ?>€</span></h5>
+                            class="float-end fw-bold"><?php echo number_format($totalPrice, 2, ',', '.'); ?>€</span>
+                    </h5>
 
                     <div class="">
                         <input type="hidden" name="payment_mode" value="COD" id="payment_mode">
-                        <input type="hidden" name="final_total" id="final_total"
-                            value="<?php echo number_format($totalPrice, 2); ?>">
+                        <!-- Εδώ στέλνουμε τον ωμό αριθμό χωρίς μορφοποίηση για να διαβάζεται σωστά από το backend -->
+                        <input type="hidden" name="final_total" id="final_total" value="<?php echo $totalPrice; ?>">
 
                         <?php if (!$hide_cod): ?>
                             <button type="submit" id="cod-btn" name="placeOrderBtn" class="btn btn-primary w-100 py-3">
@@ -159,20 +161,30 @@ if (mysqli_num_rows($cartItems) > 0) {
 
 <?php include 'includes/footer.php'; ?>
 
+
 <style>
     /* Δίνουμε στο navigation menu σου την απόλυτη προτεραιότητα στην οθόνη */
     #paypal-button-container {
         position: relative;
-        z-index: 1 !important; /* Χαμηλώνουμε το z-index του PayPal container */
+        z-index: 1 !important;
+        /* Χαμηλώνουμε το z-index του PayPal container */
     }
-    
+
     /* Αν το navigation menu σου έχει class ή id (π.χ. .navbar ή #main-nav), του δίνουμε υψηλότερο z-index */
-    .navbar, nav, #navigation { 
-        z-index: 9999 !important; 
+    .navbar,
+    nav,
+    #navigation {
+        z-index: 9999 !important;
     }
 </style>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AfKKVavIPXWqOTrE1le96PxC-lvpYIdWHZMfP9Vz8nZfHacg8uCboZteyXkrNMIZfwjfxKZpvGTDDVhD&currency=EUR"></script>
+<!-- 
+  ΣΗΜΕΙΩΣΗ ΓΙΑ ΤΟ LIVE: 
+  Αυτή τη στιγμή το client-id σου ξεκινάει από "AfKK...". Αυτό είναι το Sandbox ID σου.
+  Όταν πας Live, θα αντικαταστήσεις όλο αυτό το ID με το Live Client ID από το PayPal Dashboard.
+-->
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AfKKVavIPXWqOTrE1le96PxC-lvpYIdWHZMfP9Vz8nZfHacg8uCboZteyXkrNMIZfwjfxKZpvGTDDVhD&currency=EUR"></script>
 
 <script>
     // Συνάρτηση που κόβει δεκαδικά (χωρίς στρογγυλοποίηση)
@@ -181,15 +193,15 @@ if (mysqli_num_rows($cartItems) > 0) {
         return Math.floor(number * multiplier) / multiplier;
     }
 
-    // ΔΙΟΡΘΩΣΗ: Εκτελείται ο υπολογισμός ΜΟΝΟ αν το κουμπί υπάρχει στην οθόνη
+    // Διαχείριση κλικ στο κουμπί Αντικαταβολής
     var codBtn = document.getElementById('cod-btn');
     if (codBtn) {
         codBtn.addEventListener('click', function (e) {
             var total = parseFloat(<?php echo json_encode($totalPrice); ?>); // Αρχικό σύνολο
-            var extra = 2.50;
+            var extra = 3.00; // Ευθυγράμμιση με τα 3.00€ του backend
 
-            var finalTotal = total > 50 ? total : total + extra;
-
+            // Αν είναι κάτω από 60€ προσθέτουμε τα 3€, αλλιώς μένει το αρχικό total
+            var finalTotal = total < 60 ? total + extra : total;
             finalTotal = cutDecimals(finalTotal, 2);
 
             document.getElementById('final_total').value = finalTotal.toFixed(2);
@@ -220,7 +232,8 @@ if (mysqli_num_rows($cartItems) > 0) {
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: '<?php echo number_format($totalPrice, 2, '.', ''); ?>' // Χρήση τελείας για τα δεκαδικά στην PayPal
+                        // Η PayPal χρεώνει την καθαρή τιμή των προϊόντων (χωρίς έξοδα αντικαταβολής)
+                        value: '<?php echo number_format($totalPrice, 2, '.', ''); ?>'
                     }
                 }]
             });
@@ -236,6 +249,9 @@ if (mysqli_num_rows($cartItems) > 0) {
                 var pincode = $('#pincode').val();
                 var address = $('#address').val();
 
+                // Παίρνουμε την καθαρή αξία των προϊόντων για την PayPal πληρωμή
+                var paypalTotal = '<?php echo $totalPrice; ?>';
+
                 var data = {
                     'name': name,
                     'lastname': lastname,
@@ -245,6 +261,7 @@ if (mysqli_num_rows($cartItems) > 0) {
                     'address': address,
                     'payment_mode': "Paid by Paypal",
                     'payment_id': transaction.id,
+                    'final_total': paypalTotal, // ΔΙΟΡΘΩΣΗ: Πλέον στέλνεται η τιμή και δεν θα γράφει 0 στη βάση
                     'placeOrderBtn': true
                 };
 
@@ -253,12 +270,15 @@ if (mysqli_num_rows($cartItems) > 0) {
                     url: "functions/placeorder.php",
                     data: data,
                     success: function (response) {
-                        if (response == 201) {
+                        // Καθαρίζουμε τυχόν κενά από την απάντηση
+                        var cleanResponse = response.trim();
+
+                        if (cleanResponse == "201") {
                             alertify.alert("Η παραγγελία ολοκληρώθηκε επιτυχώς!", function () {
                                 window.location.href = 'my-account?source=orders';
                             });
                         } else {
-                            alertify.error('Failed to place order. Response: ' + response.message);
+                            alertify.error('Failed to place order. System error.');
                         }
                     }
                 });

@@ -12,6 +12,8 @@ if (isset($_SESSION['auth'])) {
         $pincode = mysqli_real_escape_string($conn, $_POST['pincode']);
         $payment_mode = mysqli_real_escape_string($conn, $_POST['payment_mode']);
         $payment_id = isset($_POST['payment_id']) ? mysqli_real_escape_string($conn, $_POST['payment_id']) : "";
+        
+        // Παίρνουμε την καθαρή τιμή από τη φόρμα
         $final_total = isset($_POST['final_total']) ? floatval($_POST['final_total']) : 0;
 
         if ($name == "" || $email == "" || $address == "" || $phone == "" || $pincode == "") {
@@ -26,17 +28,17 @@ if (isset($_SESSION['auth'])) {
                   WHERE c.prod_id=p.id AND c.user_id='$userId' ORDER BY c.id DESC";
         $query_run = mysqli_query($conn, $query);
 
-        // Υπολογισμός συνολικού από το καλάθι (για έλεγχο / πληροφορία)
+        // Υπολογισμός συνολικού από το καλάθι στην πλευρά του server για ασφάλεια
         $totalPrice = 0;
         foreach ($query_run as $citem) {
             $totalPrice += $citem['selling_price'] * $citem['prod_qty'];
         }
 
-        // Δεν ξαναυπολογίζουμε final_total εδώ, παίρνουμε αυτό που στέλνει η φόρμα
-        // $final_total = $totalPrice;
-        // if ($payment_mode == "COD" && $totalPrice < 50) {
-        //     $final_total += 2.50;
-        // }
+        // Έλεγχος Αντικαταβολής: Αν είναι COD και κάτω από 60€, προσθέτουμε 3.00€
+        $final_total = $totalPrice;
+        if ($payment_mode == "COD" && $totalPrice < 60) {
+            $final_total += 3.00;
+        }
 
         $tracking_no = "DH" . strtoupper(substr(md5(uniqid()), 0, 5));
         $insert_query = "INSERT INTO orders (tracking_no, user_id, name, lastname, email, phone, address, pincode, total_price, payment_mode, payment_id) 
