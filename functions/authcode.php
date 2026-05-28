@@ -13,7 +13,9 @@ function redirectWithMessage($message, $location = '../login-register')
     exit();
 }
 
-// Εγγραφή χρήστη
+# =====================================================================
+# 1. ΕΓΓΡΑΦΗ ΧΡΗΣΤΗ (REGISTER)
+# =====================================================================
 if (isset($_POST['register_btn'])) {
     // Λήψη δεδομένων από τη φόρμα εγγραφής
     $name = $_POST['username'];
@@ -47,11 +49,11 @@ if (isset($_POST['register_btn'])) {
 
             if ($stmt->execute()) {
                 
-                // ΔΙΟΡΘΩΘΗΚΕ: Δυναμική παραγωγή του link που καταλαβαίνει αυτόματα αν είμαστε τοπικά ή live
+                // Δυναμική παραγωγή του link που καταλαβαίνει αυτόματα αν είμαστε τοπικά ή live
                 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
                 $base_url = $protocol . "://" . $_SERVER['HTTP_HOST'];
                 
-                // Επίσης αφαιρέθηκε το .php από το activate.php για να ταιριάζει με το .htaccess
+                // Αφαιρέθηκε το .php από το activate.php για να ταιριάζει με το .htaccess
                 $activation_link = $base_url . "/activate?token=$activation_token";
 
                 // Εδώ ξεκινά ο κώδικας για την αποστολή του email ενεργοποίησης
@@ -69,28 +71,40 @@ if (isset($_POST['register_btn'])) {
                         $mail->setFrom('noreply@deckrush.local', 'DeckRush Local');
                     } else {
                         // LIVE ΠΕΡΙΒΑΛΛΟΝ (deckrush.gr)
-                        // ΣΗΜΕΙΩΣΗ: Αντικαταστήστε τα παρακάτω με τα πραγματικά στοιχεία του live hosting σας
                         $mail->Host = 'mail.deckrush.gr';            // Ο SMTP server του hosting σας
                         $mail->SMTPAuth = true;                       // Ενεργοποίηση αυθεντικοποίησης
                         $mail->Username = 'noreply@deckrush.gr';      // Το live εταιρικό σας email
-                        $mail->Password = 'ΤΟ_PASSWORD_ΣΑΣ';         // Το password του email
-                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Ασφάλεια TLS
-                        $mail->Port = 587;                            // Θύρα για TLS
+                        $mail->Password = 'MyStrongPass123!';         // Το password του email
+                        
+                        // ΣΗΜΕΙΩΣΗ ΓΙΑ TOPHOST: Αν δεν στέλνει με STARTTLS/587, αλλάξτε σε ENCRYPTION_SMTPS και 465
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
+                        $mail->Port = 587;                            
+                        
                         $mail->setFrom('noreply@deckrush.gr', 'DeckRush Store');
                     }
 
-                    // Ρυθμίσεις email
-                    $mail->addAddress($email, $name); // Αποδέκτης
+                    // Ρυθμίσεις email αποδέκτη
+                    $mail->addAddress($email, $name); 
                     $mail->isHTML(true);
                     $mail->CharSet = 'UTF-8'; // Διασφαλίζει ότι τα ελληνικά θα φαίνονται σωστά
                     $mail->Subject = 'Ενεργοποίηση Λογαριασμού';
-                    $mail->Body = "Παρακαλώ κάντε κλικ στο παρακάτω σύνδεσμο για να ενεργοποιήσετε το λογαριασμό σας:<br><br><a href='$activation_link'>$activation_link</a>";
+                    
+                    // Εμφανίσιμο HTML σώμα email
+                    $mail->Body = "<h3>Καλώς ορίσατε στο DeckRush!</h3>
+                                   Παρακαλώ κάντε κλικ στο παρακάτω σύνδεσμο για να ενεργοποιήσετε το λογαριασμό σας:<br><br>
+                                   <a href='$activation_link' style='background:#0d6efd; color:#fff; padding:10px 15px; text-decoration:none; border-radius:5px; display:inline-block;'>Ενεργοποίηση Λογαριασμού</a><br><br>
+                                   Αν το κουμπί δεν λειτουργεί, αντιγράψτε αυτό το link στον browser σας:<br> $activation_link";
 
-                    // Στείλτε το email
+                    // Αποστολή
                     $mail->send();
                     $_SESSION['message'] = "Επιτυχής εγγραφή! Ένα email ενεργοποίησης στάλθηκε.";
                 } catch (Exception $e) {
-                    $_SESSION['message'] = "Το email ενεργοποίησης δεν μπόρεσε να αποσταλεί. Σφάλμα: {$mail->ErrorInfo}";
+                    // Στο live κρύβουμε τις τεχνικές λεπτομέρειες για λόγους ασφαλείας
+                    if ($_SERVER['HTTP_HOST'] == 'deckhub.local' || $_SERVER['HTTP_HOST'] == 'deckrush.local') {
+                        $_SESSION['message'] = "Το email δεν στάλθηκε. Σφάλμα: {$mail->ErrorInfo}";
+                    } else {
+                        $_SESSION['message'] = "Υπήρξε πρόβλημα με την αποστολή του email ενεργοποίησης. Παρακαλώ επικοινωνήστε μαζί μας.";
+                    }
                 }
 
                 header('Location: ../login-register');
@@ -106,10 +120,12 @@ if (isset($_POST['register_btn'])) {
             exit();
         }
     }
-
     $stmt->close();
 }
-// Σύνδεση χρήστη
+
+# =====================================================================
+# 2. ΣΥΝΔΕΣΗ ΧΡΗΣΤΗ (LOGIN)
+# =====================================================================
 if (isset($_POST['login_btn'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -125,11 +141,13 @@ if (isset($_POST['login_btn'])) {
 
         // Έλεγχος αν το password είναι σωστό
         if (password_verify($password, $userdata['user_password'])) {
+            
             // Έλεγχος αν ο λογαριασμός είναι ενεργοποιημένος
             if ($userdata['user_status'] == 0) {
                 redirectWithMessage("Ο λογαριασμός σας δεν έχει ενεργοποιηθεί ακόμα. Παρακαλώ ελέγξτε το email σας για τον σύνδεσμο ενεργοποίησης.");
             }
 
+            // Αποθήκευση στοιχείων στο Session
             $_SESSION['auth'] = true;
             $_SESSION['auth_user'] = [
                 'user_id' => $userdata['user_id'],
@@ -139,7 +157,7 @@ if (isset($_POST['login_btn'])) {
 
             $_SESSION['user_role'] = $userdata['user_role'];
 
-            // Έλεγχος ρόλου χρήστη
+            // Έλεγχος ρόλου χρήστη (1 = Admin, 0 = Πελάτης)
             if ($userdata['user_role'] == '1') {
                 redirectWithMessage("Καλώς ήρθατε στον Πίνακα Ελέγχου", '../administration/index.php');
             } else {
@@ -155,4 +173,6 @@ if (isset($_POST['login_btn'])) {
     $stmt->close();
 }
 
+// Κλείσιμο της σύνδεσης με τη βάση
 $conn->close();
+?>

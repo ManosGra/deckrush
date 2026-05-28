@@ -9,7 +9,7 @@ include 'includes/header.php';
 include 'includes/navigation.php'; 
 ?>
 
-<section id="contact" class="bg-light">
+<section id="contact" class="py-5 bg-light">
     <div class="container">
         
         <!-- Κεντρικός Τίτλος -->
@@ -69,7 +69,7 @@ include 'includes/navigation.php';
                 <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
                     <div class="card-body">
                         
-                        <!-- PHP PHP PHP - Λογική και Ειδοποιήσεις -->
+                        <!-- PHP Λογική και Ειδοποιήσεις -->
                         <?php
                         if (isset($_POST['submit'])) {
                             $to = "manosgrammos9@gmail.com";
@@ -78,8 +78,8 @@ include 'includes/navigation.php';
                             
                             $user_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
-                            // ΕΝΗΜΕΡΩΣΗ: Αλλαγή σε deckrush.gr μιας και βγαίνεις live σήμερα
-                            $headers = "From: DeckRush Contact <no-reply@deckrush.local>\r\n";
+                            // LIVE ΑΛΛΑΓΗ: Το domain άλλαξε επίσημα σε deckrush.gr
+                            $headers = "From: DeckRush Contact <no-reply@deckrush.gr>\r\n";
                             $headers .= "Reply-To: " . $user_email . "\r\n";
                             $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
