@@ -20,7 +20,7 @@
                     <tr>
                         
                         <td><?php echo $item['tracking_no']; ?></td>
-                        <td><?php echo $item['total_price']; ?>.00€</td>
+                        <td><?php echo $item['total_price']; ?>€</td>
                         <td><?php echo $item['created_at']; ?></td>
                         <td><a href="my-account?source=view-order&t=<?php echo $item['tracking_no']; ?>" class="btn btn-primary my-2">Δείτε την παραγγελία</a></td>
                     </tr>
