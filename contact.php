@@ -9,7 +9,7 @@ include 'includes/header.php';
 include 'includes/navigation.php'; 
 ?>
 
-<section id="contact" class="py-5 bg-light">
+<section id="contact" class="bg-light">
     <div class="container">
         
         <!-- Κεντρικός Τίτλος -->
