@@ -90,8 +90,8 @@ $canonical_url = "https://www.deckrush.gr" . $clean_uri;
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <!-- Scroll Back to Top Button με βελτίωση προσβασιμότητας -->
-  <a href="#" class="text-decoration-none scroll-up text-center" aria-label="Scroll to top" style="width:60px; height:60px; display: inline-block;">
-    <span class="visually-hidden">Scroll to top</span>
-    <span class="mb-0 h-100 w-100 d-block"><?php include 'assets/arrow.svg'; ?></span>
-  </a>
+<!-- Scroll Back to Top Button με βελτίωση προσβασιμότητας -->
+<a href="javascript:void(0);" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="text-decoration-none scroll-up text-center" aria-label="Scroll to top" style="width:60px; height:60px; display: inline-block;">
+  <span class="visually-hidden">Scroll to top</span>
+  <span class="mb-0 h-100 w-100 d-block"><?php include 'assets/arrow.svg'; ?></span>
+</a>

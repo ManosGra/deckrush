@@ -184,7 +184,7 @@ if (mysqli_num_rows($cartItems) > 0) {
   Όταν πας Live, θα αντικαταστήσεις όλο αυτό το ID με το Live Client ID από το PayPal Dashboard.
 -->
 <script
-    src="https://www.paypal.com/sdk/js?client-id=AfKKVavIPXWqOTrE1le96PxC-lvpYIdWHZMfP9Vz8nZfHacg8uCboZteyXkrNMIZfwjfxKZpvGTDDVhD&currency=EUR"></script>
+    src="https://www.paypal.com/sdk/js?client-id=AWrsOcrmMzlHW5OHHXlotsuitkllz8hYOGAqpnKnL4iLh6706F8YJ2d2PQYXwd985rivyMw7i_vWDWkh&currency=EUR"></script>
 
 <script>
     // Συνάρτηση που κόβει δεκαδικά (χωρίς στρογγυλοποίηση)
