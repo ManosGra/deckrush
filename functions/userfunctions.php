@@ -12,7 +12,7 @@ function getCategoriesActive($table)
     global $conn;
    $query = "SELECT * FROM $table 
           WHERE status = '0' 
-            AND slug IN ('pokemon', 'singles', 'funko-pop', 'onepiece') ORDER BY id";
+            AND slug IN ('harry-potter', 'disney', 'star-wars', 'lego') ORDER BY id";
     return mysqli_query($conn, $query);
 }
 
