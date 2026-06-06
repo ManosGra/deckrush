@@ -1,37 +1,36 @@
-# Ενεργοποιούμε την αναδιάρθρωση URLs
 RewriteEngine On
 RewriteBase /
 
-# --- ΑΠΕΝΕΡΓΟΠΟΙΗΘΗΚΕ ΤΟΠΙΚΑ (Προστέθηκε #): Θα το ενεργοποιήσετε ΜΟΝΟ στο live site ---
-# RewriteCond %{HTTPS} off
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# 1. Ανακατεύθυνση από το παλιό URL κατηγορίας στο νέο
+# 1. Ανακατεύθυνση παλιών URLs κατηγοριών
 RewriteCond %{THE_REQUEST} GET\ /products\?category=([^&\ ]+) [NC]
 RewriteRule ^ products/%1? [R=301,L]
 
-# 2. Ανακατεύθυνση από το παλιό URL προϊόντος στο νέο
+# 2. Ανακατεύθυνση παλιών URLs προϊόντων
 RewriteCond %{THE_REQUEST} GET\ /product-view\?product=([^&\ ]+) [NC]
 RewriteRule ^ product/%1? [R=301,L]
 
-# 3. Εσωτερική αναδρομολόγηση για προϊόντα (deckrush.local/product/slug -> product-view.php?product=slug)
+# 3. Εσωτερική δρομολόγηση για προϊόντα (deckrush.gr/product/slug)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^product/([^/]+)$ product-view.php?product=$1 [L,QSA]
 
-# 4. Εσωτερική αναδρομολόγηση για κατηγορίες (deckrush.local/onepiece -> products.php?category=onepiece)
+# 4. Αυτόματη αφαίρεση της επέκτασης .php (Προηγείται για να ανοίγουν οι κανονικές σελίδες)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^/]+)$ $1.php [L]
+
+# 5. Εσωτερική δρομολόγηση για κατηγορίες 
+# (Εκτελείται ΜΟΝΟ αν η λέξη ΔΕΝ αντιστοιχεί σε κανένα πραγματικό αρχείο .php του server)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php !-f
+RewriteCond %{REQUEST_URI} !\.php$ [NC]
 RewriteRule ^([^/]+)$ products.php?category=$1 [L,QSA]
 
-# 5. Αφαίρεση της επέκτασης .php από τα υπόλοιπα URLs
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(index|cart|login-register|categories|checkout|contact|edit-profile|filters|forgot|login|logout|my-account|orders|payments|product-view|products|registration|reset-password|search|special-price|top-sale|view-order)$ $1.php [NC,L,QSA]
-
-# Σελίδα 404 αν δεν βρεθεί η σελίδα
+# 6. Σελίδα Σφάλματος 404
 ErrorDocument 404 /404.php
 
+# 7. Ταχύτητα & Gzip Compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
 </IfModule>
