@@ -40,11 +40,14 @@ if (mysqli_num_rows($result) > 0) {
                                      style="width:220px; height:220px; object-fit: contain;">
                             </a>
                             
-                            <div class="text-center my-3">
-                                <!-- SEO Βελτίωση: 🛠️ Σωστή ιεραρχία τίτλου με εμφάνιση h6 -->
-                                <h3 class="h6 font-weight-bold"><?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
-                                <p class="m-0 font-size-20 fw-bold"><?php echo htmlspecialchars($product['selling_price'], ENT_QUOTES, 'UTF-8'); ?>€</p>
-                            </div>
+                            <a class="top-sale-text text-decoration-none text-black" href="/product/<?php echo htmlspecialchars($product['slug'], ENT_QUOTES, 'UTF-8'); ?>">
+                                <div class="text-center mt-3">
+                                    <!-- SEO Βελτίωση: 🛠️ Σωστή ιεραρχία τίτλου με εμφάνιση h6 -->
+                                    <h3 class="h6 font-weight-bold"><?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                                </div>
+                            </a>
+
+                            <p class="mb-2 font-size-20 fw-bold"><?php echo htmlspecialchars($product['selling_price'], ENT_QUOTES, 'UTF-8'); ?>€</p>
                             
                             <!-- BUG FIX: Προσθήκη $btn_disabled και δυναμικού $btn_text / $btn_class -->
                             <button class="<?php echo $btn_class; ?> fw-bold font-size-14 p-3 rounded-3 addToCartBtn"

@@ -103,6 +103,10 @@ button:focus {
   rotate: -25deg;
 }
 
+ .top-sale-text:hover{
+  color: #ebb06c!important;
+}
+
 @media only screen and (min-width: 1490px) {
   #top-sale .special-sale-img {
     position: absolute;
