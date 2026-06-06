@@ -183,8 +183,9 @@ if (mysqli_num_rows($cartItems) > 0) {
   Αυτή τη στιγμή το client-id σου ξεκινάει από "AfKK...". Αυτό είναι το Sandbox ID σου.
   Όταν πας Live, θα αντικαταστήσεις όλο αυτό το ID με το Live Client ID από το PayPal Dashboard.
 -->
-<script
-    src="https://www.paypal.com/sdk/js?client-id=AWrsOcrmMzlHW5OHHXlotsuitkllz8hYOGAqpnKnL4iLh6706F8YJ2d2PQYXwd985rivyMw7i_vWDWkh&currency=EUR"></script>
+<<script 
+ data-cookieconsent="ignore" src="https://www.paypal.com/sdk/js?client-id=AWrsOcrmMzlHW5OHHXlotsuitkllz8hYOGAqpnKnL4iLh6706F8YJ2d2PQYXwd985rivyMw7i_vWDWkh&currency=EUR">
+</script>
 
 <script>
     // Συνάρτηση που κόβει δεκαδικά (χωρίς στρογγυλοποίηση)
@@ -203,7 +204,6 @@ if (mysqli_num_rows($cartItems) > 0) {
             // Αν είναι κάτω από 60€ προσθέτουμε τα 3€, αλλιώς μένει το αρχικό total
             var finalTotal = total < 60 ? total + extra : total;
             finalTotal = cutDecimals(finalTotal, 2);
-
             document.getElementById('final_total').value = finalTotal.toFixed(2);
         });
     }
@@ -261,7 +261,7 @@ if (mysqli_num_rows($cartItems) > 0) {
                     'address': address,
                     'payment_mode': "Paid by Paypal",
                     'payment_id': transaction.id,
-                    'final_total': paypalTotal, // ΔΙΟΡΘΩΣΗ: Πλέον στέλνεται η τιμή και δεν θα γράφει 0 στη βάση
+                    'final_total': paypalTotal,
                     'placeOrderBtn': true
                 };
 
@@ -270,7 +270,6 @@ if (mysqli_num_rows($cartItems) > 0) {
                     url: "functions/placeorder.php",
                     data: data,
                     success: function (response) {
-                        // Καθαρίζουμε τυχόν κενά από την απάντηση
                         var cleanResponse = response.trim();
 
                         if (cleanResponse == "201") {
