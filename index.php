@@ -11,7 +11,8 @@ $is_main_page = true;
 
 include 'includes/navigation.php'; 
 include 'includes/hero.php'; 
-include 'categories.php'; 
-include 'top-sale.php'; 
+include 'categories.php';
+include 'collectors_vault.php'; 
+include 'top-sale.php';
 include 'includes/footer.php'; 
 ?>

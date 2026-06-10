@@ -16,6 +16,19 @@ function getCategoriesActive($table)
     return mysqli_query($conn, $query);
 }
 
+function getCollectorsVaultProducts()
+{
+    global $conn;
+
+    $query = "SELECT * 
+              FROM products 
+              WHERE category_id = 'Collectors Vault' 
+              AND status='0' 
+              ORDER BY id DESC LIMIT 4";
+
+    return mysqli_query($conn, $query);
+}
+
 function getCartItems(){
     global $conn;
     $userId = $_SESSION['auth_user']['user_id'];

@@ -13,7 +13,9 @@
         <ul class="nav-items d-flex align-items-center justify-content-center font-rubik m-0 p-0">
           <?php
           // Εκτέλεση του ερωτήματος για να πάρουμε τις κατηγορίες προϊόντων
-          $query = "SELECT * FROM product_categories ORDER BY id LIMIT 6";
+          $query = "(SELECT * FROM product_categories ORDER BY id ASC LIMIT 6)
+          UNION ALL
+          (SELECT * FROM product_categories ORDER BY id DESC LIMIT 1)";
           $select_categories_query = mysqli_query($conn, $query);
 
           // Έλεγχος αν η ερώτηση εκτελέστηκε επιτυχώς

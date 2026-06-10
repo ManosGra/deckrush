@@ -5,7 +5,7 @@ include 'config/db.php';
 // ΔΙΟΡΘΩΣΗ SEO: Καθαρισμός των Query Strings από το Canonical URL
 $canonical_parts = explode('?', $_SERVER['REQUEST_URI']);
 $clean_uri = $canonical_parts[0];
-$canonical_url = "https://www.deckrush.gr" . $clean_uri;
+$canonical_url = "https://deckrush.gr" . $clean_uri;
 ?>
 <!doctype html>
 <html lang="el">
@@ -29,7 +29,7 @@ $canonical_url = "https://www.deckrush.gr" . $clean_uri;
   
   <!-- ΔΙΟΡΘΩΣΗ SEO: Ευθυγράμμιση του Open Graph Description με το νέο Meta Description -->
   <meta property="og:description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8') : 'Βρείτε σπάνιες συλλεκτικές κάρτες TCG και αξεσουάρ στην Ελλάδα! Μεγάλη ποικιλία σε Pokémon, One Piece, Yu-Gi-Oh!, Magic: The Gathering και φιγούρες Funko Pop στο DeckRush.'; ?>" />
-  <meta property="og:image" content="https://www.deckrush.gr/assets/logo3.png" />
+  <meta property="og:image" content="https://deckrush.gr/assets/logo3.png" />
   <meta property="og:url" content="<?php echo $canonical_url; ?>" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="DeckRush" />
