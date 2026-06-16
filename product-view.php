@@ -155,21 +155,32 @@ include 'includes/navigation.php';
         <?php } ?>
 
         <?php
-            $relatedProducts = getRelatedProducts(
-                $product['category_id'],
-                $product['id']);
+        $relatedProducts = getRelatedProducts(
+            $product['category_id'],
+            $product['id']
+        );
         ?>
 
         <div class="row mt-5">
+
             <h2 class="text-center f-bold mb-4">Σχετικά προϊόντα</h2>
+
             <?php if (count($relatedProducts) > 0): ?>
+
                 <?php foreach ($relatedProducts as $item): ?>
+
                     <div class="col-md-3 mb-3 product-col">
+
                         <div class="card shadow-lg product-box product_data pt-3 box show position-relative overflow-hidden">
+
                             <div class="card-body p-0">
+
                                 <div class="product-image text-center">
-                                    <a class="text-decoration-none" href="/product/<?php echo $item['slug']; ?>">
-                                        <img src="/uploads/<?php echo $item['item_image']; ?>"
+
+                                    <a class="text-decoration-none"
+                                        href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>">
+
+                                        <img src="/uploads/<?php echo htmlspecialchars($item['item_image'], ENT_QUOTES, 'UTF-8'); ?>"
                                             alt="<?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?> - DeckRush"
                                             class="img-fluid p-4" loading="lazy" style="height:300px; object-fit:contain;">
                                     </a>
@@ -177,20 +188,24 @@ include 'includes/navigation.php';
 
                                 <div class="product-price">
                                     <p class="font-size-25 fw-bold text-center mb-1">
-                                        <?php echo $item['selling_price']; ?>€
+                                        <?php echo htmlspecialchars($item['selling_price'], ENT_QUOTES, 'UTF-8'); ?>€
                                     </p>
                                 </div>
-                                
+
                                 <div class="product-info">
-                                    <a class="text-decoration-none" href="/product/<?php echo $item['slug']; ?>">
+
+                                    <a class="text-decoration-none"
+                                        href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>">
                                         <p class="text-center font-size-20 text-dark px-3 mb-1">
                                             <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
                                         </p>
                                     </a>
+
                                     <p class="text-center">
                                         <small>
                                             <?php if ($item['qty'] > 0): ?>
-                                                Διαθέσιμα: <?php echo $item['qty']; ?>
+                                                Διαθέσιμα:
+                                                <?php echo $item['qty']; ?>
                                             <?php elseif ($item['is_preorder'] == 1): ?>
                                                 Pre-Order
                                             <?php else: ?>
@@ -201,19 +216,12 @@ include 'includes/navigation.php';
                                 </div>
 
                                 <div class="product-btns d-flex flex-row align-items-center justify-content-around">
-                                    <a href="/product/<?php echo $item['slug']; ?>"
+                                    <a href="/product/<?php echo htmlspecialchars($item['slug'], ENT_QUOTES, 'UTF-8'); ?>"
                                         class="text-decoration-none product-btn w-100 text-center p-2">
+
                                         <i class="bi bi-search text-white font-size-20"></i>
+
                                     </a>
-
-                                    <?php if ($item['qty'] > 0 || $item['is_preorder'] == 1): ?>
-                                        <button class="product-btn addToCartBtn w-100 text-center p-2"
-                                            value="<?php echo $item['id']; ?>">
-
-                                            <i class="bi bi-cart text-white font-size-20"></i>
-                                        </button>
-                                    <?php else: ?>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
