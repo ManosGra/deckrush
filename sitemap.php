@@ -43,37 +43,35 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
+	
+	<!-- Pre-orders -->
+	<url>
+		<loc><?= $base_url ?>pre-orders</loc>
+		<changefreq>daily</changefreq>
+		<priority>0.7</priority>
+	</url>
 
-    <!-- Pre-orders -->
-    <url>
-        <loc>
-            <?= $base_url ?>pre-orders
-        </loc>
-        <changefreq>daily</changefreq>
-        <priority>0.7</priority>
-    </url>
+<?php
+if ($database_link) {
 
-    <?php
-    if ($database_link) {
+    $query = "SELECT slug FROM products WHERE status='0'";
+    $result = mysqli_query($database_link, $query);
 
-        $query = "SELECT slug FROM products WHERE status='0'";
-        $result = mysqli_query($database_link, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
 
-        if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
 
-            while ($row = mysqli_fetch_assoc($result)) {
+            $slug = htmlspecialchars($row['slug'], ENT_QUOTES, 'UTF-8');
 
-                $slug = htmlspecialchars($row['slug'], ENT_QUOTES, 'UTF-8');
-
-                echo "
+            echo "
     <url>
         <loc>{$base_url}product/{$slug}</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>";
-            }
         }
     }
-    ?>
+}
+?>
 
 </urlset>

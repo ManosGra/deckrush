@@ -10,7 +10,7 @@ function getAllActive($table)
 function getCategoriesActive($table)
 {
     global $conn;
-   $query = "SELECT * FROM $table 
+    $query = "SELECT * FROM $table 
           WHERE status = '0' 
             AND slug IN ('harry-potter', 'disney', 'star-wars', 'lego') ORDER BY id";
     return mysqli_query($conn, $query);
@@ -29,7 +29,8 @@ function getCollectorsVaultProducts()
     return mysqli_query($conn, $query);
 }
 
-function getCartItems(){
+function getCartItems()
+{
     global $conn;
     $userId = $_SESSION['auth_user']['user_id'];
     // Εδώ ζητάμε σωστά και το p.is_preorder από τη βάση
@@ -42,7 +43,7 @@ function getSlugActive($table, $slug)
     global $conn;
     $query = "SELECT * FROM $table WHERE slug = '$slug' AND status='0' LIMIT 1";
     $result = mysqli_query($conn, $query);
-    
+
     // Έλεγχος αν η ερώτηση εκτελείται σωστά
     if (!$result) {
         die("SQL Error: " . mysqli_error($conn));
@@ -90,4 +91,58 @@ function checkTrackingNoValid($trackingNo)
 
     $query = "SELECT * FROM orders WHERE tracking_no='$trackingNo' AND user_id='$userId'";
     return mysqli_query($conn, $query);
+}
+
+function getRelatedProducts($category_id, $product_id)
+{
+    global $conn;
+
+    $products = [];
+
+    // 1) Πρώτα ίδια κατηγορία (ETB + Booster) χωρίς το ίδιο προϊόν
+    $query = "SELECT * FROM products
+              WHERE status='0'
+              AND qty > 0
+              AND id != '$product_id'
+              AND category_id = '$category_id'
+              AND (
+                    name LIKE '%Elite Trainer Box%'
+                    OR name LIKE '%Booster Pack%'
+                  )
+              ORDER BY id DESC
+              LIMIT 4";
+
+    $result = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $products[$row['id']] = $row;
+    }
+
+
+    // 2) Αν δεν γέμισαν, φέρνουμε από άλλες κατηγορίες
+    if (count($products) < 4) {
+
+        $needed = 4 - count($products);
+
+        $query2 = "SELECT * FROM products
+                   WHERE status='0'
+                   AND qty > 0
+                   AND id != '$product_id'
+                   AND (
+                        name LIKE '%Elite Trainer Box%'
+                        OR name LIKE '%Booster Pack%'
+                   )
+                   AND category_id != '$category_id'
+                   ORDER BY id DESC
+                   LIMIT $needed";
+
+        $result2 = mysqli_query($conn, $query2);
+
+        while ($row = mysqli_fetch_assoc($result2)) {
+            $products[$row['id']] = $row;
+        }
+    }
+
+
+    return array_values($products);
 }
