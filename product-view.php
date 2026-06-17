@@ -18,7 +18,7 @@ if (isset($_GET['product'])) {
         }
 
         // ΔΙΟΡΘΩΣΗ SEO 1: Χρήση mb_substr για να μην σπάνε τα ελληνικά γράμματα
-        $meta_description = mb_substr(strip_tags($product['description']), 0, 150, 'UTF-8') . "... Αγοράστε το στο DeckRush.";
+        $meta_description = mb_substr(strip_tags($product['description']), 0, 150, 'UTF-8');
 
         // ΔΙΟΡΘΩΣΗ SEO 2: Δυναμική διαθεσιμότητα για το Schema.org του header
         $schema_availability = ((int) $product['qty'] > 0) ? "https://schema.org" : "https://schema.org";

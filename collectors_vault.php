@@ -1,5 +1,3 @@
-
-
 <section id="collectors-vault" class="box show py-3">
     <div class="container-lg">
 
