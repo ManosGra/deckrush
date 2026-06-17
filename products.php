@@ -63,7 +63,8 @@ include 'includes/navigation.php';
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="text-decoration-none" href="/">Αρχική</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <?php echo htmlspecialchars($category['category_name'], ENT_QUOTES, 'UTF-8'); ?></li>
+                        <?php echo htmlspecialchars($category['category_name'], ENT_QUOTES, 'UTF-8'); ?>
+                    </li>
                 </ol>
             </nav>
 
@@ -88,7 +89,6 @@ include 'includes/navigation.php';
                             foreach ($products as $item) {
                                 ?>
                                 <div class="col-md-4 mb-3 product-col">
-                                    <!-- ΔΙΟΡΘΩΣΗ: Προστέθηκε overflow-hidden στην κάρτα για να κόβεται σωστά η διαγώνια κορδέλα -->
                                     <div
                                         class="card shadow-lg product-box product_data pt-3 box show position-relative overflow-hidden">
 
@@ -157,33 +157,27 @@ include 'includes/navigation.php';
                             echo "<div class='col-12'><div class='alert alert-warning'>Δεν υπάρχουν προϊόντα σε αυτή την κατηγορία.</div></div>";
                         }
                         ?>
-                    </div> <!-- Τέλος row products-container -->
+                    </div>
 
-                    <!-- ========================================== -->
-                    <!-- ΔΙΟΡΘΩΣΗ SEO: ΑΥΤΟΜΑΤΟ ΔΥΝΑΜΙΚΟ ΚΕΙΜΕΝΟ ΓΙΑ ΟΛΕΣ ΤΙΣ ΚΑΤΗΓΟΡΙΕΣ -->
-                    <!-- ========================================== -->
-                    <div class="row mt-5 px-3">
-                        <div class="col-12 bg-light p-4 rounded shadow-sm text-secondary font-size-14"
-                            style="line-height: 1.6; border-left: 5px solid #A444BC; text-align: left;">
-                            <h2 class="h4 text-dark fw-bold mb-3">Αγορά <?php echo $cat_name; ?> στην Ελλάδα | DeckRush</h2>
-                            <p>Καλώς ήρθατε στο DeckRush, τον απόλυτο προορισμό για <strong>αγορά
-                                    <?php echo $cat_name; ?></strong> στην Ελλάδα! Αν είστε συλλέκτης ή παίκτης, εδώ θα
-                                βρείτε μια τεράστια ποικιλία από 100% αυθεντικά προϊόντα που καλύπτουν κάθε ανάγκη της
-                                συλλογής σας.</p>
-                            <p>Στο ηλεκτρονικό μας κατάστημα μπορείτε να πραγματοποιήσετε αγορές σε δημοφιλή προϊόντα της
-                                κατηγορίας <strong><?php echo $cat_name; ?></strong>, sealed boxes, booster packs, καθώς και
-                                εξειδικευμένα αξεσουάρ προστασίας για τις συλλογές σας.</p>
-                            <p>Όλα μας τα προϊόντα προέρχονται αποκλειστικά από επίσημους και πιστοποιημένους διανομείς,
-                                διασφαλίζοντας την αυθεντικότητά τους. Φροντίζουμε για την ασφαλή συσκευασία κάθε
-                                παραγγελίας, ώστε να φτάνει στα χέρια σας σε άψογη κατάσταση (Mint Condition), με άμεση και
-                                γρήγορη αποστολή σε όλη την Ελλάδα. Βρείτε τα αγαπημένα σας <?php echo $cat_name; ?> σήμερα
-                                στο DeckRush!</p>
+                    <div class="row my-5 px-3">
+                        <div class="col-12 bg-light p-4 rounded shadow-sm text-secondary font-size-16 text-center"
+                            style="line-height: 1.7; letter-spacing: 0.2px; border-left: 5px solid #A444BC; text-align: left;">
+
+                            <h2 class=" text-dark fw-bold mb-3" style="letter-spacing: 0.2px;">
+                                <?php echo $cat_name; ?> | DeckRush
+                            </h2>
+
+                            <?php
+                            if (!empty($category['category_description'])) {
+                                echo $category['category_description'];
+                            }
+                            ?>
+
                         </div>
                     </div>
-                    <!-- ========================================== -->
 
-                </div> <!-- Τέλος col-md-9 -->
-            </div> <!-- Τέλος row g-0 -->
+                </div>
+            </div>
 
         <?php } else { ?>
             <div class="alert alert-danger mt-4">
