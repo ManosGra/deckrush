@@ -16,7 +16,7 @@ if (isset($_GET['category'])) {
         $meta_description = "Ψάχνεις για αγορά " . $cat_name . " στην Ελλάδα; Στο DeckRush θα βρεις αυθεντικά προϊόντα, booster boxes, singles και αξεσουάρ στις καλύτερες τιμές!";
 
         // ΔΙΟΡΘΩΣΗ SEO 1: Δημιουργία Breadcrumb Schema για τη Google
-        $current_category_url = "https://deckrush.gr" . htmlspecialchars($category_slug, ENT_QUOTES, 'UTF-8');
+        $current_category_url = "https://deckrush.gr" . "/" . ltrim(htmlspecialchars($category_slug, ENT_QUOTES, 'UTF-8'), '/');
         $breadcrumb_schema = '
         <script type="application/ld+json">
         {
