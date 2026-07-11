@@ -14,5 +14,6 @@ include 'includes/hero.php';
 include 'categories.php';
 include 'collectors_vault.php'; 
 include 'top-sale.php';
+include 'newsletter.php'; 
 include 'includes/footer.php'; 
 ?>

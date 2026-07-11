@@ -68,10 +68,18 @@ include 'includes/navigation.php';
                 </ol>
             </nav>
 
+
             <div class="row g-0">
+
+                <?php
+                $cid = $category['category_name'];
+                ?>
+
+
                 <div class="col-lg-3 col-12">
-                    <?php $cid = $category['category_name']; ?>
+
                     <?php include 'filters.php'; ?>
+
                 </div>
 
                 <div class="col-md-9">
@@ -83,7 +91,34 @@ include 'includes/navigation.php';
                     <div class="row products-container">
                         <?php
                         $cid = $category['category_name'];
-                        $products = getProdByCategory($cid);
+
+
+                        // PAGINATION
+                        $products_per_page = 24;
+
+
+                        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+                        if ($page < 1) {
+                            $page = 1;
+                        }
+
+
+                        $offset = ($page - 1) * $products_per_page;
+
+
+                        $total_products = getProdCountByCategory($cid);
+
+
+                        $total_pages = ceil($total_products / $products_per_page);
+
+
+                        $products = getProdByCategory(
+                            $cid,
+                            $products_per_page,
+                            $offset
+
+                        );
 
                         if (mysqli_num_rows($products) > 0) {
                             foreach ($products as $item) {
@@ -157,6 +192,69 @@ include 'includes/navigation.php';
                             echo "<div class='col-12'><div class='alert alert-warning'>Δεν υπάρχουν προϊόντα σε αυτή την κατηγορία.</div></div>";
                         }
                         ?>
+
+                        <?php if ($total_pages > 1): ?>
+
+                            <nav aria-label="pagination">
+
+                                <ul class="pagination justify-content-center my-5">
+
+
+                                    <?php if ($page > 1): ?>
+
+                                        <li class="page-item">
+
+                                            <a class="page-link"
+                                                href="?category=<?php echo urlencode($category_slug); ?>&page=<?php echo $page - 1; ?>">
+                                                «
+                                            </a>
+
+                                        </li>
+
+                                    <?php endif; ?>
+
+
+
+                                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+
+
+                                        <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+
+
+                                            <a class="page-link"
+                                                href="?category=<?php echo urlencode($category_slug); ?>&page=<?php echo $i; ?>">
+
+                                                <?php echo $i; ?>
+
+                                            </a>
+
+
+                                        </li>
+
+
+                                    <?php endfor; ?>
+
+
+
+                                    <?php if ($page < $total_pages): ?>
+
+                                        <li class="page-item">
+
+                                            <a class="page-link"
+                                                href="?category=<?php echo urlencode($category_slug); ?>&page=<?php echo $page + 1; ?>">
+                                                »
+                                            </a>
+
+                                        </li>
+
+                                    <?php endif; ?>
+
+
+                                </ul>
+
+                            </nav>
+
+                        <?php endif; ?>
                     </div>
 
                     <div class="row my-5 px-3">

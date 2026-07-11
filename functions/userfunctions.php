@@ -51,12 +51,41 @@ function getSlugActive($table, $slug)
     return $result;
 }
 
-function getProdByCategory($category_id)
+function getProdByCategory($category_id, $limit = null, $offset = null)
 {
     global $conn;
-    // ΔΙΟΡΘΩΣΗ: Προσθήκη ORDER BY id DESC για να εμφανίζονται πρώτα οι νέες προσθήκες
-    $query = "SELECT * FROM products WHERE category_id = '$category_id' AND status='0' ORDER BY id DESC";
+
+    $category_id = mysqli_real_escape_string($conn, $category_id);
+
+    $query = "SELECT * FROM products 
+              WHERE category_id = '$category_id'
+              AND status='0'
+              ORDER BY id DESC";
+
+    if ($limit !== null && $offset !== null) {
+        $query .= " LIMIT $limit OFFSET $offset";
+    }
+
     return mysqli_query($conn, $query);
+}
+
+
+function getProdCountByCategory($category_id)
+{
+    global $conn;
+
+    $category_id = mysqli_real_escape_string($conn, $category_id);
+
+    $query = "SELECT COUNT(*) AS total
+              FROM products
+              WHERE category_id='$category_id'
+              AND status='0'";
+
+    $result = mysqli_query($conn, $query);
+
+    $data = mysqli_fetch_assoc($result);
+
+    return $data['total'];
 }
 
 

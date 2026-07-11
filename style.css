@@ -1172,3 +1172,64 @@ img.fade-in {
 }
 
 /*# sourceMappingURL=style.css.map */
+.newsletter-container {
+  position: relative;
+}
+
+.newsletter-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  padding: 0 60px;
+  margin-bottom: 20px;
+  margin-left: 60px;
+}
+
+@media only screen and (max-width: 1440px) {
+  .newsletter-btn {
+    font-size: 23px;
+    padding: 0 20px;
+    margin-bottom: 25px;
+    margin-left: 40px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .newsletter-btn {
+    font-size: 25px;
+    padding: 0 20px;
+    margin-bottom: 25px;
+    margin-left: 40px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .newsletter-btn {
+    font-size: 20px;
+    padding: 0 30px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+  }
+}
+
+@media only screen and (max-width: 568px) {
+  .newsletter-btn {
+    font-size: 15px;
+    padding: 0 30px;
+    margin-bottom: 15px;
+    margin-left: 20px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .newsletter-btn {
+    font-size: 10px;
+    padding: 0 30px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+  }
+}
