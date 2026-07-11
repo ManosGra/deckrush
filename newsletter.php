@@ -1,22 +1,33 @@
 <?php
+
 require 'config/db.php';
+
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: index.php");
     exit;
 }
 
-$email = $_POST['email'] ?? '';
 
+$email = $_POST['email'] ?? '';
+$consent = $_POST['consent'] ?? '';
+
+
+// Έλεγχος email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     header("Location: index.php");
     exit;
 }
 
 
-// BREVO API
+// Έλεγχος συγκατάθεσης GDPR
+if (!$consent) {
+    header("Location: index.php");
+    exit;
+}
 
-$apiKey = $brevoApiKey;
+
+// BREVO API
 
 $data = [
     "email" => $email,
@@ -27,14 +38,17 @@ $data = [
 
 $ch = curl_init("https://api.brevo.com/v3/contacts");
 
+
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 
+
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "accept: application/json",
-    "api-key: " . $apiKey,
+    "api-key: " . $brevoApiKey,
     "content-type: application/json"
 ]);
+
 
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
