@@ -1,12 +1,16 @@
 <?php
 
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "eshop";
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "eshop";
 
-    $conn = mysqli_connect($host, $username, $password, $database);
+$conn = mysqli_connect($host, $username, $password, $database);
 
-    if(!$conn){
-        die("Connection Failed: ". mysqli_connect_error());
-    }
+if (!$conn) {
+    die("Connection Failed: " . mysqli_connect_error());
+}
+
+
+// Brevo API Key
+$brevoApiKey = "ΒΑΛΕ_ΤΟ_ΝΕΟ_API_KEY_ΣΟΥ";
