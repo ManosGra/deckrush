@@ -1,20 +1,18 @@
-<?php 
-ob_start();
+<?php
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $email = $_POST['email'] ?? '';
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Invalid email");
-    }
-
-    // εδώ αργότερα μπαίνει το Brevo API
-
-    header("Location: index.php?subscribed=1");
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: index");
     exit;
-
 }
 
-header("Location: index.php");
+$email = $_POST['email'] ?? '';
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: index");
+    exit;
+}
+
+// εδώ αργότερα μπαίνει Brevo API
+
+header("Location: index.php?subscribed=1");
 exit;
