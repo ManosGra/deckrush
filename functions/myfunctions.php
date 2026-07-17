@@ -1,4 +1,4 @@
-<?php include '../config/db.php';
+<?php include __DIR__ . '/../config/db.php';
 function getAll($table)
 {
     global $conn;
@@ -47,8 +47,32 @@ function getOrderHistory()
 function checkTrackingNoValid($trackingNo)
 {
     global $conn;
-   
 
     $query = "SELECT * FROM orders WHERE tracking_no='$trackingNo'";
     return mysqli_query($conn, $query);
+}
+
+
+function sendEmail($to, $subject, $message)
+{
+    $headers = "From: DeckRush <info@deckrush.gr>\r\n";
+    $headers .= "Reply-To: info@deckrush.gr\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    return mail($to, $subject, $message, $headers);
+}
+function getEmailTemplate($file, $data = [])
+{
+    $message = file_get_contents($file);
+
+    foreach ($data as $key => $value) {
+        $message = str_replace(
+            "{{".$key."}}",
+            $value,
+            $message
+        );
+    }
+
+    return $message;
 }

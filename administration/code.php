@@ -1,6 +1,7 @@
 <?php
 
 include('../functions/myfunctions.php');
+include('../functions/sendOrderEmail.php');
 
 # =====================================================================
 # 1. ΠΡΟΣΘΗΚΗ ΚΑΤΗΓΟΡΙΑΣ (ADD CATEGORY)
@@ -44,7 +45,7 @@ if (isset($_POST['add_category_btn'])) {
         exit();
     }
 
-# =====================================================================
+    # =====================================================================
 # 2. ΕΝΗΜΕΡΩΣΗ ΚΑΤΗΓΟΡΙΑΣ (UPDATE CATEGORY)
 # =====================================================================
 } elseif (isset($_POST['update_category_btn'])) {
@@ -101,7 +102,7 @@ if (isset($_POST['add_category_btn'])) {
         exit();
     }
 
-# =====================================================================
+    # =====================================================================
 # 3. ΔΙΑΓΡΑΦΗ ΚΑΤΗΓΟΡΙΑΣ (DELETE CATEGORY)
 # =====================================================================
 } elseif (isset($_POST['delete_category_btn'])) {
@@ -128,7 +129,7 @@ if (isset($_POST['add_category_btn'])) {
         }
     }
 
-# =====================================================================
+    # =====================================================================
 # 4. ΠΡΟΣΘΗΚΗ ΠΡΟΪΟΝΤΟΣ (ADD PRODUCT)
 # =====================================================================
 } elseif (isset($_POST['add_product_btn'])) {
@@ -169,7 +170,7 @@ if (isset($_POST['add_category_btn'])) {
     } else {
         redirect("add-product.php", "All fields are mandatory");
     }
-# =====================================================================
+    # =====================================================================
 # 5. ΕΝΗΜΕΡΩΣΗ ΠΡΟΪΟΝΤΟΣ (UPDATE PRODUCT)
 # =====================================================================
 } elseif (isset($_POST['update_product_btn'])) {
@@ -238,7 +239,7 @@ if (isset($_POST['add_category_btn'])) {
         exit();
     }
 
-# =====================================================================
+    # =====================================================================
 # 6. ΔΙΑΓΡΑΦΗ ΠΡΟΪΟΝΤΟΣ (DELETE PRODUCT)
 # =====================================================================
 } elseif (isset($_POST['delete_product_btn'])) {
@@ -267,24 +268,151 @@ if (isset($_POST['add_category_btn'])) {
         echo "500";
     }
 
-# =====================================================================
+    # =====================================================================
 # 7. ΕΝΗΜΕΡΩΣΗ ΚΑΤΑΣΤΑΣΗΣ ΠΑΡΑΓΓΕΛΙΑΣ (UPDATE ORDER STATUS)
 # =====================================================================
 } elseif (isset($_POST['update_order_btn'])) {
-    // Ασφαλής λήψη των δεδομένων από το Array της φόρμας
+
     $tracking_no = mysqli_real_escape_string($conn, $_POST['tracking_no']);
     $order_status = mysqli_real_escape_string($conn, $_POST['order_status']);
 
-    // ΔΙΟΡΘΩΣΗ: Κάνουμε το UPDATE χρησιμοποιώντας το tracking_no αντί για το id
-    $update_order_query = "UPDATE orders SET status = '$order_status' WHERE tracking_no = '$tracking_no'";
+
+    // Update status παραγγελίας
+    $update_order_query = "
+        UPDATE orders 
+        SET status = '$order_status' 
+        WHERE tracking_no = '$tracking_no'
+    ";
+
     $update_order_query_run = mysqli_query($conn, $update_order_query);
 
+
     if ($update_order_query_run) {
-        // Επιστροφή στη σελίδα της παραγγελίας με το σωστό tracking number
-        redirect("view-order.php?t=$tracking_no", "Order Status Updated Successfully");
+
+
+        // Παίρνουμε στοιχεία πελάτη
+        $order_query = "
+            SELECT * 
+            FROM orders 
+            WHERE tracking_no='$tracking_no' 
+            LIMIT 1
+        ";
+
+        $order_query_run = mysqli_query($conn, $order_query);
+
+
+        if (mysqli_num_rows($order_query_run) > 0) {
+
+
+            $order = mysqli_fetch_array($order_query_run);
+
+            $email = $order['email'];
+            $name = $order['name'];
+
+            // Παίρνουμε το προϊόν της παραγγελίας
+            $product_query = "
+                SELECT p.name, p.item_image
+                FROM order_items oi
+                INNER JOIN products p 
+                ON oi.prod_id = p.id
+                WHERE oi.order_id='" . $order['id'] . "'
+                LIMIT 1
+                ";
+
+            $product_query_run = mysqli_query($conn, $product_query);
+
+
+            $product_name = "";
+            $product_image = "";
+
+
+            if (mysqli_num_rows($product_query_run) > 0) {
+                $product = mysqli_fetch_array($product_query_run);
+
+                $product_name = $product['name'];
+                $product_image = "https://deckrush.gr/uploads/" . $product['item_image'];
+            }
+
+
+
+            // STATUS 0 - Σε προετοιμασία
+            if ($order_status == 0) {
+
+                $subject = "Η παραγγελία σας ετοιμάζεται - DeckRush";
+
+                $message = getEmailTemplate(
+                    "../emails/order_processing.html",
+                    [
+                        "customer_name" => $name,
+                        "order_id" => $tracking_no
+                    ]
+                );
+
+                sendEmail($email, $subject, $message);
+
+
+            } elseif ($order_status == 1) {
+
+
+                $subject = "Η παραγγελία σας ολοκληρώθηκε - DeckRush";
+
+
+                $message = getEmailTemplate(
+                    "../emails/order_completed.html",
+                    [
+                        "customer_name" => $name,
+                        "order_id" => $tracking_no
+                    ]
+                );
+
+                sendEmail(
+                    $email,
+                    $subject,
+                    $message
+                );
+
+
+
+                // STATUS 2 - Ακυρώθηκε
+            } elseif ($order_status == 2) {
+
+
+                $subject = "Η παραγγελία σας ακυρώθηκε - DeckRush";
+
+
+                $message = "
+                <h2>Γεια σας $name</h2>
+                <p>Η παραγγελία σας ακυρώθηκε.</p>
+                <p>Αριθμός παραγγελίας: <b>$tracking_no</b></p>
+                <p>Για οποιαδήποτε απορία επικοινωνήστε μαζί μας.</p>
+                <br>
+                <b>DeckRush</b>
+                ";
+
+
+                sendEmail(
+                    $email,
+                    $subject,
+                    $message
+                );
+
+            }
+
+        }
+
+
+        redirect(
+            "orders-history.php",
+            "Order Status Updated Successfully"
+        );
+
+
     } else {
+
+
         echo "Error updating order: " . mysqli_error($conn);
         exit();
+
     }
 }
 

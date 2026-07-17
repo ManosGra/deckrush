@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../config/db.php';
+include '../functions/myfunctions.php';
 
 if (isset($_SESSION['auth'])) {
     if (isset($_POST['placeOrderBtn'])) {
@@ -12,7 +13,7 @@ if (isset($_SESSION['auth'])) {
         $pincode = mysqli_real_escape_string($conn, $_POST['pincode']);
         $payment_mode = mysqli_real_escape_string($conn, $_POST['payment_mode']);
         $payment_id = isset($_POST['payment_id']) ? mysqli_real_escape_string($conn, $_POST['payment_id']) : "";
-        
+
         // Παίρνουμε την καθαρή τιμή από τη φόρμα
         $final_total = isset($_POST['final_total']) ? floatval($_POST['final_total']) : 0;
 
@@ -47,6 +48,32 @@ if (isset($_SESSION['auth'])) {
 
         if ($insert_query_run) {
             $order_id = mysqli_insert_id($conn);
+
+            // Email: Η παραγγελία μπήκε σε προετοιμασία
+            $subject = "Η παραγγελία σας ετοιμάζεται - DeckRush";
+
+            $product_names = "";
+            $product_image = "";
+
+            foreach ($query_run as $item) {
+
+                $product_names .= $item['name'] . "<br><br>";
+
+                $product_image = "http://localhost/deckrush/uploads/" . $item['item_image'];
+            }
+
+
+            $message = getEmailTemplate(
+                "../emails/order_processing.html",
+                [
+                    "customer_name" => $name,
+                    "order_id" => $tracking_no,
+                    "product_name" => $product_names,
+                    "product_image" => $product_image
+                ]
+            );
+
+            sendEmail($email, $subject, $message);
             foreach ($query_run as $citem) {
                 $prod_id = $citem['prod_id'];
                 $prod_qty = $citem['prod_qty'];
