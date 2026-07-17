@@ -2,6 +2,9 @@
 
 include('../functions/myfunctions.php');
 
+# =====================================================================
+# 1. ΠΡΟΣΘΗΚΗ ΚΑΤΗΓΟΡΙΑΣ (ADD CATEGORY)
+# =====================================================================
 if (isset($_POST['add_category_btn'])) {
     $name = $_POST['name'];
     $slug = $_POST['slug'];
@@ -25,7 +28,7 @@ if (isset($_POST['add_category_btn'])) {
     $svg_ext = pathinfo($svg, PATHINFO_EXTENSION);
     $svg_filename = time() . '_icon.' . $svg_ext;
 
-    // Εισαγωγή DB — πρόσθεσε και το svg όνομα (αν χρειάζεται)
+    // Εισαγωγή DB
     $cate_query = "INSERT INTO product_categories 
     (category_name, slug, category_description, meta_title, meta_description, meta_keywords, status, popular, category_image, category_svg)
     VALUES ('$name', '$slug','$description','$meta_title','$meta_description','$meta_keywords','$status','$popular','$image_filename', '$svg_filename')";
@@ -41,6 +44,9 @@ if (isset($_POST['add_category_btn'])) {
         exit();
     }
 
+# =====================================================================
+# 2. ΕΝΗΜΕΡΩΣΗ ΚΑΤΗΓΟΡΙΑΣ (UPDATE CATEGORY)
+# =====================================================================
 } elseif (isset($_POST['update_category_btn'])) {
     $category_id = $_POST['category_id'];
     $name = $_POST['name'];
@@ -56,18 +62,13 @@ if (isset($_POST['add_category_btn'])) {
     $new_image_temp = $_FILES['image']['tmp_name'];
     $old_image = $_POST['old_image'];
 
-    // Define the upload path
     $path = "../uploads/";
 
-    // Determine the filename to be updated
     if (!empty($new_image)) {
-        // Generate a new filename with a timestamp
         $image_ext = pathinfo($new_image, PATHINFO_EXTENSION);
         $update_filename = time() . '.' . $image_ext;
 
-        // Move the new image to the upload directory
         if (move_uploaded_file($new_image_temp, $path . $update_filename)) {
-            // Delete the old image if it exists and is different from the new one
             if ($old_image && file_exists($path . $old_image)) {
                 unlink($path . $old_image);
             }
@@ -76,11 +77,9 @@ if (isset($_POST['add_category_btn'])) {
             exit();
         }
     } else {
-        // No new image uploaded, keep the old image
         $update_filename = $old_image;
     }
 
-    // Update query
     $update_query = "UPDATE product_categories SET 
         category_name = '$name', 
         slug = '$slug', 
@@ -93,39 +92,33 @@ if (isset($_POST['add_category_btn'])) {
         category_image = '$update_filename' 
         WHERE id = '$category_id'";
 
-    // Execute the query
     $update_query_run = mysqli_query($conn, $update_query);
 
     if ($update_query_run) {
-        // Redirect or display a success message
         redirect("edit-category.php?category_id=$category_id", "Category Updated Successfully");
     } else {
-        // Display error message
-        echo "Error: " . mysqli_error($conn); // For debugging, remove in production
+        echo "Error: " . mysqli_error($conn);
         exit();
     }
 
+# =====================================================================
+# 3. ΔΙΑΓΡΑΦΗ ΚΑΤΗΓΟΡΙΑΣ (DELETE CATEGORY)
+# =====================================================================
 } elseif (isset($_POST['delete_category_btn'])) {
-    // Sanitize the category ID
     $category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
 
-    // Fetch the image filename from the database before deleting
     $query = "SELECT category_image FROM product_categories WHERE id='$category_id'";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $image_filename = $row['category_image'];
-
-        // Path to the image file
         $path = "../uploads/" . $image_filename;
 
-        // Delete the category record
         $delete_query = "DELETE FROM product_categories WHERE id='$category_id'";
         $delete_query_run = mysqli_query($conn, $delete_query);
 
         if ($delete_query_run) {
-            // Check if the file exists and delete it
             if (file_exists($path)) {
                 unlink($path);
             }
@@ -135,8 +128,10 @@ if (isset($_POST['add_category_btn'])) {
         }
     }
 
+# =====================================================================
+# 4. ΠΡΟΣΘΗΚΗ ΠΡΟΪΟΝΤΟΣ (ADD PRODUCT)
+# =====================================================================
 } elseif (isset($_POST['add_product_btn'])) {
-    // Retrieve POST data
     $category_name = $_POST['category_id'];
     $discount = $_POST['discount'];
     $top_sale = $_POST['top_sale'];
@@ -154,14 +149,12 @@ if (isset($_POST['add_category_btn'])) {
     $status = isset($_POST['status']) ? '1' : '0';
     $trending = isset($_POST['trending']) ? '1' : '0';
 
-    // Image upload
     $image = $_FILES['image']['name'];
     $path = "../uploads";
     $image_ext = pathinfo($image, PATHINFO_EXTENSION);
     $filename = time() . '.' . $image_ext;
 
     if ($name != "" && $slug != "" && $description != "") {
-
         $product_query = "INSERT INTO products (category_id, name, slug, small_description, description, original_price, selling_price, qty, meta_title, meta_description, meta_keywords, status, trending, item_image, discount, top_sale, is_preorder) 
         VALUES ('$category_name', '$name', '$slug','$small_description','$description','$original_price','$selling_price','$qty','$meta_title','$meta_description','$meta_keywords','$status','$trending','$filename', '$discount', '$top_sale', '$is_preorder')";
 
@@ -176,8 +169,10 @@ if (isset($_POST['add_category_btn'])) {
     } else {
         redirect("add-product.php", "All fields are mandatory");
     }
+# =====================================================================
+# 5. ΕΝΗΜΕΡΩΣΗ ΠΡΟΪΟΝΤΟΣ (UPDATE PRODUCT)
+# =====================================================================
 } elseif (isset($_POST['update_product_btn'])) {
-    // Retrieve POST data
     $product_id = $_POST['product_id'];
     $category_name = $_POST['category_id'];
     $discount = $_POST['discount'];
@@ -204,6 +199,7 @@ if (isset($_POST['add_category_btn'])) {
     if (!empty($new_image)) {
         $image_ext = pathinfo($new_image, PATHINFO_EXTENSION);
         $update_filename = time() . '.' . $image_ext;
+
         if (move_uploaded_file($new_image_temp, $path . $update_filename)) {
             if ($old_image && file_exists($path . $old_image)) {
                 unlink($path . $old_image);
@@ -213,7 +209,6 @@ if (isset($_POST['add_category_btn'])) {
         $update_filename = $old_image;
     }
 
-    // Update Query
     $update_query = "UPDATE products SET 
         category_id = '$category_name',
         name = '$name', 
@@ -243,11 +238,12 @@ if (isset($_POST['add_category_btn'])) {
         exit();
     }
 
+# =====================================================================
+# 6. ΔΙΑΓΡΑΦΗ ΠΡΟΪΟΝΤΟΣ (DELETE PRODUCT)
+# =====================================================================
 } elseif (isset($_POST['delete_product_btn'])) {
-    // Sanitize το ID του προϊόντος
     $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
 
-    // Παίρνουμε το όνομα της εικόνας για να τη σβήσουμε από τα uploads
     $query = "SELECT item_image FROM products WHERE id='$product_id'";
     $result = mysqli_query($conn, $query);
 
@@ -256,12 +252,10 @@ if (isset($_POST['add_category_btn'])) {
         $image_filename = $row['item_image'];
         $path = "../uploads/" . $image_filename;
 
-        // Οριστική διαγραφή του προϊόντος
         $delete_query = "DELETE FROM products WHERE id='$product_id'";
         $delete_query_run = mysqli_query($conn, $delete_query);
 
         if ($delete_query_run) {
-            // Σβήσιμο της εικόνας αν υπάρχει το αρχείο
             if ($image_filename && file_exists($path)) {
                 unlink($path);
             }
@@ -272,5 +266,27 @@ if (isset($_POST['add_category_btn'])) {
     } else {
         echo "500";
     }
+
+# =====================================================================
+# 7. ΕΝΗΜΕΡΩΣΗ ΚΑΤΑΣΤΑΣΗΣ ΠΑΡΑΓΓΕΛΙΑΣ (UPDATE ORDER STATUS)
+# =====================================================================
+} elseif (isset($_POST['update_order_btn'])) {
+    // Ασφαλής λήψη των δεδομένων από το Array της φόρμας
+    $tracking_no = mysqli_real_escape_string($conn, $_POST['tracking_no']);
+    $order_status = mysqli_real_escape_string($conn, $_POST['order_status']);
+
+    // ΔΙΟΡΘΩΣΗ: Κάνουμε το UPDATE χρησιμοποιώντας το tracking_no αντί για το id
+    $update_order_query = "UPDATE orders SET status = '$order_status' WHERE tracking_no = '$tracking_no'";
+    $update_order_query_run = mysqli_query($conn, $update_order_query);
+
+    if ($update_order_query_run) {
+        // Επιστροφή στη σελίδα της παραγγελίας με το σωστό tracking number
+        redirect("view-order.php?t=$tracking_no", "Order Status Updated Successfully");
+    } else {
+        echo "Error updating order: " . mysqli_error($conn);
+        exit();
+    }
 }
+
+$conn->close();
 ?>
