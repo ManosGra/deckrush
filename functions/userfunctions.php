@@ -128,16 +128,11 @@ function getRelatedProducts($category_id, $product_id)
 
     $products = [];
 
-    // 1) Πρώτα ίδια κατηγορία (ETB + Booster) χωρίς το ίδιο προϊόν
+    // 1. Ίδια κατηγορία
     $query = "SELECT * FROM products
-              WHERE status='0'
-              AND qty > 0
+              WHERE status = '0'
               AND id != '$product_id'
               AND category_id = '$category_id'
-              AND (
-                    name LIKE '%Elite Trainer Box%'
-                    OR name LIKE '%Booster Pack%'
-                  )
               ORDER BY id DESC
               LIMIT 4";
 
@@ -147,31 +142,31 @@ function getRelatedProducts($category_id, $product_id)
         $products[$row['id']] = $row;
     }
 
-
-    // 2) Αν δεν γέμισαν, φέρνουμε από άλλες κατηγορίες
+    // 2. Αν δεν έχει 4, συμπληρώνει με Pokémon ETB
     if (count($products) < 4) {
 
         $needed = 4 - count($products);
 
-        $query2 = "SELECT * FROM products
-                   WHERE status='0'
-                   AND qty > 0
-                   AND id != '$product_id'
-                   AND (
-                        name LIKE '%Elite Trainer Box%'
-                        OR name LIKE '%Booster Pack%'
-                   )
-                   AND category_id != '$category_id'
-                   ORDER BY id DESC
-                   LIMIT $needed";
+        $exclude = !empty($products)
+            ? implode(',', array_keys($products))
+            : '0';
 
-        $result2 = mysqli_query($conn, $query2);
+        $query = "SELECT * FROM products
+                  WHERE status = '0'
+                  AND id != '$product_id'
+                  AND category_id = 'Pokemon TCG'
+                  AND name LIKE '%Elite Trainer Box%'
+				  OR name LIKE '%Booster Pack%'
+                  AND id NOT IN ($exclude)
+                  ORDER BY id DESC
+                  LIMIT $needed";
 
-        while ($row = mysqli_fetch_assoc($result2)) {
+        $result = mysqli_query($conn, $query);
+
+        while ($row = mysqli_fetch_assoc($result)) {
             $products[$row['id']] = $row;
         }
     }
-
 
     return array_values($products);
 }
