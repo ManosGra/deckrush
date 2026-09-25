@@ -162,19 +162,6 @@ include 'includes/navigation.php';
 
         <div class="row mt-5">
 
-            <div class="col-md-12 mt-4 mb-5">
-                <div class="card shadow-lg rounded-4">
-                    <div class="card-body">
-                        <h2 class="f-bold mb-3">
-                            Συχνές ερωτήσεις
-                        </h2>
-
-                        <?php include 'includes/accordion.php'; ?>
-
-                    </div>
-                </div>
-            </div>
-
             <h2 class="text-center f-bold mb-4">Σχετικά προϊόντα</h2>
 
             <?php if (count($relatedProducts) > 0): ?>

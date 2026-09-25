@@ -125,48 +125,72 @@ function checkTrackingNoValid($trackingNo)
 function getRelatedProducts($category_id, $product_id)
 {
     global $conn;
+    $product_id = (int)$product_id;
+    
+    $q = mysqli_query($conn, "SELECT name, category_id FROM products WHERE id = $product_id LIMIT 1");
+    $curr = mysqli_fetch_assoc($q);
+    if(!$curr) return [];
+    
+    $curr_name = $curr['name'];
+    $curr_cat = $curr['category_id'];
+    $low = strtolower(trim($curr_cat));
+
+    $is_singles = (strpos($low, 'single') !== false || $curr_cat == 105);
+    $is_vault = (strpos($low, 'vault') !== false || $curr_cat == 113);
+    $is_onepiece = (strpos($low, 'one piece') !== false || strpos($low, 'one-piece') !== false || stripos($curr_name, 'one piece') !== false);
+    $is_pokemon = (stripos($curr_name, 'pokemon') !== false);
 
     $products = [];
+    $exclude = [$product_id];
 
-    // 1. Ίδια κατηγορία
-    $query = "SELECT * FROM products
-              WHERE status = '0'
-              AND id != '$product_id'
-              AND category_id = '$category_id'
-              ORDER BY id DESC
-              LIMIT 4";
-
-    $result = mysqli_query($conn, $query);
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $products[$row['id']] = $row;
+    // 1. SINGLES / VAULT / ONE PIECE -> ΜΟΝΟ ΙΔΙΑ ΚΑΤΗΓΟΡΙΑ / ΙΔΙΟ FRANCHISE
+    if ($is_singles || $is_vault) {
+        $cat_esc = mysqli_real_escape_string($conn, $curr_cat);
+        $ex = implode(',', $exclude);
+        $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND category_id='$cat_esc' ORDER BY id DESC LIMIT 4");
+        while($r=mysqli_fetch_assoc($res)) $products[]=$r;
+        return $products;
     }
 
-    // 2. Αν δεν έχει 4, συμπληρώνει με Pokémon ETB
-    if (count($products) < 4) {
+    if ($is_onepiece) {
+        // 1 από ίδια κατηγορία One Piece
+        $ex = implode(',', $exclude);
+        $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND LOWER(category_id) LIKE '%one piece%' ORDER BY id DESC LIMIT 1");
+        while($r=mysqli_fetch_assoc($res)){ $products[$r['id']]=$r; $exclude[]=$r['id']; }
 
-        $needed = 4 - count($products);
+        // 3 Pre-Orders ΜΟΝΟ One Piece
+        $ex = implode(',', array_map('intval', $exclude));
+        $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND (category_id=108 OR LOWER(category_id) LIKE '%pre-order%') AND LOWER(name) LIKE '%one piece%' ORDER BY id DESC LIMIT 3");
+        while($r=mysqli_fetch_assoc($res)){ $products[$r['id']]=$r; $exclude[]=$r['id']; }
 
-        $exclude = !empty($products)
-            ? implode(',', array_keys($products))
-            : '0';
-
-        $query = "SELECT * FROM products
-                  WHERE status = '0'
-                  AND id != '$product_id'
-                  AND category_id = 'Pokemon TCG'
-                  AND name LIKE '%Elite Trainer Box%'
-				  OR name LIKE '%Booster Pack%'
-                  AND id NOT IN ($exclude)
-                  ORDER BY id DESC
-                  LIMIT $needed";
-
-        $result = mysqli_query($conn, $query);
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $products[$row['id']] = $row;
+        // Αν δεν έχει άλλα, συμπλήρωσε ΜΟΝΟ από One Piece κατηγορία, ΟΧΙ Pokemon
+        if(count($products) < 4){
+            $ex = implode(',', array_map('intval', $exclude));
+            $needed = 4 - count($products);
+            $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND LOWER(category_id) LIKE '%one piece%' ORDER BY id DESC LIMIT $needed");
+            while($r=mysqli_fetch_assoc($res)) $products[$r['id']]=$r;
         }
+        return array_values($products);
     }
+
+    // 2. POKEMON -> 3 PRE-ORDERS POKEMON + 1 POKEMON TCG
+    if ($is_pokemon) {
+        $ex = implode(',', $exclude);
+        $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND (category_id=108 OR LOWER(category_id) LIKE '%pre-order%') AND LOWER(name) LIKE '%pokemon%' ORDER BY id DESC LIMIT 3");
+        while($r=mysqli_fetch_assoc($res)){ $products[$r['id']]=$r; $exclude[]=$r['id']; }
+
+        $ex = implode(',', array_map('intval', $exclude));
+        $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND LOWER(category_id) LIKE '%pokemon%' AND LOWER(category_id) NOT LIKE '%pre-order%' AND LOWER(name) NOT LIKE '%booster pack%' ORDER BY id DESC LIMIT 1");
+        while($r=mysqli_fetch_assoc($res)){ $products[$r['id']]=$r; $exclude[]=$r['id']; }
+
+        return array_values($products);
+    }
+
+    // 3. OLES OI ALLES
+    $cat_esc = mysqli_real_escape_string($conn, $curr_cat);
+    $ex = implode(',', $exclude);
+    $res = mysqli_query($conn, "SELECT * FROM products WHERE status='0' AND id NOT IN ($ex) AND category_id='$cat_esc' ORDER BY id DESC LIMIT 4");
+    while($r=mysqli_fetch_assoc($res)) $products[]=$r;
 
     return array_values($products);
 }
