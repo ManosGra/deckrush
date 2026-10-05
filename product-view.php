@@ -3,7 +3,9 @@ include 'functions/userfunctions.php';
 
 // Έλεγχος αν υπάρχει το slug
 if (isset($_GET['product'])) {
+
     $product_slug = $_GET['product'];
+
     $product_data = getSlugActive("products", $product_slug);
     $product = mysqli_fetch_array($product_data);
 
@@ -123,15 +125,31 @@ include 'includes/navigation.php';
                         </div>
 
                         <!-- Κουμπί Προσθήκης στο Καλάθι -->
-                        <div class="product-buttons d-flex flex-row align-items-center justify-content-center mb-4">
-                            <button class="cart-btn text-white font-size-16 fw-bold px-4 me-2 addToCartBtn"
-                                value="<?php echo htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $btnDisabled; ?>>
-                                <?php if ($qty > 0 || (isset($product['is_preorder']) && $product['is_preorder'] == 1)): ?>
-                                    <i class="bi bi-cart me-2 font-size-20 fw-bold"></i>ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
-                                <?php else: ?>
-                                    XΩΡΙΣ ΔΙΑΘΕΣΙΜΟΤΗΤΑ
-                                <?php endif; ?>
-                            </button>
+                        <div class="product-buttons d-flex flex-column align-items-center justify-content-center mb-4">
+
+                            <?php if ($qty > 0): ?>
+
+                                <!-- Διαθέσιμο -->
+                                <button class="cart-btn text-white font-size-16 fw-bold px-4 addToCartBtn"
+                                    value="<?php echo htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>">
+
+                                    <i class="bi bi-cart me-2 font-size-20 fw-bold"></i>
+                                    ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
+
+                                </button>
+
+                            <?php else: ?>
+
+                                <!-- Χωρίς διαθεσιμότητα -->
+                                <button class="cart-btn text-white font-size-16 fw-bold px-4" disabled>
+                                    ΧΩΡΙΣ ΔΙΑΘΕΣΙΜΟΤΗΤΑ
+                                </button>
+
+                                <!-- Ενημέρωσέ με -->
+                                <?php include 'includes/notify_product.php'; ?>
+
+                            <?php endif; ?>
+
                         </div>
                     </div>
 
@@ -154,10 +172,14 @@ include 'includes/navigation.php';
         <?php } ?>
 
         <?php
-        $relatedProducts = getRelatedProducts(
-            $product['category_id'],
-            $product['id']
-        );
+        $relatedProducts = [];
+
+        if (isset($product) && $product) {
+            $relatedProducts = getRelatedProducts(
+                $product['category_id'],
+                $product['id']
+            );
+        }
         ?>
 
         <div class="row mt-5">
@@ -229,6 +251,7 @@ include 'includes/navigation.php';
             <?php endif; ?>
         </div>
     </div>
+
 </section>
 
 <?php include 'includes/footer.php'; ?>

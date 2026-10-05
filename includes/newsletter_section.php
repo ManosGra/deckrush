@@ -1,7 +1,7 @@
 <section class="newsletter my-5">
     <div class="container-lg">
         <div class="newsletter-container shadow-sm">
-            <img class="img-fluid rounded shadow" src="assets/newsletter.jpg">
+            <img class="img-fluid rounded shadow" src="/assets/newsletter.jpg">
             <button class="newsletter-btn btn btn-danger buy-now" onclick="openModal()">SUBSCRIBE</button>
         </div>
     </div>
@@ -12,12 +12,13 @@
 
         <span class="close" onclick="closeModal()">&times;</span>
 
-        <h3>Join our newsletter</h3>
+        <h3 class="f-bold">Join our newsletter</h3>
+        <img class="img-fluid w-100" src="/assets/logo2.png" style="max-height:330px;">
 
         <form action="newsletter.php" method="POST">
             <input type="email" name="email" placeholder="Το email σας" required>
 
-            <button type="submit" class="btn btn-danger">
+            <button type="submit" class="btn text-white w-100 f-bold" style=" background-color: #0b1e3d;">
                 Εγγραφή στο Newsletter
             </button>
 
@@ -41,8 +42,18 @@
 
         <span class="close" onclick="closeThanks()">&times;</span>
 
-        <h3>Thanks for subscribing!</h3>
-        <p>You are now on our newsletter list.</p>
+        <img
+            class="img-fluid w-100"
+            src="/assets/logo2.png"
+            style="max-height:330px;">
+            
+        <h3 class="f-bold" style="color:#0b1e3d;">
+            Ευχαριστούμε!
+        </h3>
+
+        <p>
+            Η εγγραφή σου στο newsletter ολοκληρώθηκε με επιτυχία.
+        </p>
 
         <button class="btn btn-danger px-4 f-bold" onclick="closeThanks()">
             OK
