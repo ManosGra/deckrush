@@ -124,10 +124,10 @@ include 'includes/navigation.php';
                             </div>
                         </div>
 
-                        <!-- Κουμπί Προσθήκης στο Καλάθι -->
+                        <!-- Κουμπιά προϊόντος -->
                         <div class="product-buttons d-flex flex-column align-items-center justify-content-center mb-4">
 
-                            <?php if ($qty > 0): ?>
+                            <?php if ((int) $qty > 0): ?>
 
                                 <!-- Διαθέσιμο -->
                                 <button class="cart-btn text-white font-size-16 fw-bold px-4 addToCartBtn"
@@ -138,15 +138,24 @@ include 'includes/navigation.php';
 
                                 </button>
 
+                            <?php elseif ((int) $product['is_preorder'] === 1): ?>
+
+                                <!-- Pre-order χωρίς stock -->
+                               
+
+                                <div style="background: #f8fafc; padding: 15px; margin: 20px auto; max-width: 600px; font-family: sans-serif; box-sizing: border-box;"
+                                    class="text-center">
+                                    <p style="color: #1e1b4b; display: block; margin-bottom: 5px; font-size-16">  Οι προπαραγγελίες για το <strong><?php echo $product['name']; ?></strong> δεν έχουν ανοίξει ακόμα! Μην ανησυχείτε, δεν χάσατε το drop. Συμπληρώστε το email σας παρακάτω για να μπείτε στην επίσημη λίστα αναμονής και να ενημερωθείτε πρώτοι μόλις ξεκινήσουν οι προπαραγγελίες στην Ελλάδα!</p>
+                                     <?php include 'includes/notify_product.php'; ?>
+                                    
+                                </div>
+
                             <?php else: ?>
 
-                                <!-- Χωρίς διαθεσιμότητα -->
+                                <!-- Κανονικό προϊόν χωρίς stock -->
                                 <button class="cart-btn text-white font-size-16 fw-bold px-4" disabled>
                                     ΧΩΡΙΣ ΔΙΑΘΕΣΙΜΟΤΗΤΑ
                                 </button>
-
-                                <!-- Ενημέρωσέ με -->
-                                <?php include 'includes/notify_product.php'; ?>
 
                             <?php endif; ?>
 

@@ -1,12 +1,12 @@
-<section class="notify-me my-2">
+<section class="notify-me my-3">
     <button
         type="button"
-        class="notify-btn btn f-bold rounded-1 text-white d-flex flex-row align-items-center"
+        class="notify-btn btn f-bold rounded-1 text-white d-flex flex-row align-items-center justify-content-center mx-auto"
         onclick="openProductNotifyModal()"
-        style="width:300px; min-height:50px; background-color:#7C3AED; letter-spacing:0.8px;">
+        style="width:300px; min-height:50px; background-color:#7C3AED;">
 
-        <i class="bi bi-bell font-size-25 w-25"></i>
-        ΕΝΗΜΕΡΩΣΕ ΜΕ ΟΤΑΝ ΕΙΝΑΙ ΔΙΑΘΕΣΙΜΟ
+        <i class="bi bi-bell font-size-25 me-2"></i>
+       ΕΙΔΟΠΟΙΗΣΕ ΜΕ ΠΡΩΤΟ
 
     </button>
 </section>
@@ -18,7 +18,7 @@
         <span class="close" onclick="closeProductNotifyModal()">&times;</span>
 
         <h3 class="f-bold" style="color:#0b1e3d;">
-            Ενημέρωσέ με όταν είναι διαθέσιμο
+            Ενημέρωσέ με όταν γίνει διαθέσιμο
         </h3>
 
         <img
@@ -119,5 +119,14 @@ function closeProductNotifyModal() {
     </div>
 
 </div>
+<script>
+    // Αφαιρούμε το ?subscribed=1 από το URL
+    // ώστε στο refresh να μην ξανανοίξει το popup.
+    const url = new URL(window.location.href);
+    url.searchParams.delete('subscribed');
+
+    window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+</script>
+
 
 <?php endif; ?>
